@@ -1,0 +1,39 @@
+This is the agent's evidence-based view on the launch POV, and the PMM's response to each point. The PMM has the final say.{{ " Responses were not reviewed (auto mode)." if data.auto_mode }}
+
+## Resolved direction
+
+{{ data.resolved_direction or "Not resolved yet: waiting for the PMM's responses." }}
+
+## Summary
+
+| # | POV point | Agent's stance | Confidence | PMM decision |
+|---|---|---|---|---|
+{% for p in data.points %}
+| {{ p.id }} | {{ p.pov_quote | truncate(90) | cell }} | {{ p.stance }} | {{ p.confidence.level }} | {{ p.pmm_response.decision | replace("_", " ") if p.pmm_response else "awaiting response" }} |
+{% endfor %}
+
+## Point by point
+
+{% for p in data.points %}
+### {{ p.id }}: "{{ p.pov_quote }}"
+
+- **Agent's stance:** {{ p.stance }}
+- **Reasoning:** {{ p.reasoning }}
+- **Evidence:** {{ p.evidence | cites }}
+- **Confidence:** {{ p.confidence.level }}. {{ p.confidence.reason }}
+{% include "_pmm_response.md.j2" %}
+
+{% endfor %}
+## Additions the POV didn't cover
+
+{% for a in data.additions %}
+### {{ a.id }}: {{ a.text }}
+
+- **Evidence:** {{ a.evidence | cites }}
+- **Confidence:** {{ a.confidence.level }}. {{ a.confidence.reason }}
+{% set p = a %}
+{% include "_pmm_response.md.j2" %}
+
+{% else %}
+None.
+{% endfor %}

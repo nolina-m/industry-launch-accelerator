@@ -1,0 +1,11 @@
+{% if p.pmm_response %}
+- **PMM decision:** {{ p.pmm_response.decision | replace("_", " ") }}{{ " (" ~ p.pmm_response.responded_at[:10] ~ ")" if p.pmm_response.responded_at }}
+{% if p.pmm_response.adjusted_direction %}
+- **Adjusted direction:** {{ p.pmm_response.adjusted_direction }}
+{% endif %}
+{% if p.pmm_response.reason %}
+- **PMM's reason:** {{ p.pmm_response.reason }}
+{% endif %}
+{% else %}
+- **PMM decision:** awaiting response
+{% endif %}

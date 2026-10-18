@@ -1,0 +1,69 @@
+**Category:** {{ data.category | replace("-", " ") }}{{ " · Suggested by research: accept or remove at the checkpoint" if data.suggested }} · **Last researched:** {{ data.researched_at }}
+
+## Overview
+
+{{ data.overview }}
+
+{% if data.positioning_quote %}
+> In their words: "{{ data.positioning_quote.text }}" [{{ data.positioning_quote.source_id }}]
+
+{% endif %}
+## Strengths and weaknesses
+
+| Strengths | Weaknesses |
+|---|---|
+{% for i in range([data.strengths | length, data.weaknesses | length] | max) %}
+| {{ (data.strengths[i] if i < data.strengths | length else "") | cell }} | {{ (data.weaknesses[i] if i < data.weaknesses | length else "") | cell }} |
+{% endfor %}
+
+## Where we win
+
+{{ data.win_themes | bullets }}
+
+## Where we lose
+
+{{ data.loss_themes | bullets }}
+
+## Landmine questions to plant in discovery
+
+{{ data.landmines | bullets }}
+
+## Traps to avoid
+
+{{ data.traps | bullets }}
+
+## Top objections when they're in the deal
+
+{% for o in data.objections %}
+{% include "_objection.md.j2" %}
+{% else %}
+None listed.
+{% endfor %}
+## Pricing model
+
+> How they charge, from public sources. This is not a price recommendation.
+
+| Item | Detail |
+|---|---|
+| Model | {{ data.pricing.model }}{{ " (" ~ data.pricing.components | join(", ") ~ ")" if data.pricing.components }} |
+| Value metric | {{ data.pricing.value_metric | cell }} |
+| Tiers | {{ data.pricing.tiers | map(attribute="name") | join(", ") or "None found" }} |
+| Add-ons | {{ data.pricing.add_ons | join(", ") if data.pricing.add_ons else "None found" }} |
+| Free trial / freemium | {{ data.pricing.free_tier | cell }} |
+| Contract signals | {{ data.pricing.contract_signals | cell or "None found" }} |
+
+{% if data.pricing.list_prices %}
+Published list prices (list; enterprise deals typically differ):
+
+{% for p in data.pricing.list_prices %}
+- {{ p.item }}: {{ p.price }} [{{ p.source_id }}]
+{% endfor %}
+
+{% endif %}
+## Recent moves (last 12 months)
+
+{% for m in data.recent_moves %}
+- **{{ m.date }}:** {{ m.summary }} [{{ m.source_id }}]
+{% else %}
+None found.
+{% endfor %}

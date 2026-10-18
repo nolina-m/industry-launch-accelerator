@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -11,7 +12,8 @@ import yaml
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SCHEMAS_DIR = REPO_ROOT / "schemas"
-LAUNCHES_DIR = REPO_ROOT / "launches"
+# Launches live in launches/ unless ILA_LAUNCHES_DIR points somewhere else.
+LAUNCHES_DIR = Path(os.environ.get("ILA_LAUNCHES_DIR") or REPO_ROOT / "launches")
 TEMPLATES_DIR = REPO_ROOT / "templates"
 TOOLKIT_VERSION = "0.1.0"
 

@@ -49,3 +49,23 @@ Status: ✅ done · 🟡 partial · ⬜ not started.
 | FR-INT-08 | ✅ | `gap_report.py` → `gap-report.md` (blocking, assumptions, contradictions, questions, files read) | `tests/test_intake.py::test_gap_report_lists_blocking_and_non_blocking` |
 | FR-GRD-01 | 🟡 | Stated in `instructions/01-intake.md`; other stage files in M3–M4 | Manual read |
 | M2 acceptance | ✅ | — | `tests/test_intake.py::test_acceptance_inputs_to_valid_context_brand_and_gap_report` |
+| FR-TRD-01..06 | 🟡 | `instructions/02-industry-research.md`, `schemas/industry-research.schema.json`, `templates/docs/industry-brief.md.j2`; min counts → QA warnings (M6) | M3 smoke run; `tests/test_render.py` |
+| FR-CMP-01..06 | 🟡 | `instructions/03-competitive.md`, competitor + overview schemas, `battlecard.md.j2`, `competitive-overview.md.j2`, `launch.py add-competitor --suggested` | M3 smoke run; `tests/test_render.py` |
+| FR-STR-01..07 | ✅ | `instructions/04-strategy-check.md`, `strategy-check.schema.json`, `launch_state.py` (gate: all upstream approved; every point answered), `strategy-check.md.j2` (agent view + PMM response side by side) | `tests/test_state.py::test_strategy_check_needs_a_pmm_response_for_every_point`, `tests/test_render.py::test_strategy_check_shows_agent_view_and_pmm_response`; M3 smoke run |
+| FR-PER-01..06 | 🟡 | `instructions/05-personas.md`, `personas.schema.json`, `personas.md.j2`, committee diagram `scripts/render/diagrams.py::committee_map`; sameness check M6 | `tests/test_render.py`; M3 smoke run |
+| FR-MSG-01..05 | 🟡 | `instructions/06-messaging.md`, `messaging.schema.json`, `messaging.md.j2`; XLSX grid M4; feature-first check M6 | `tests/test_render.py`; M3 smoke run |
+| FR-PBK-01 | ✅ | `instructions/07-playbook.md`, `playbook.schema.json`, `playbook.md.j2` | `tests/test_render.py`; M3 smoke run |
+| FR-WEB-R-01 | ✅ | Generic "use your web search / web fetch tool" in `instructions/00-orchestrator.md`; tool names verified 2026-10-18 (Claude Code `WebSearch`/`WebFetch`; Codex `web_search` config, default `cached`; Cursor agent web search / `@Web`), to be recorded in `docs/compatibility.md` (M8) | Manual read |
+| FR-WEB-R-02 / -03 / -04 | ✅ | `scripts/sources.py` (register, tiers, dedupe, `check`), rules in `00-orchestrator.md` | `tests/test_sources.py` |
+| FR-STA-02 | ✅ | + checkpoint loop and summary format in `instructions/00-orchestrator.md` | M3 smoke run (research refused before intake approval; strategy refused before stages 1–2 approved) |
+| FR-STA-03 | ✅ | + "Not reviewed by PMM" label in rendered assets | `tests/test_render.py::test_auto_mode_assets_say_not_reviewed` |
+| FR-RND-01 | ✅ | `scripts/render/docx_writer.py` (python-docx; brand theme or the PMM's Word template) | `tests/test_render.py::test_brand_fonts_and_colors_are_applied`, `test_word_template_is_used_as_the_base` |
+| FR-RND-03 | ✅ | `scripts/render/render.py` + `templates/docs/*.md.j2` (Jinja2) | `tests/test_render.py` |
+| FR-RND-04 | ✅ | `scripts/render/diagrams.py` (matplotlib PNG; data also as tables) | `tests/test_render.py::test_assets_one_to_six_render_in_both_formats` |
+| FR-RND-05 | ✅ | Fixed render date in core properties; PNG without metadata | `tests/test_render.py::test_rendering_is_deterministic`, `test_png_diagrams_are_deterministic` |
+| FR-RND-06 | ✅ | `scripts/brand/theme.py` (Arial), fonts set on built-in styles | `tests/test_render.py::test_brand_fonts_and_colors_are_applied` |
+| FR-OUT-02 | 🟡 | Only built-in styles, simple tables with explicit borders, inline PNG, plain header/footer | Files opened via macOS Quick Look/textutil in smoke run; manual Word/Google check at M4 |
+| FR-OUT-03 | 🟡 | Rules in `00-orchestrator.md`, `06-messaging.md`; checks in M6 | Manual read |
+| FR-GRD-03..08 | 🟡 | Stated in stage instructions; footer (FR-GRD-06) on every asset | `tests/test_render.py::test_every_asset_has_status_footer_and_verify_section` |
+| FR-INP-11 | ✅ | + "Unbranded draft" in every asset's status line and Word header | `tests/test_render.py::test_every_asset_has_status_footer_and_verify_section` |
+| M3 acceptance | ✅ | Private smoke run 2026-10-18 outside the repo (deleted): assets 1–6 for one industry rendered; checkpoints blocked correctly; strategy check stored PMM responses | Smoke run log in BUILD-NOTES |

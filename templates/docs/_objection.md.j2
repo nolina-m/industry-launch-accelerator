@@ -1,0 +1,12 @@
+### "{{ o.text }}"
+
+- **Underlying concern:** {{ o.underlying_concern }}
+{% if o.personas %}
+- **Usually from:** {{ o.personas | map("persona") | join(", ") }}
+{% endif %}
+- **Acknowledge:** {{ o.response.acknowledge }}
+- **Reframe:** {{ o.response.reframe }}
+- **Evidence:** {{ o.response.evidence }}
+- **Ask back:** {{ o.response.question }}
+- **Proof:** {{ o.proof_slot }}
+

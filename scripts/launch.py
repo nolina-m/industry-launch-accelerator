@@ -16,7 +16,7 @@ Commands
     set-option <slug> <option> <true|false>
     auto <slug> <on|off>                   Switch checkpoints off/on for this launch (auto mode)
     refresh <slug>                         Pull fresh data and report what changed (coming soon)
-    render <slug>                          Build Markdown/Word/Excel files (coming soon)
+    render <slug> [--unit <stage>]         Build Markdown and Word files in outputs/
     qa <slug>                              Run quality checks (coming soon)
 
 Stage names look like: intake, research:<industry>, competitive, strategy,
@@ -243,6 +243,19 @@ def cmd_auto(args) -> int:
     return 0
 
 
+def cmd_render(args) -> int:
+    from scripts.render.render import Renderer
+
+    renderer = Renderer(launch_dir(args.slug))
+    results = renderer.render_all(args.unit)
+    if not results:
+        print("Nothing to render yet." if not args.unit else f"Nothing to render for {args.unit} yet.")
+        return 0
+    for r in results:
+        print(f"[OK] {r.title}: outputs/{r.markdown.name} and outputs/{r.docx.name}")
+    return 0
+
+
 def cmd_not_yet(args) -> int:
     print(f"'{args.command}' is not available yet in this version of the toolkit.")
     return 1
@@ -307,7 +320,12 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("mode", choices=["on", "off"])
     s.set_defaults(func=cmd_auto)
 
-    for name in ("refresh", "render", "qa"):
+    s = sub.add_parser("render")
+    s.add_argument("slug")
+    s.add_argument("--unit")
+    s.set_defaults(func=cmd_render)
+
+    for name in ("refresh", "qa"):
         s = sub.add_parser(name)
         s.add_argument("slug")
         s.set_defaults(func=cmd_not_yet)

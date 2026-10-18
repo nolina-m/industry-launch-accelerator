@@ -1,0 +1,62 @@
+## Buying committee
+
+![Buying committee map](images/committee-{{ industry_id }}.png)
+
+| Order | Persona | Buying role |
+|---|---|---|
+{% for pid in data.committee_map.decision_sequence %}
+| {{ loop.index }} | {{ pid | persona }} | {{ (personas_by_id[pid].buying_role if pid in personas_by_id else "") | replace("-", " ") }} |
+{% endfor %}
+
+{% if data.committee_map.edges %}
+| Influencer | Influences | Strength |
+|---|---|---|
+{% for e in data.committee_map.edges %}
+| {{ e.from | persona }} | {{ e.to | persona }} | {{ e.influence }} |
+{% endfor %}
+
+{% endif %}
+{% for p in data.personas %}
+## {{ p.role }}
+
+**Buying role:** {{ p.buying_role | replace("-", " ") }} · **Titles:** {{ p.titles | join(", ") }} · **Reports to:** {{ p.reports_to }} · _{{ p.provenance | replace("-", " ") }}_
+
+### Top pains
+
+{% for pain in p.pains %}
+{{ loop.index }}. {{ pain.text }} _(linked to {{ (pain.trend_ids + (pain.imperative_ids or [])) | join(", ") }})_
+{% endfor %}
+
+### What they own
+
+- **Responsibilities:** {{ p.responsibilities | join("; ") }}
+- **KPIs:** {{ p.kpis | join("; ") }}
+- **Goals:** {{ p.goals | join("; ") }}
+
+### How they buy
+
+- **Buying triggers:** {{ p.triggers | join("; ") }}
+- **Objections:** {{ p.objections | join("; ") }}
+- **Must believe to buy:** {{ p.beliefs_to_buy | join("; ") }}
+- **Where they learn:** {{ p.info_sources | join("; ") }}
+
+### Language
+
+- **Use:** {{ p.language.use | join(", ") }}
+- **Avoid:** {{ p.language.avoid | join(", ") }}
+
+{% if p.quotes %}
+### In their words
+
+{% for q in p.quotes %}
+> "{{ q.text }}" {{ q.label }}
+{% endfor %}
+
+{% endif %}
+### Discovery questions
+
+{% for q in p.discovery_questions %}
+{{ loop.index }}. {{ q }}
+{% endfor %}
+
+{% endfor %}

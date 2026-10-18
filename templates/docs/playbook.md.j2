@@ -1,0 +1,75 @@
+## Who to target
+
+{{ data.targeting.segments | bullets }}
+
+{{ data.targeting.committee_summary }}
+
+## Why now
+
+{% for w in data.why_now %}
+- **{{ w.imperative_id }}:** {{ w.text }}
+{% else %}
+None listed.
+{% endfor %}
+
+## Value story by persona
+
+| Persona | Message | Pillar |
+|---|---|---|
+{% for v in data.value_story %}
+| {{ v.persona_id | persona }} | {{ v.message | cell }} | {{ v.pillar_id }} |
+{% endfor %}
+
+## Discovery guide
+
+{% for d in data.discovery %}
+### {{ d.persona_id | persona }}
+
+| Ask | What good sounds like |
+|---|---|
+{% for q in d.questions %}
+| {{ q.question | cell }} | {{ q.good_sounds_like | cell }} |
+{% endfor %}
+
+{% endfor %}
+## Qualification
+
+**Signals the deal is real**
+
+{{ data.qualification.signals | bullets }}
+
+**Disqualifiers: walk away if**
+
+{{ data.qualification.disqualifiers | bullets }}
+
+## Top objections
+
+| Objection | Response |
+|---|---|
+{% for o in data.objections %}
+| {{ o.summary | cell }} | {{ o.response | cell }} |
+{% endfor %}
+
+## Competitive quick reference
+
+| Competitor | Win with | Watch out for |
+|---|---|---|
+{% for c in data.competitive_quick_ref %}
+| {{ c.competitor_id | competitor }} | {{ c.win_with | cell }} | {{ c.watch_out | cell }} |
+{% endfor %}
+
+## Recommended next steps
+
+{% for n in data.next_steps %}
+- **{{ n.offer | capitalize }}:** {{ n.description }} _When:_ {{ n.when }}
+{% else %}
+None listed.
+{% endfor %}
+
+## Proof library
+
+| Proof | Status | Source |
+|---|---|---|
+{% for p in data.proof_library %}
+| {{ p.item | cell }} | {{ p.status }} | {{ p.source | default("", true) | cell }} |
+{% endfor %}

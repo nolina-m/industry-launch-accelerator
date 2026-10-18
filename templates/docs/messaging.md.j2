@@ -1,0 +1,35 @@
+## Positioning statement
+
+**For** {{ data.positioning["for"] }} **who** {{ data.positioning.who }}, **{{ data.positioning.product }}** is a {{ data.positioning.category }} **that** {{ data.positioning.that }}. **Unlike** {{ data.positioning.unlike }}, **we** {{ data.positioning.we }}.
+
+## Elevator pitch
+
+{{ data.elevator_pitch }}
+
+## Boilerplate
+
+{{ data.boilerplate }}
+
+## Value pillars
+
+{% for pl in data.pillars %}
+### {{ pl.id }}: {{ pl.headline }}
+
+- **Customer outcome:** {{ pl.outcome }}
+- **Capabilities:** {{ pl.capabilities | join("; ") }}
+- **Proof:** {{ pl.proof | join("; ") if pl.proof else "[PROOF NEEDED]" }}
+- **Differentiator:** {{ pl.differentiator }}
+
+{% endfor %}
+## Messaging grid
+
+{% for ind, rows in data.grid | groupby("industry") %}
+### {{ ind | industry }}
+
+| Persona | Headline | Pain addressed | Pillar | Value hypothesis | Proof |
+|---|---|---|---|---|---|
+{% for r in rows %}
+| {{ r.persona_id | persona }} | {{ r.headline | cell }} | {{ r.pain_ref | pain | cell }} | {{ r.pillar_id }} | {{ r.value_hypothesis.text | cell }} {{ r.value_hypothesis.label }} | {{ r.proof | cell }} |
+{% endfor %}
+
+{% endfor %}

@@ -1,0 +1,36 @@
+## Who we compete with
+
+| Category | Competitors |
+|---|---|
+{% for c in data.categories %}
+| {{ c.category | replace("-", " ") }} | {{ c.competitor_ids | map("competitor") | join(", ") }} |
+{% endfor %}
+
+## Positioning map
+
+![Positioning map](images/positioning-map.png)
+
+- **Horizontal axis: {{ data.positioning_map.x_axis.label }}** ({{ data.positioning_map.x_axis.low }} → {{ data.positioning_map.x_axis.high }}). {{ data.positioning_map.x_axis.rationale }}
+- **Vertical axis: {{ data.positioning_map.y_axis.label }}** ({{ data.positioning_map.y_axis.low }} → {{ data.positioning_map.y_axis.high }}). {{ data.positioning_map.y_axis.rationale }}
+
+| Who | {{ data.positioning_map.x_axis.label | cell }} (0–10) | {{ data.positioning_map.y_axis.label | cell }} (0–10) | Why placed here |
+|---|---|---|---|
+{% for p in data.positioning_map.points %}
+| {{ (p.label if p.competitor_id is none else p.competitor_id | competitor) | cell }} | {{ p.x }} | {{ p.y }} | {{ p.rationale | cell }} |
+{% endfor %}
+
+## Strongest by industry
+
+| Industry | Strongest | Notes |
+|---|---|---|
+{% for s in data.industry_strength %}
+| {{ s.industry | industry }} | {{ s.strongest_competitor_ids | map("competitor") | join(", ") }} | {{ s.notes | cell }} |
+{% endfor %}
+
+## Common objections (any competitor)
+
+{% for o in data.generic_objections %}
+{% include "_objection.md.j2" %}
+{% else %}
+None listed.
+{% endfor %}

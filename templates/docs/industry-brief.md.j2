@@ -1,0 +1,67 @@
+## At a glance
+
+| Trend | Relevance | Why |
+|---|---|---|
+{% for t in data.trends %}
+| {{ t.headline | cell }} | {{ t.relevance.rating }} | {{ t.relevance.rationale | cell }} |
+{% endfor %}
+
+{% if focus %}
+**Focus:** {{ focus }}
+
+{% endif %}
+## Trends
+
+{% for t in data.trends %}
+### {{ t.id }}: {{ t.headline }}
+
+{{ t.summary }}
+
+- **Business impact:** {{ t.impact }}
+- **So what for us:** {{ t.so_what }}
+- **Relevance:** {{ t.relevance.rating }}. {{ t.relevance.rationale }}
+- **Evidence:** {{ t.evidence | cites }}
+
+{% endfor %}
+## Imperatives for the next 12–24 months
+
+{% for i in data.imperatives %}
+### {{ i.id }}: {{ i.statement }}
+
+- **Follows from:** {{ i.trend_ids | join(", ") }}
+- **Where we help:** {{ i.capability_refs | join("; ") if i.capability_refs else "[VERIFY] no capability linked yet" }}
+
+{% endfor %}
+## Regulatory and compliance landscape
+
+> {{ data.regulatory.disclaimer }}. Check with your legal team before relying on anything in this section.
+
+{% if data.regulatory["items"] %}
+| Regulation | Jurisdiction | Status | Why it matters | Sources |
+|---|---|---|---|---|
+{% for r in data.regulatory["items"] %}
+| {{ r.name | cell }} | {{ r.jurisdiction | cell }} | {{ r.status | replace("_", " ") }} | {{ r.relevance | cell }} | {{ r.evidence | cites }} |
+{% endfor %}
+
+{% for r in data.regulatory["items"] %}
+- **{{ r.name }}:** {{ r.summary }}
+{% endfor %}
+{% else %}
+No relevant regulations were identified. [VERIFY] with your legal or compliance team.
+{% endif %}
+
+## Market data
+
+{% if data.market_data %}
+| Data point | Value | Source | Series ID | Retrieved |
+|---|---|---|---|---|
+{% for m in data.market_data %}
+| {{ m.label | cell }} | {{ m.value }}{{ " " ~ m.unit if m.unit }} | [{{ m.source_id }}]{{ " via " ~ m.connector if m.connector }} | {{ m.series_id or "n/a" }} | {{ m.retrieved_at }} |
+{% endfor %}
+
+{% for m in data.market_data if m.note %}
+- **{{ m.label }}:** {{ m.note }}
+{% endfor %}
+{% else %}
+No market data points yet. [VERIFY]
+{% endif %}

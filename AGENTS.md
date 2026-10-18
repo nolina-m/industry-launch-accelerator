@@ -20,4 +20,4 @@ This file is the entry point for any coding agent (Claude Code, Codex, Cursor or
 - Python commands run inside the project's private environment: use `.venv/bin/python` on macOS/Linux or `.venv\Scripts\python.exe` on Windows. If `.venv` does not exist, ask the PMM to run setup first (see README).
 - The full pipeline, checkpoints and state rules live in `instructions/00-orchestrator.md`. Read it before doing any launch work.
 
-> Status: the orchestrator and stage instructions are being built. Until `instructions/00-orchestrator.md` exists, tell the PMM the toolkit is not ready for a launch yet.
+> Status: stages 0–6a (intake through the industry playbook) are ready. The demo storyline, webpage copy brief, QA and refresh stages are still being built; if the PMM asks for them, say they are not available yet.
