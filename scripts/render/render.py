@@ -24,6 +24,7 @@ from jinja2 import Environment, FileSystemLoader
 
 from scripts.render import diagrams
 from scripts.render.docx_writer import DocxWriter
+from scripts.render.xlsx_writer import write_grid
 from scripts.sources import load as load_sources
 from scripts.state.launch_state import APPROVED, AWAITING, NOT_STARTED, LaunchState
 from scripts.util import TEMPLATES_DIR, load_yaml, today
@@ -44,6 +45,7 @@ class Rendered:
     title: str
     markdown: Path
     docx: Path
+    xlsx: Path | None = None
 
 
 # ---------------------------------------------------------------------- helpers
@@ -247,13 +249,27 @@ class Renderer:
                                 personas_by_id={p["id"]: p for p in data["personas"]})]
         if stage == "messaging":
             data = self._load("messaging.yaml")
-            return [self._write(unit, "05-messaging-framework", "Messaging framework", "", "messaging.md.j2",
-                                data)] if data else []
+            if not data:
+                return []
+            result = self._write(unit, "05-messaging-framework", "Messaging framework", "", "messaging.md.j2", data)
+            result.xlsx = write_grid(self.out / "05-messaging-grid.xlsx", data, industries=self.industries,
+                                     personas=self.personas, pain_text=self._pain, brand=self.brand,
+                                     status_line=self.status_line(unit), footer=FOOTER.format(date=self.date),
+                                     render_date=self.date)
+            return [result]
+        if stage == "demo":
+            data = self._load(f"demos/{ind}.yaml")
+            return [self._write(unit, f"07-demo-storyline-{ind}", f"Demo storyline: {name}", name,
+                                "demo.md.j2", data)] if data else []
+        if stage == "web":
+            data = self._load(f"web/{ind}.yaml")
+            return [self._write(unit, f"08-web-copy-{ind}", f"Webpage copy brief: {name}", name,
+                                "web.md.j2", data)] if data else []
         if stage == "playbook":
             data = self._load(f"playbooks/{ind}.yaml")
             return [self._write(unit, f"06-playbook-{ind}", f"Industry playbook: {name}", name,
                                 "playbook.md.j2", data)] if data else []
-        return []  # demo, web and qa assets arrive in later milestones
+        return []  # QA and the kit index are built by the QA stage
 
     def render_all(self, only: str | None = None) -> list[Rendered]:
         results = []

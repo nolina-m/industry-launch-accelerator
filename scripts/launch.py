@@ -252,7 +252,8 @@ def cmd_render(args) -> int:
         print("Nothing to render yet." if not args.unit else f"Nothing to render for {args.unit} yet.")
         return 0
     for r in results:
-        print(f"[OK] {r.title}: outputs/{r.markdown.name} and outputs/{r.docx.name}")
+        extra = f" and outputs/{r.xlsx.name}" if r.xlsx else ""
+        print(f"[OK] {r.title}: outputs/{r.markdown.name}, outputs/{r.docx.name}{extra}")
     return 0
 
 

@@ -1,0 +1,53 @@
+> A spec for whoever builds the demo. Capabilities marked [VERIFY] must be confirmed with the product team before anything is built.
+
+## Scenario
+
+{{ data.scenario }}
+
+## Who's in the room
+
+| Persona | What they watch for |
+|---|---|
+{% for c in data.cast %}
+| {{ c.persona_id | persona }} | {{ c.role_in_demo | cell }} |
+{% endfor %}
+
+## The aha moment
+
+**{{ data.aha.moment_id }}:** {{ data.aha.description }}
+
+## Moments
+
+| # | Moment | Pillar | Pain addressed |
+|---|---|---|---|
+{% for m in data.moments %}
+| {{ m.id }} | {{ m.title | cell }} | {{ m.pillar_id }} | {{ m.pain_ref | pain | cell }} |
+{% endfor %}
+
+{% for m in data.moments %}
+### {{ m.id }}: {{ m.title }}{{ "  (aha)" if m.id == data.aha.moment_id }}
+
+- **Tell:** {{ m.tell }}
+- **Show:** {{ m.show }}
+- **Tell back:** {{ m.tell_back }}
+- **Talk track:** {{ m.talk_track }}
+{% if m.verify %}
+- **To verify:** {{ m.verify | join("; ") }}
+{% endif %}
+
+{% endfor %}
+## 5-minute version
+
+{{ data.versions.five_minute.moment_ids | join(" → ") }}{{ ". " ~ data.versions.five_minute.notes if data.versions.five_minute.notes }}
+
+## 20-minute version
+
+{{ data.versions.twenty_minute.moment_ids | join(" → ") }}{{ ". " ~ data.versions.twenty_minute.notes if data.versions.twenty_minute.notes }}
+
+## Demo data needed
+
+{{ data.data_needed | bullets }}
+
+## Environment
+
+{{ data.environment | bullets }}

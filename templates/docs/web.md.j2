@@ -1,0 +1,62 @@
+> Copy and structure only. No HTML or visual design.
+
+## Page goal
+
+{{ data.page_goal }}
+
+- **Primary call to action:** {{ data.primary_cta }}
+- **Written for:** {{ data.target_personas | map("persona") | join(", ") }}
+
+## Hero
+
+**Headline:** {{ data.hero.headline }}
+
+**Subhead:** {{ data.hero.subhead }}
+
+### Headline variants to test
+
+{% for h in data.headline_variants %}
+{{ loop.index }}. {{ h }}
+{% else %}
+None yet.
+{% endfor %}
+
+## Page structure
+
+| # | Section | Purpose | Draws on |
+|---|---|---|---|
+{% for s in data.sections %}
+| {{ s.id }} | {{ s.name | cell }} | {{ s.purpose | cell }} | {{ s.messaging_refs | join(", ") | cell }} |
+{% endfor %}
+
+{% for s in data.sections %}
+### {{ s.id }}: {{ s.name }}
+
+{{ s.copy }}
+
+{% endfor %}
+## Proof section
+
+{{ data.proof_section }}
+
+## Closing call to action
+
+{{ data.cta }}
+
+## Suggested keywords
+
+{% for k in data.keywords %}
+- {{ k.term }} {{ k.label }}
+{% else %}
+None yet.
+{% endfor %}
+
+_Search volume has not been checked._
+
+## Imagery direction
+
+{{ data.imagery_direction }}
+
+## Demo embed
+
+{{ data.demo_embed_direction }}

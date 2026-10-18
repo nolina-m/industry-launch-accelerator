@@ -69,3 +69,9 @@ Status: ✅ done · 🟡 partial · ⬜ not started.
 | FR-GRD-03..08 | 🟡 | Stated in stage instructions; footer (FR-GRD-06) on every asset | `tests/test_render.py::test_every_asset_has_status_footer_and_verify_section` |
 | FR-INP-11 | ✅ | + "Unbranded draft" in every asset's status line and Word header | `tests/test_render.py::test_every_asset_has_status_footer_and_verify_section` |
 | M3 acceptance | ✅ | Private smoke run 2026-10-18 outside the repo (deleted): assets 1–6 for one industry rendered; checkpoints blocked correctly; strategy check stored PMM responses | Smoke run log in BUILD-NOTES |
+| FR-DMO-01 / FR-DMO-02 | ✅ | `instructions/08-demo-storyline.md`, `schemas/demo.schema.json`, `templates/docs/demo.md.j2` (moments table, aha, 5- and 20-minute versions, data, environment, [VERIFY] per moment) | `tests/test_render.py::test_demo_storyline_content` |
+| FR-WEB-01 / FR-WEB-02 | ✅ | `instructions/09-web-copy.md`, `schemas/web.schema.json`, `templates/docs/web.md.j2` (structure, copy, variants, [VERIFY] keywords, messaging links; no HTML) | `tests/test_render.py::test_web_copy_content` |
+| FR-MSG-03 (XLSX) / FR-RND-02 | ✅ | `scripts/render/xlsx_writer.py` (one row per industry × persona, autofilter, frozen header, brand fill and font, footer + About sheet) | `tests/test_render.py::test_excel_grid_has_filters_frozen_header_and_one_row_per_persona`, `test_excel_grid_uses_brand_font` |
+| FR-OUT-03 (competitors in customer copy) | 🟡 | Rule in `08-demo-storyline.md`, `09-web-copy.md`, `00-orchestrator.md`; automated check in M6 | Manual read |
+| Multi-industry | ✅ | Per-industry units for every per-industry asset; grid grouped by industry | `tests/test_render.py::test_all_eight_assets_render_for_two_industries` |
+| M4 acceptance | 🟡 | All 8 assets render for 2 industries (automated). Owner's manual open check in Word, Excel, Google Docs, Google Sheets: pending | `tests/test_render.py::test_all_eight_assets_render_for_two_industries` |

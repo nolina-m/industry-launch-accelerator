@@ -205,7 +205,23 @@ class DocxWriter:
                     cell._tc.get_or_add_tcPr().append(shading)
                     for run in para.runs:
                         run.font.color.rgb = _rgb(header_text)
+        self._column_widths(table, rows)
         self.doc.add_paragraph(style=self._style("body"))
+
+    def _column_widths(self, table, rows: list[list[str]]) -> None:
+        """Share the page width between columns by how much text each holds."""
+        section = self.doc.sections[-1]
+        usable = section.page_width - section.left_margin - section.right_margin
+        weights = [min(max(max(len(r[c]) for r in rows), 7), 60) for c in range(len(rows[0]))]
+        total = sum(weights)
+        widths = [int(usable * w / total) for w in weights]
+        table.autofit = False
+        grid = table._tbl.tblGrid
+        for col, w in zip(grid.findall(qn("w:gridCol")), widths, strict=False):
+            col.set(qn("w:w"), str(int(w / 635)))  # EMU to twentieths of a point
+        for row in table.rows:
+            for cell, w in zip(row.cells, widths, strict=False):
+                cell.width = w
 
     def _borders(self, table) -> None:
         """Explicit thin borders, so tables keep their lines in Google Docs and other viewers."""
@@ -220,6 +236,12 @@ class DocxWriter:
             el.set(qn("w:color"), color.lstrip("#").upper())
             borders.append(el)
         tbl_pr.append(borders)
+        width = OxmlElement("w:tblW")  # full page width, so text wraps less
+        width.set(qn("w:w"), "5000")
+        width.set(qn("w:type"), "pct")
+        for old in tbl_pr.findall(qn("w:tblW")):
+            tbl_pr.remove(old)
+        tbl_pr.append(width)
 
     def image(self, rel_path: str, alt: str) -> None:
         path = (self.launch_dir / "outputs" / rel_path) if not Path(rel_path).is_absolute() else Path(rel_path)

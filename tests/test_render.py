@@ -13,8 +13,9 @@ from tests import factories as f
 from tests.docbuilders import make_word_template
 from tests.test_state import INDUSTRIES, write_outputs
 
-THIN_SLICE = ["intake", "research:ind-a", "research:ind-b", "competitive", "strategy",
-              "personas:ind-a", "personas:ind-b", "messaging", "playbook:ind-a"]
+ALL_BUT_QA = ["intake", "research:ind-a", "research:ind-b", "competitive", "strategy",
+              "personas:ind-a", "personas:ind-b", "messaging", "playbook:ind-a", "playbook:ind-b",
+              "demo:ind-a", "demo:ind-b", "web:ind-a", "web:ind-b"]
 
 
 @pytest.fixture
@@ -24,7 +25,7 @@ def launch(tmp_path):
         s.data["industries"].append({"id": i, "name": i.upper()})
     s.data["competitors"].append({"id": "comp-a", "name": "Competitor A", "suggested": False})
     s.refresh()
-    for unit in THIN_SLICE:
+    for unit in ALL_BUT_QA:
         s.start(unit)
         write_outputs(s.dir, unit)
         s.submit(unit)
@@ -39,19 +40,21 @@ def render(launch):
     return Renderer(launch.dir).render_all()
 
 
-def test_assets_one_to_six_render_in_both_formats(launch):
+def test_all_eight_assets_render_for_two_industries(launch):
+    """M4 acceptance: all 8 assets render for 2+ industries."""
     results = render(launch)
     names = sorted(r.markdown.name for r in results)
-    assert names == sorted([
-        "01-industry-brief-ind-a.md", "01-industry-brief-ind-b.md", "02-competitive-overview.md",
-        "02-battlecard-comp-a.md", "03-strategy-check.md", "04-personas-ind-a.md", "04-personas-ind-b.md",
-        "05-messaging-framework.md", "06-playbook-ind-a.md",
-    ])
+    per_industry = ["01-industry-brief", "04-personas", "06-playbook", "07-demo-storyline", "08-web-copy"]
+    expected = [f"{a}-{i}.md" for a in per_industry for i in INDUSTRIES] + [
+        "02-competitive-overview.md", "02-battlecard-comp-a.md", "03-strategy-check.md", "05-messaging-framework.md"]
+    assert names == sorted(expected)
     for r in results:
         assert r.docx.is_file()
         Document(str(r.docx))  # opens without error
+    assert (launch.dir / "outputs" / "05-messaging-grid.xlsx").is_file()
     assert (launch.dir / "outputs" / "images" / "positioning-map.png").is_file()
-    assert (launch.dir / "outputs" / "images" / "committee-ind-a.png").is_file()
+    for i in INDUSTRIES:
+        assert (launch.dir / "outputs" / "images" / f"committee-{i}.png").is_file()
 
 
 def test_every_asset_has_status_footer_and_verify_section(launch):
@@ -219,3 +222,60 @@ def test_cli_render(launch, monkeypatch, capsys):
     monkeypatch.setattr(cli, "LAUNCHES_DIR", launch.dir.parent)
     assert cli.main(["render", launch.dir.name, "--unit", "messaging"]) == 0
     assert "05-messaging-framework.md" in capsys.readouterr().out
+
+
+# ------------------------------------------------------------------ M4: demo, web, Excel grid
+def test_excel_grid_has_filters_frozen_header_and_one_row_per_persona(launch):
+    from openpyxl import load_workbook
+
+    render(launch)
+    wb = load_workbook(launch.dir / "outputs" / "05-messaging-grid.xlsx")
+    ws = wb["Messaging grid"]
+    assert ws.freeze_panes == "A2"
+    assert ws.auto_filter.ref == "A1:J3"
+    assert [c.value for c in ws[1]][:4] == ["Industry", "Persona", "Buying role", "Headline"]
+    assert [ws.cell(r, 1).value for r in (2, 3)] == ["IND-A", "IND-B"]
+    assert ws.cell(2, 9).value == "[ASSUMPTION]"
+    assert ws.cell(1, 1).fill.fgColor.rgb.endswith("112233")  # brand primary
+    assert "Verify items marked [VERIFY]" in ws.oddFooter.center.text
+    assert "Draft generated with Industry Launch Accelerator" in wb["About"]["A3"].value
+
+
+def test_excel_grid_uses_brand_font(launch):
+    from openpyxl import load_workbook
+
+    brand = f.brand()
+    brand["fonts"]["body"] = "Verdana"
+    dump_yaml(brand, launch.dir / "brand.yaml")
+    render(launch)
+    ws = load_workbook(launch.dir / "outputs" / "05-messaging-grid.xlsx")["Messaging grid"]
+    assert {ws.cell(r, c).font.name for r in (1, 2) for c in (1, 4)} == {"Verdana"}
+
+
+def test_demo_storyline_content(launch):
+    doc = f.demo("ind-a")
+    doc["moments"] = [{"id": "DM-1", "title": "Catch it early", "tell": "t", "show": "s", "tell_back": "b",
+                       "pillar_id": "PL-1", "pain_ref": "P-1#1", "talk_track": "say this",
+                       "verify": ["[VERIFY] confirm the product can flag this"]}]
+    doc["aha"] = {"moment_id": "DM-1", "description": "the room sees the flag"}
+    doc["cast"] = [{"persona_id": "P-1", "role_in_demo": "watches for effort"}]
+    dump_yaml(doc, launch.dir / "demos" / "ind-a.yaml")
+    render(launch)
+    md = (launch.dir / "outputs" / "07-demo-storyline-ind-a.md").read_text()
+    assert "### DM-1: Catch it early  (aha)" in md
+    assert "| DM-1 | Catch it early | PL-1 | r: placeholder pain |" in md
+    assert "## 5-minute version" in md and "## 20-minute version" in md
+    assert "[VERIFY] confirm the product can flag this" in md
+
+
+def test_web_copy_content(launch):
+    doc = f.web("ind-a")
+    doc["sections"] = [{"id": "WS-1", "name": "Why now", "purpose": "urgency", "copy": "Draft copy here.",
+                        "messaging_refs": ["PL-1", "P-1"]}]
+    doc["headline_variants"] = ["Variant one", "Variant two"]
+    dump_yaml(doc, launch.dir / "web" / "ind-a.yaml")
+    render(launch)
+    md = (launch.dir / "outputs" / "08-web-copy-ind-a.md").read_text()
+    assert "| WS-1 | Why now | urgency | PL-1, P-1 |" in md
+    assert "1. Variant one" in md and "2. Variant two" in md
+    assert "- t [VERIFY]" in md and "Search volume has not been checked" in md
