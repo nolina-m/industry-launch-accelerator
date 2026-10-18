@@ -1,0 +1,86 @@
+# Industry pack: scaffolding for research, not findings (FR-IND-03). Checked 2026-10-18.
+id: financial-services
+display_name: Financial services (including insurance)
+generated: false
+sub_segments:
+  - Retail and commercial banking
+  - Credit unions and community banks
+  - Payments and fintech
+  - Wealth and asset management
+  - Capital markets
+  - Property and casualty insurance
+  - Life and health insurance
+buying_committee_roles:
+  - Chief Executive or business line head (economic buyer)
+  - Chief Operating Officer or head of operations
+  - Chief Information Officer or CTO
+  - Chief Information Security Officer
+  - Chief Risk Officer
+  - Chief Compliance Officer
+  - Head of procurement and third-party risk management
+  - Head of customer experience or digital channels
+  - Chief Claims Officer or head of underwriting (insurance)
+kpis:
+  - Efficiency ratio and cost-to-income
+  - Net interest margin
+  - Customer acquisition cost and lifetime value
+  - Net promoter score and complaint volume
+  - Loss ratio and combined ratio (insurance)
+  - Claims cycle time and straight-through processing rate
+  - Fraud losses and false-positive rate
+  - Regulatory findings and audit issues
+  - Time to onboard a customer (KYC)
+regulators:
+  - {name: Federal Reserve Board, jurisdiction: US, url: "https://www.federalreserve.gov/"}
+  - {name: Office of the Comptroller of the Currency (OCC), jurisdiction: US, url: "https://www.occ.gov/"}
+  - {name: Federal Deposit Insurance Corporation (FDIC), jurisdiction: US, url: "https://www.fdic.gov/"}
+  - {name: Consumer Financial Protection Bureau (CFPB), jurisdiction: US, url: "https://www.consumerfinance.gov/"}
+  - {name: Securities and Exchange Commission (SEC), jurisdiction: US, url: "https://www.sec.gov/"}
+  - {name: Financial Industry Regulatory Authority (FINRA), jurisdiction: US, url: "https://www.finra.org/"}
+  - {name: National Association of Insurance Commissioners (NAIC), jurisdiction: US (state insurance regulators), url: "https://content.naic.org/"}
+  - {name: New York State Department of Financial Services, jurisdiction: US (New York), url: "https://www.dfs.ny.gov/"}
+  - {name: European Banking Authority (EBA), jurisdiction: EU, url: "https://www.eba.europa.eu/"}
+  - {name: European Insurance and Occupational Pensions Authority (EIOPA), jurisdiction: EU, url: "https://www.eiopa.europa.eu/"}
+  - {name: Financial Conduct Authority (FCA), jurisdiction: UK, url: "https://www.fca.org.uk/"}
+regulations:
+  - {name: Gramm-Leach-Bliley Act (privacy and safeguards rules), jurisdiction: US, summary: "Requires financial institutions to protect customer information and explain their data-sharing practices.", url: "https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-313"}
+  - {name: NYDFS Cybersecurity Regulation (23 NYCRR Part 500), jurisdiction: US (New York), summary: "Cybersecurity program, governance and incident-reporting requirements for regulated financial firms.", url: "https://www.dfs.ny.gov/industry_guidance/cybersecurity"}
+  - {name: Interagency guidance on third-party risk management, jurisdiction: US, summary: "Expectations for banks managing risks from vendors and other third-party relationships.", url: "https://www.federalregister.gov/documents/2023/06/09/2023-12340/interagency-guidance-on-third-party-relationships-risk-management"}
+  - {name: Digital Operational Resilience Act (DORA), jurisdiction: EU, summary: "ICT risk management, incident reporting, resilience testing and oversight of critical ICT third-party providers.", url: "https://eur-lex.europa.eu/eli/reg/2022/2554/oj"}
+  - {name: EU Artificial Intelligence Act, jurisdiction: EU, summary: "Risk-based rules for AI systems; credit scoring and some insurance pricing are high-risk uses.", url: "https://eur-lex.europa.eu/eli/reg/2024/1689/oj"}
+  - {name: Consumer Duty, jurisdiction: UK, summary: "FCA rules requiring firms to deliver good outcomes for retail customers.", url: "https://www.fca.org.uk/firms/consumer-duty"}
+analyst_sources:
+  - Federal Reserve research and data releases (free)
+  - FDIC Quarterly Banking Profile (free)
+  - Bank for International Settlements publications (free)
+  - Public summaries of consultancy and analyst reports (cite the summary, not the paywalled report)
+associations:
+  - American Bankers Association
+  - Independent Community Bankers of America
+  - America's Credit Unions
+  - Insurance Information Institute
+  - Securities Industry and Financial Markets Association (SIFMA)
+connectors:
+  - {id: fdic, queries: ["active banks by state, sorted by assets"], series_ids: [], notes: "Bank landscape and size."}
+  - {id: cfpb, queries: ["complaint themes for the product's problem area, e.g. 'overdraft', 'mortgage servicing'"], series_ids: [], notes: "Complaint volumes and top issues show customer pain."}
+  - {id: bls, queries: [], series_ids: [CES5500000001, CES5552000001, CES5552200001, CES5552400001], notes: "Employment: financial activities; finance and insurance; credit intermediation; insurance carriers and related activities."}
+  - {id: fred, queries: ["commercial bank deposits", "credit card delinquency"], series_ids: [DPSACBW027SBOG], notes: "Needs FRED_API_KEY."}
+  - {id: sec-edgar, queries: ["full-text search of 10-K risk factors for the problem space"], series_ids: [], notes: "Public competitors' and buyers' own words on risks and priorities."}
+  - {id: federal-register, queries: ["proposed rules from banking and consumer finance agencies"], series_ids: [], notes: "New and proposed US rules."}
+  - {id: eurlex, queries: ["operational resilience", "payment services"], series_ids: [], notes: "EU legislation."}
+  - {id: worldbank, queries: [], series_ids: [FS.AST.PRVT.GD.ZS], notes: "Domestic credit to private sector (% of GDP), for country comparisons."}
+search_seeds:
+  - "<problem> banks survey"
+  - "<problem> insurers regulatory guidance"
+  - "<regulator> supervisory priorities <year>"
+  - "<problem> fraud trends report"
+  - "core banking modernization <problem>"
+typical_objections:
+  - Our regulators will need to review this first
+  - Third-party risk review takes months
+  - We can't send customer data to an outside provider
+  - Our core system can't integrate with this
+  - Model risk management will need to validate any AI
+vocabulary:
+  use: [customer, member (credit unions), policyholder (insurance), risk appetite, controls, resilience, audit trail, supervisory expectations]
+  avoid: [disrupt, unbanked as a buzzword, guaranteed returns, compliant out of the box]

@@ -55,6 +55,12 @@ else
   "$VENV_PY" -m pip install --quiet -r requirements.txt
 fi
 
+# Create your private .env file for optional access keys (never shared or committed).
+if [ ! -f ".env" ] && [ -f ".env.example" ]; then
+  cp .env.example .env
+  say "      Created .env for optional access keys (see the README to add them)"
+fi
+
 # 4. Check which data sources are available.
 if [ -f "scripts/connectors/check.py" ]; then
   say "[4/4] Checking data sources ..."

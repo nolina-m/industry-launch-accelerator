@@ -67,6 +67,12 @@ if ($Dev) {
 }
 if ($LASTEXITCODE -ne 0) { Fail "Installing libraries failed. Check your internet connection and try again." }
 
+# Create your private .env file for optional access keys (never shared or committed).
+if (-not (Test-Path ".env") -and (Test-Path ".env.example")) {
+    Copy-Item ".env.example" ".env"
+    Write-Host "      Created .env for optional access keys (see the README to add them)"
+}
+
 # 4. Check which data sources are available.
 if (Test-Path "scripts\connectors\check.py") {
     Write-Host "[4/4] Checking data sources ..."

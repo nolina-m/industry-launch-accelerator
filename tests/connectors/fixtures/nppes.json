@@ -1,0 +1,50 @@
+{
+  "connector": "nppes",
+  "call": {
+    "method": "search",
+    "args": [
+      "hospital"
+    ],
+    "kwargs": {
+      "state": "ZZ"
+    }
+  },
+  "expect": {
+    "count": 2,
+    "first": {
+      "value": 1
+    }
+  },
+  "responses": [
+    {
+      "match": "npiregistry",
+      "status": 200,
+      "body": {
+        "result_count": 1,
+        "results": [
+          {
+            "number": "1000000000",
+            "enumeration_type": "NPI-2",
+            "basic": {
+              "organization_name": "PLACEHOLDER GENERAL HOSPITAL",
+              "status": "A"
+            },
+            "addresses": [
+              {
+                "address_purpose": "LOCATION",
+                "city": "PLACEHOLDER CITY",
+                "state": "ZZ"
+              }
+            ],
+            "taxonomies": [
+              {
+                "desc": "General Acute Care Hospital",
+                "primary": true
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

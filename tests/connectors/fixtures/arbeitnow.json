@@ -1,0 +1,57 @@
+{
+  "connector": "arbeitnow",
+  "call": {
+    "method": "search",
+    "args": [
+      "data engineer"
+    ],
+    "kwargs": {}
+  },
+  "expect": {
+    "count": 1,
+    "first": {
+      "title": "Placeholder GmbH: Senior Data Engineer",
+      "published_at": "2026-10-01"
+    }
+  },
+  "responses": [
+    {
+      "match": "job-board-api",
+      "status": 200,
+      "body": {
+        "data": [
+          {
+            "slug": "senior-data-engineer-1",
+            "company_name": "Placeholder GmbH",
+            "title": "Senior Data Engineer",
+            "description": "x",
+            "remote": true,
+            "url": "https://www.arbeitnow.com/jobs/x",
+            "tags": [
+              "Data"
+            ],
+            "job_types": [],
+            "location": "Berlin",
+            "created_at": 1790812800
+          },
+          {
+            "slug": "sales-1",
+            "company_name": "Other AG",
+            "title": "Sales Manager",
+            "description": "x",
+            "remote": false,
+            "url": "https://www.arbeitnow.com/jobs/y",
+            "tags": [],
+            "job_types": [],
+            "location": "Munich",
+            "created_at": 1790812800
+          }
+        ],
+        "links": {},
+        "meta": {
+          "current_page": 1
+        }
+      }
+    }
+  ]
+}

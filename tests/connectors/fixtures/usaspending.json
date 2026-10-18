@@ -1,0 +1,45 @@
+{
+  "connector": "usaspending",
+  "call": {
+    "method": "search",
+    "args": [
+      "placeholder"
+    ],
+    "kwargs": {
+      "limit": 1
+    }
+  },
+  "expect": {
+    "count": 1,
+    "first": {
+      "value": 1000000.0,
+      "unit": "USD",
+      "published_at": "2025-10-01"
+    }
+  },
+  "responses": [
+    {
+      "match": "spending_by_award",
+      "status": 200,
+      "body": {
+        "limit": 1,
+        "results": [
+          {
+            "internal_id": 1,
+            "Award ID": "PLACEHOLDER-001",
+            "Recipient Name": "PLACEHOLDER VENDOR LLC",
+            "Award Amount": 1000000.0,
+            "Description": "PLACEHOLDER SERVICES",
+            "Awarding Agency": "Placeholder Agency",
+            "Start Date": "2025-10-01",
+            "generated_internal_id": "CONT_AWD_PLACEHOLDER"
+          }
+        ],
+        "page_metadata": {
+          "page": 1,
+          "hasNext": false
+        }
+      }
+    }
+  ]
+}

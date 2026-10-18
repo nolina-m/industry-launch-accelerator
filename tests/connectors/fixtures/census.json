@@ -1,0 +1,42 @@
+{
+  "connector": "census",
+  "call": {
+    "method": "fetch",
+    "args": [
+      "2022/cbp"
+    ],
+    "kwargs": {
+      "get": "ESTAB,EMP,NAICS2017_LABEL",
+      "NAICS2017": "000"
+    }
+  },
+  "expect": {
+    "count": 2,
+    "first": {
+      "value": 100,
+      "series_id": "2022/cbp?NAICS2017=000&for=us:*&get=ESTAB,EMP,NAICS2017_LABEL#ESTAB"
+    }
+  },
+  "responses": [
+    {
+      "match": "data/2022/cbp",
+      "status": 200,
+      "body": [
+        [
+          "ESTAB",
+          "EMP",
+          "NAICS2017_LABEL",
+          "NAICS2017",
+          "us"
+        ],
+        [
+          "100",
+          "2500",
+          "Placeholder industry",
+          "000",
+          "1"
+        ]
+      ]
+    }
+  ]
+}

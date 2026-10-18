@@ -1,0 +1,46 @@
+{
+  "connector": "fdic",
+  "call": {
+    "method": "search",
+    "args": [
+      ""
+    ],
+    "kwargs": {
+      "state": "ZZ",
+      "limit": 1
+    }
+  },
+  "expect": {
+    "count": 2,
+    "first": {
+      "value": 2
+    }
+  },
+  "responses": [
+    {
+      "match": "banks/institutions",
+      "status": 200,
+      "body": {
+        "meta": {
+          "total": 2
+        },
+        "data": [
+          {
+            "data": {
+              "NAME": "Placeholder Bank",
+              "CERT": 99999,
+              "ASSET": 123456,
+              "CITY": "Placeholder City",
+              "STALP": "ZZ",
+              "REPDTE": "20260630",
+              "ACTIVE": 1
+            }
+          }
+        ],
+        "totals": {
+          "count": 2
+        }
+      }
+    }
+  ]
+}

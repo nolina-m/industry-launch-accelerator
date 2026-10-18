@@ -1,0 +1,47 @@
+{
+  "connector": "congress-gov",
+  "call": {
+    "method": "search",
+    "args": [
+      "placeholder act"
+    ],
+    "kwargs": {}
+  },
+  "expect": {
+    "count": 1,
+    "first": {
+      "title": "Placeholder Act of 2026",
+      "series_id": "bill:119-hr-1"
+    }
+  },
+  "responses": [
+    {
+      "match": "v3/bill",
+      "status": 200,
+      "body": {
+        "bills": [
+          {
+            "congress": 119,
+            "type": "HR",
+            "number": "1",
+            "title": "Placeholder Act of 2026",
+            "latestAction": {
+              "actionDate": "2026-03-01",
+              "text": "Referred to committee."
+            }
+          },
+          {
+            "congress": 119,
+            "type": "S",
+            "number": "2",
+            "title": "Another Bill",
+            "latestAction": {
+              "actionDate": "2026-03-02",
+              "text": "Introduced."
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "connector": "fred",
+  "call": {
+    "method": "fetch",
+    "args": [
+      "PLACEHOLDER"
+    ],
+    "kwargs": {}
+  },
+  "expect": {
+    "count": 2,
+    "first": {
+      "value": 3.5,
+      "period": "2026-09-01",
+      "series_id": "PLACEHOLDER"
+    }
+  },
+  "responses": [
+    {
+      "match": "series/observations",
+      "status": 200,
+      "body": {
+        "observations": [
+          {
+            "date": "2026-09-01",
+            "value": "3.5"
+          },
+          {
+            "date": "2026-08-01",
+            "value": "."
+          }
+        ]
+      }
+    }
+  ]
+}

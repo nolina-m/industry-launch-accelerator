@@ -1,0 +1,76 @@
+# Industry pack: scaffolding for research, not findings (FR-IND-03). Checked 2026-10-18.
+id: technology
+display_name: Technology (software, hardware and IT services)
+generated: false
+sub_segments:
+  - Enterprise software and SaaS
+  - Cloud and infrastructure
+  - Cybersecurity
+  - Semiconductors and hardware
+  - IT services and consulting
+  - Developer tools and platforms
+buying_committee_roles:
+  - Chief Executive or general manager (economic buyer)
+  - Chief Technology Officer
+  - Chief Information Officer
+  - VP Engineering
+  - Chief Information Security Officer
+  - Chief Revenue Officer or head of customer success
+  - Chief Financial Officer
+  - Head of procurement
+  - Data protection officer
+kpis:
+  - Annual recurring revenue growth and net revenue retention
+  - Gross margin
+  - Customer acquisition cost payback
+  - Engineering velocity and deployment frequency
+  - Uptime and incident count
+  - Time to resolve customer issues
+  - Cloud cost per customer
+regulators:
+  - {name: Federal Trade Commission (FTC), jurisdiction: US, url: "https://www.ftc.gov/"}
+  - {name: Securities and Exchange Commission (cyber incident disclosure), jurisdiction: US, url: "https://www.sec.gov/"}
+  - {name: Cybersecurity and Infrastructure Security Agency (CISA), jurisdiction: US, url: "https://www.cisa.gov/"}
+  - {name: European Commission (digital policy), jurisdiction: EU, url: "https://digital-strategy.ec.europa.eu/"}
+  - {name: European Data Protection Board, jurisdiction: EU, url: "https://www.edpb.europa.eu/"}
+  - {name: Information Commissioner's Office (ICO), jurisdiction: UK, url: "https://ico.org.uk/"}
+regulations:
+  - {name: General Data Protection Regulation (GDPR), jurisdiction: EU, summary: "Rules for processing personal data, including by software providers acting as processors.", url: "https://eur-lex.europa.eu/eli/reg/2016/679/oj"}
+  - {name: EU Artificial Intelligence Act, jurisdiction: EU, summary: "Risk-based obligations for providers and deployers of AI systems and general-purpose AI models.", url: "https://eur-lex.europa.eu/eli/reg/2024/1689/oj"}
+  - {name: EU Cyber Resilience Act, jurisdiction: EU, summary: "Cybersecurity requirements for products with digital elements, including software.", url: "https://eur-lex.europa.eu/eli/reg/2024/2847/oj"}
+  - {name: EU Data Act, jurisdiction: EU, summary: "Rules on access to data from connected products and on switching between cloud providers.", url: "https://eur-lex.europa.eu/eli/reg/2023/2854/oj"}
+  - {name: SEC cybersecurity disclosure rules, jurisdiction: US, summary: "Public companies must disclose material cyber incidents and describe cyber risk management.", url: "https://www.sec.gov/news/press-release/2023-139"}
+  - {name: US state privacy laws, jurisdiction: US (states), summary: "A growing set of state consumer privacy laws with differing requirements.", url: "https://cppa.ca.gov/regulations/"}
+analyst_sources:
+  - Company filings and earnings calls of public technology firms (free, via SEC EDGAR)
+  - Open-source activity on GitHub (free)
+  - Public summaries of analyst reports (cite the summary, not the paywalled report)
+  - Developer surveys published openly
+associations:
+  - CompTIA
+  - Cloud Security Alliance
+  - Linux Foundation
+  - TechUK (UK)
+connectors:
+  - {id: github, queries: ["topic or technology the product depends on"], series_ids: [], notes: "Open-source momentum: stars, forks, recent activity."}
+  - {id: hackernews, queries: ["product category name"], series_ids: [], notes: "Developer sentiment (Tier 3)."}
+  - {id: sec-edgar, queries: ["full-text search of 10-K risk factors for the problem space"], series_ids: [], notes: "How public tech companies describe the problem and competition."}
+  - {id: bls, queries: [], series_ids: [CES5000000001, CES6054150001, CES5051300001], notes: "Employment: information; computer systems design; publishing industries (includes software publishers)."}
+  - {id: eurlex, queries: ["artificial intelligence", "cybersecurity", "data"], series_ids: [], notes: "EU digital legislation."}
+  - {id: arbeitnow, queries: ["role or technology"], series_ids: [], notes: "Hiring signals (mostly European jobs)."}
+  - {id: worldbank, queries: [], series_ids: [IT.NET.USER.ZS], notes: "Internet use by country."}
+search_seeds:
+  - "<problem> developer survey <year>"
+  - "<category> market consolidation"
+  - "<problem> CIO priorities <year>"
+  - "AI <category> adoption enterprise"
+  - "<competitor category> pricing changes"
+typical_objections:
+  - We can build this ourselves
+  - Security review and SOC 2 report first
+  - It must integrate with our existing stack
+  - We're consolidating vendors, not adding them
+  - Usage-based pricing makes costs unpredictable
+vocabulary:
+  use: [teams, developers, platform, integration, time to value, total cost of ownership, security posture]
+  avoid: [revolutionary, seamless, next-generation, AI-powered as a claim on its own]

@@ -1,0 +1,45 @@
+{
+  "connector": "regulations-gov",
+  "call": {
+    "method": "search",
+    "args": [
+      "placeholder"
+    ],
+    "kwargs": {
+      "limit": 1
+    }
+  },
+  "expect": {
+    "count": 1,
+    "first": {
+      "title": "Placeholder Proposed Rule",
+      "published_at": "2026-05-01",
+      "series_id": "docket:XYZ-2026-0001"
+    }
+  },
+  "responses": [
+    {
+      "match": "v4/documents",
+      "status": 200,
+      "body": {
+        "data": [
+          {
+            "id": "XYZ-2026-0001-0001",
+            "type": "documents",
+            "attributes": {
+              "title": "Placeholder Proposed Rule",
+              "postedDate": "2026-05-01T04:00:00Z",
+              "docketId": "XYZ-2026-0001",
+              "agencyId": "XYZ",
+              "documentType": "Proposed Rule",
+              "openForComment": true
+            }
+          }
+        ],
+        "meta": {
+          "totalElements": 1
+        }
+      }
+    }
+  ]
+}

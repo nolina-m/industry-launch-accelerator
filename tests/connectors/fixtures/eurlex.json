@@ -1,0 +1,59 @@
+{
+  "connector": "eurlex",
+  "call": {
+    "method": "search",
+    "args": [
+      "placeholder"
+    ],
+    "kwargs": {
+      "limit": 1
+    }
+  },
+  "expect": {
+    "count": 1,
+    "first": {
+      "title": "Regulation (EU) 2026/0001 on placeholders",
+      "published_at": "2026-07-08",
+      "series_id": "CELEX:32026R0001"
+    }
+  },
+  "responses": [
+    {
+      "match": "sparql",
+      "status": 200,
+      "body": {
+        "head": {
+          "vars": [
+            "work",
+            "celex",
+            "title",
+            "date"
+          ]
+        },
+        "results": {
+          "bindings": [
+            {
+              "work": {
+                "type": "uri",
+                "value": "http://publications.europa.eu/resource/cellar/x"
+              },
+              "celex": {
+                "type": "literal",
+                "value": "32026R0001"
+              },
+              "title": {
+                "type": "literal",
+                "xml:lang": "en",
+                "value": "Regulation (EU) 2026/0001 on placeholders"
+              },
+              "date": {
+                "type": "literal",
+                "value": "2026-07-08"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "connector": "worldbank",
+  "call": {
+    "method": "fetch",
+    "args": [
+      "NY.GDP.MKTP.CD"
+    ],
+    "kwargs": {
+      "limit": 2
+    }
+  },
+  "expect": {
+    "count": 1,
+    "first": {
+      "value": 500.0,
+      "period": "2025",
+      "series_id": "NY.GDP.MKTP.CD"
+    }
+  },
+  "responses": [
+    {
+      "match": "indicator/NY.GDP.MKTP.CD",
+      "status": 200,
+      "body": [
+        {
+          "page": 1,
+          "pages": 1,
+          "per_page": 2,
+          "total": 2
+        },
+        [
+          {
+            "indicator": {
+              "id": "NY.GDP.MKTP.CD",
+              "value": "GDP (current US$)"
+            },
+            "country": {
+              "id": "US",
+              "value": "United States"
+            },
+            "countryiso3code": "USA",
+            "date": "2025",
+            "value": 500.0,
+            "unit": "",
+            "obs_status": "",
+            "decimal": 0
+          },
+          {
+            "indicator": {
+              "id": "NY.GDP.MKTP.CD",
+              "value": "GDP (current US$)"
+            },
+            "country": {
+              "id": "US",
+              "value": "United States"
+            },
+            "countryiso3code": "USA",
+            "date": "2024",
+            "value": null,
+            "unit": "",
+            "obs_status": "",
+            "decimal": 0
+          }
+        ]
+      ]
+    }
+  ]
+}

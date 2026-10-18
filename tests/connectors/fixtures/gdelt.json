@@ -1,0 +1,39 @@
+{
+  "connector": "gdelt",
+  "call": {
+    "method": "search",
+    "args": [
+      "placeholder"
+    ],
+    "kwargs": {
+      "limit": 1
+    }
+  },
+  "expect": {
+    "count": 1,
+    "first": {
+      "title": "Placeholder headline",
+      "published_at": "2026-10-15"
+    }
+  },
+  "responses": [
+    {
+      "match": "doc/doc",
+      "status": 200,
+      "body": {
+        "articles": [
+          {
+            "url": "https://news.example.org/a",
+            "url_mobile": "",
+            "title": "Placeholder headline",
+            "seendate": "20261015T120000Z",
+            "socialimage": "",
+            "domain": "news.example.org",
+            "language": "English",
+            "sourcecountry": "United States"
+          }
+        ]
+      }
+    }
+  ]
+}

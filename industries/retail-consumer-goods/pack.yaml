@@ -1,0 +1,75 @@
+# Industry pack: scaffolding for research, not findings (FR-IND-03). Checked 2026-10-18.
+id: retail-consumer-goods
+display_name: Retail and consumer goods
+generated: false
+sub_segments:
+  - Grocery and convenience
+  - General merchandise and department stores
+  - Specialty and apparel
+  - E-commerce and marketplaces
+  - Consumer packaged goods (CPG) manufacturers
+  - Restaurants and food service
+buying_committee_roles:
+  - Chief Executive or general manager (economic buyer)
+  - Chief Financial Officer
+  - Chief Digital Officer or head of e-commerce
+  - Chief Marketing Officer
+  - Chief Merchandising Officer
+  - Head of supply chain and logistics
+  - Head of store operations
+  - Chief Information Officer
+  - Head of loss prevention
+kpis:
+  - Same-store sales
+  - Gross margin and markdowns
+  - Inventory turns and out-of-stock rate
+  - Conversion rate and average order value
+  - Customer lifetime value and retention
+  - Fulfillment cost per order
+  - Return rate
+  - Shrink
+regulators:
+  - {name: Federal Trade Commission (FTC), jurisdiction: US, url: "https://www.ftc.gov/"}
+  - {name: Consumer Product Safety Commission (CPSC), jurisdiction: US, url: "https://www.cpsc.gov/"}
+  - {name: Food and Drug Administration (food and cosmetics), jurisdiction: US, url: "https://www.fda.gov/"}
+  - {name: California Privacy Protection Agency, jurisdiction: US (California), url: "https://cppa.ca.gov/"}
+  - {name: European Commission (consumer protection), jurisdiction: EU, url: "https://commission.europa.eu/live-work-travel-eu/consumer-rights-and-complaints_en"}
+  - {name: Competition and Markets Authority (CMA), jurisdiction: UK, url: "https://www.gov.uk/government/organisations/competition-and-markets-authority"}
+regulations:
+  - {name: FTC Act Section 5 (unfair or deceptive practices), jurisdiction: US, summary: "Covers advertising claims, reviews, pricing and data practices.", url: "https://www.law.cornell.edu/uscode/text/15/45"}
+  - {name: California Consumer Privacy Act as amended (CCPA/CPRA), jurisdiction: US (California), summary: "Consumer rights over personal information, including opt-outs of sale and sharing.", url: "https://cppa.ca.gov/regulations/"}
+  - {name: General Data Protection Regulation (GDPR), jurisdiction: EU, summary: "Rules for processing personal data, including marketing and profiling.", url: "https://eur-lex.europa.eu/eli/reg/2016/679/oj"}
+  - {name: Digital Services Act, jurisdiction: EU, summary: "Obligations for online platforms and marketplaces, including traceability of traders.", url: "https://eur-lex.europa.eu/eli/reg/2022/2065/oj"}
+  - {name: "PCI DSS (industry standard, not a law)", jurisdiction: Global, summary: "Card payment data security standard required by card brands.", url: "https://www.pcisecuritystandards.org/"}
+analyst_sources:
+  - U.S. Census Bureau retail and e-commerce releases (free)
+  - BLS consumer price and spending data (free)
+  - National Retail Federation research (free summaries)
+  - Public summaries of consultancy and analyst reports
+associations:
+  - National Retail Federation (NRF)
+  - Retail Industry Leaders Association (RILA)
+  - Consumer Brands Association
+  - FMI, The Food Industry Association
+connectors:
+  - {id: bls, queries: [], series_ids: [CES4200000001], notes: "Employment: retail trade."}
+  - {id: census, queries: ["County Business Patterns for NAICS 44-45 (retail)"], series_ids: [], notes: "Needs CENSUS_API_KEY. Example: fetch 2022/cbp get=ESTAB,EMP with NAICS2017=44-45."}
+  - {id: fred, queries: ["retail sales", "e-commerce retail sales"], series_ids: [], notes: "Needs FRED_API_KEY; search for the series, then fetch by ID."}
+  - {id: cfpb, queries: ["buy now pay later"], series_ids: [], notes: "Only if the product touches consumer payments or credit."}
+  - {id: worldbank, queries: [], series_ids: [NE.CON.PRVT.CD], notes: "Household final consumption spending, for country comparisons."}
+  - {id: sec-edgar, queries: ["full-text search of retailers' 10-K risk factors for the problem space"], series_ids: [], notes: "How public retailers describe the problem."}
+search_seeds:
+  - "<problem> retailers survey <year>"
+  - "<problem> holiday season results"
+  - "retail media <problem>"
+  - "<problem> supply chain disruption retail"
+  - "consumer sentiment <category>"
+typical_objections:
+  - We need it live before peak season, or not until after
+  - Margins are thin, so payback must be fast
+  - Our store teams won't adopt anything complicated
+  - We already have too many point solutions
+  - It must work with our commerce platform and POS
+vocabulary:
+  use: [shoppers, customers, guests (restaurants), basket, assortment, omnichannel, sell-through, peak season]
+  avoid: [consumers only as data, guaranteed lift, disrupt]

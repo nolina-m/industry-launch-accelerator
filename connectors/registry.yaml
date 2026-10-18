@@ -1,0 +1,115 @@
+# Data connectors (§11.2). Verified 2026-10-18; see docs/data-sources.md for evidence and terms.
+# tier: source tier for the register (news connectors: grade each article yourself)
+# access: none = works out of the box | optional_key = works without a key, a key raises limits
+#         key = off until you add the key to .env (free sign-up)
+connectors:
+  - {id: sec-edgar, name: SEC EDGAR, class: "connectors.sec_edgar:SecEdgar", tier: 1, category: company, access: none,
+     key_env: null, signup_url: null, docs_url: "https://www.sec.gov/search-filings/edgar-application-programming-interfaces",
+     rate_limit: "SEC fair-access limit (max 10 requests per second); contact email required in ILA_CONTACT_EMAIL",
+     used_for: "Filings, risk factors, reported financials (XBRL) of public companies"}
+  - {id: wikipedia, name: Wikipedia, class: "connectors.wikipedia:Wikipedia", tier: 3, category: company, access: none,
+     key_env: null, signup_url: null, docs_url: "https://api.wikimedia.org/wiki/Core_REST_API",
+     rate_limit: "polite use; descriptive User-Agent", used_for: "Background on companies and technologies (Tier 3)"}
+  - {id: github, name: GitHub, class: "connectors.github:GitHub", tier: 1, category: company, access: optional_key,
+     key_env: GITHUB_TOKEN, signup_url: "https://github.com/settings/tokens", docs_url: "https://docs.github.com/en/rest",
+     rate_limit: "10 searches a minute without a token, 30 with one", used_for: "Open-source momentum"}
+  - {id: arbeitnow, name: Arbeitnow, class: "connectors.arbeitnow:Arbeitnow", tier: 2, category: hiring, access: none,
+     key_env: null, signup_url: null, docs_url: "https://www.arbeitnow.com/blog/job-board-api",
+     rate_limit: "free public API; please do not abuse", used_for: "Hiring signals (mostly European jobs)"}
+  - {id: gdelt, name: GDELT, class: "connectors.gdelt:Gdelt", tier: 3, category: news, access: none, key_env: null,
+     signup_url: null, docs_url: "https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/",
+     rate_limit: "one request every 5 seconds", used_for: "Recent news coverage, mainly for refresh"}
+  - {id: hackernews, name: Hacker News, class: "connectors.hackernews:HackerNews", tier: 3, category: news, access: none,
+     key_env: null, signup_url: null, docs_url: "https://hn.algolia.com/api", rate_limit: "polite use",
+     used_for: "Technology community discussion (Tier 3)"}
+  - {id: currents, name: Currents API, class: "connectors.currents:Currents", tier: 3, category: news, access: key,
+     key_env: CURRENTS_API_KEY, signup_url: "https://currentsapi.services/en/register",
+     docs_url: "https://currentsapi.services/en/docs/", rate_limit: "free plan: 250 requests a day, 20 results each",
+     used_for: "Recent news from many publishers"}
+  - {id: federal-register, name: Federal Register, class: "connectors.federal_register:FederalRegister", tier: 1,
+     category: regulation, access: none, key_env: null, signup_url: null,
+     docs_url: "https://www.federalregister.gov/developers/documentation/api/v1", rate_limit: "polite use",
+     used_for: "US rules, proposed rules and notices"}
+  - {id: eurlex, name: EUR-Lex, class: "connectors.eurlex:EurLex", tier: 1, category: regulation, access: none, key_env: null,
+     signup_url: null, docs_url: "https://op.europa.eu/en/web/cellar/cellar-data/metadata/knowledge-graph",
+     rate_limit: "polite use", used_for: "EU legislation (via the EU Publications Office SPARQL endpoint)"}
+  - {id: regulations-gov, name: Regulations.gov, class: "connectors.regulations_gov:RegulationsGov", tier: 1,
+     category: regulation, access: key, key_env: REGULATIONS_GOV_API_KEY, signup_url: "https://open.gsa.gov/api/regulationsgov/",
+     docs_url: "https://open.gsa.gov/api/regulationsgov/", rate_limit: "api.data.gov hourly limit (see docs)",
+     used_for: "Federal dockets and public comments"}
+  - {id: congress-gov, name: Congress.gov, class: "connectors.congress_gov:CongressGov", tier: 1, category: regulation,
+     access: key, key_env: CONGRESS_GOV_API_KEY, signup_url: "https://api.congress.gov/sign-up/",
+     docs_url: "https://github.com/LibraryOfCongress/api.congress.gov", rate_limit: "5,000 requests an hour",
+     used_for: "US bills and their status"}
+  - {id: bls, name: U.S. Bureau of Labor Statistics, class: "connectors.bls:Bls", tier: 1, category: economy,
+     access: optional_key, key_env: BLS_API_KEY, signup_url: "https://data.bls.gov/registrationEngine/",
+     docs_url: "https://www.bls.gov/developers/", rate_limit: "small daily limit without a key, higher with a free key (see docs)",
+     used_for: "Employment, wages and prices by industry"}
+  - {id: census, name: U.S. Census Bureau, class: "connectors.census:Census", tier: 1, category: economy, access: key,
+     key_env: CENSUS_API_KEY, signup_url: "https://api.census.gov/data/key_signup.html",
+     docs_url: "https://www.census.gov/data/developers/guidance/api-user-guide.html",
+     rate_limit: "key required for all queries since 2026-05-12", used_for: "Business counts, employment, demographics"}
+  - {id: datausa, name: Data USA, class: "connectors.datausa:DataUsa", tier: 2, category: economy, access: none, key_env: null,
+     signup_url: null, docs_url: "https://datausa.io/about/api/", rate_limit: "polite use",
+     used_for: "Ready-made US statistics"}
+  - {id: worldbank, name: World Bank, class: "connectors.worldbank:WorldBank", tier: 1, category: economy, access: none,
+     key_env: null, signup_url: null, docs_url: "https://datahelpdesk.worldbank.org/knowledgebase/articles/889392",
+     rate_limit: "polite use", used_for: "Country-level economic indicators"}
+  - {id: oecd, name: OECD, class: "connectors.oecd:Oecd", tier: 1, category: economy, access: none, key_env: null,
+     signup_url: null, docs_url: "https://gitlab.algobank.oecd.org/public-documentation/dotstat-migration/-/raw/main/OECD_Data_API_documentation.pdf",
+     rate_limit: "rate-limited; keep requests few (see docs)", used_for: "Cross-country statistics"}
+  - {id: fred, name: FRED, class: "connectors.fred:Fred", tier: 1, category: economy, access: key, key_env: FRED_API_KEY,
+     signup_url: "https://fredaccount.stlouisfed.org/apikeys", docs_url: "https://fred.stlouisfed.org/docs/api/fred/",
+     rate_limit: "see docs", used_for: "Economic time series"}
+  - {id: usaspending, name: USAspending, class: "connectors.usaspending:UsaSpending", tier: 1, category: public-sector,
+     access: none, key_env: null, signup_url: null, docs_url: "https://api.usaspending.gov/docs/endpoints",
+     rate_limit: "polite use", used_for: "Federal contract and grant awards"}
+  - {id: sam-gov, name: SAM.gov, class: "connectors.sam_gov:SamGov", tier: 1, category: public-sector, access: key,
+     key_env: SAM_GOV_API_KEY, signup_url: "https://sam.gov/profile/details",
+     docs_url: "https://open.gsa.gov/api/get-opportunities-public-api/",
+     rate_limit: "daily limit depends on your SAM.gov role (low for new accounts)",
+     used_for: "Federal contract opportunities"}
+  - {id: nppes, name: NPPES NPI Registry, class: "connectors.nppes:Nppes", tier: 1, category: healthcare, access: none,
+     key_env: null, signup_url: null, docs_url: "https://npiregistry.cms.hhs.gov/api-page", rate_limit: "polite use",
+     used_for: "US provider landscape"}
+  - {id: openfda, name: openFDA, class: "connectors.openfda:OpenFda", tier: 1, category: healthcare, access: optional_key,
+     key_env: OPENFDA_API_KEY, signup_url: "https://open.fda.gov/apis/authentication/",
+     docs_url: "https://open.fda.gov/apis/", rate_limit: "1,000 requests a day without a key, 120,000 with one (240 a minute)",
+     used_for: "Device and drug recalls, adverse events"}
+  - {id: cms, name: CMS Provider Data, class: "connectors.cms:Cms", tier: 1, category: healthcare, access: none, key_env: null,
+     signup_url: null, docs_url: "https://data.cms.gov/provider-data/docs", rate_limit: "polite use; can be slow",
+     used_for: "Medicare data on hospitals and providers"}
+  - {id: clinicaltrials, name: ClinicalTrials.gov, class: "connectors.clinicaltrials:ClinicalTrials", tier: 1,
+     category: healthcare, access: none, key_env: null, signup_url: null,
+     docs_url: "https://clinicaltrials.gov/data-api/api", rate_limit: "polite use (see docs)",
+     used_for: "Research activity"}
+  - {id: healthdata, name: HealthData.gov, class: "connectors.socrata:HealthData", tier: 1, category: healthcare, access: none,
+     key_env: null, signup_url: null, docs_url: "https://dev.socrata.com/", rate_limit: "polite use",
+     used_for: "HHS datasets"}
+  - {id: fdic, name: FDIC BankFind, class: "connectors.fdic:Fdic", tier: 1, category: financial-services, access: none,
+     key_env: null, signup_url: null, docs_url: "https://api.fdic.gov/banks/docs/", rate_limit: "polite use",
+     used_for: "Bank landscape"}
+  - {id: cfpb, name: CFPB Consumer Complaints, class: "connectors.cfpb:Cfpb", tier: 1, category: financial-services,
+     access: none, key_env: null, signup_url: null,
+     docs_url: "https://cfpb.github.io/api/ccdb/api.html", rate_limit: "polite use", used_for: "Complaint themes"}
+  - {id: fcc, name: FCC Open Data, class: "connectors.socrata:Fcc", tier: 1, category: telecom-media, access: none,
+     key_env: null, signup_url: null, docs_url: "https://opendata.fcc.gov/", rate_limit: "polite use",
+     used_for: "Coverage, complaints, licensing data"}
+  - {id: us-dot, name: US DOT Open Data, class: "connectors.socrata:UsDot", tier: 1, category: travel-transport, access: none,
+     key_env: null, signup_url: null, docs_url: "https://data.transportation.gov/", rate_limit: "polite use",
+     used_for: "Transportation statistics (DOT and BTS)"}
+
+# Considered in the PRD and left out after checking (2026-10-18). Reasons in docs/data-sources.md.
+not_included:
+  - {name: Econdb, reason: "API blocks automated requests"}
+  - {name: OpenCorporates, reason: "no free self-serve API (paid plans only)"}
+  - {name: Product Hunt, reason: "API terms forbid commercial use"}
+  - {name: PatentsView, reason: "API shut down; replacement requires a verified USPTO.gov account"}
+  - {name: Jooble, reason: "API documentation not reachable to verify"}
+  - {name: The Guardian, reason: "free key is for non-commercial use only"}
+  - {name: GNews, reason: "free plan is non-commercial only"}
+  - {name: Financial Modeling Prep, reason: "free licence is personal, non-business use only"}
+  - {name: New York Times, reason: "APIs are for non-commercial use"}
+  - {name: Adzuna, reason: "commercial organisations need a licence after a trial"}
+  - {name: TheNewsAPI, reason: "terms forbid use in commercial endeavors"}
+  - {name: Alpha Vantage, reason: "free licence is personal, non-commercial use only"}

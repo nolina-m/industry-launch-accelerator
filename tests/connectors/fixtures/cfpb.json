@@ -1,0 +1,57 @@
+{
+  "connector": "cfpb",
+  "call": {
+    "method": "search",
+    "args": [
+      "placeholder"
+    ],
+    "kwargs": {
+      "limit": 1
+    }
+  },
+  "expect": {
+    "count": 3,
+    "first": {
+      "value": 50,
+      "unit": "complaints"
+    }
+  },
+  "responses": [
+    {
+      "match": "consumer-complaints",
+      "status": 200,
+      "body": {
+        "hits": {
+          "total": {
+            "value": 50
+          },
+          "hits": [
+            {
+              "_source": {
+                "complaint_id": "1",
+                "product": "Placeholder product",
+                "issue": "Placeholder issue",
+                "date_received": "2026-06-20T00:00:00.000Z",
+                "company": "Placeholder Bank",
+                "state": "ZZ",
+                "company_response": "Closed with explanation"
+              }
+            }
+          ]
+        },
+        "aggregations": {
+          "issue": {
+            "issue": {
+              "buckets": [
+                {
+                  "key": "Placeholder issue",
+                  "doc_count": 30
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "connector": "sam-gov",
+  "call": {
+    "method": "search",
+    "args": [
+      "placeholder"
+    ],
+    "kwargs": {
+      "limit": 1
+    }
+  },
+  "expect": {
+    "count": 1,
+    "first": {
+      "title": "Placeholder Services",
+      "published_at": "2026-09-01"
+    }
+  },
+  "responses": [
+    {
+      "match": "opportunities/v2/search",
+      "status": 200,
+      "body": {
+        "totalRecords": 1,
+        "opportunitiesData": [
+          {
+            "noticeId": "abc123",
+            "title": "Placeholder Services",
+            "solicitationNumber": "PH-0001",
+            "fullParentPathName": "PLACEHOLDER AGENCY",
+            "postedDate": "2026-09-01",
+            "type": "Solicitation",
+            "naicsCode": "541511",
+            "responseDeadLine": "2026-10-01",
+            "uiLink": "https://sam.gov/opp/abc123/view"
+          }
+        ]
+      }
+    }
+  ]
+}

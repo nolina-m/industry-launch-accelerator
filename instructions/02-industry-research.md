@@ -8,7 +8,7 @@
 
 - `launch-context.yaml`: what the product does, for whom, and its capabilities. Trends must matter to this product's problem space.
 - `inputs/launch-pov.md`: the PMM's direction.
-- The industry pack, if there is one: `industries/<industry>/pack.yaml` (or `launches/<slug>/industries/<industry>/pack.yaml` for a custom industry). It lists regulators, sources, search seeds and data connectors. **The pack is scaffolding, not findings (FR-IND-03).** Every trend comes from fresh research.
+- The industry pack, if there is one (if not, build it first with `instructions/12-custom-industry.md`): `industries/<industry>/pack.yaml` (or `launches/<slug>/industries/<industry>/pack.yaml` for a custom industry). It lists regulators, sources, search seeds and data connectors. **The pack is scaffolding, not findings (FR-IND-03).** Every trend comes from fresh research.
 - The industry's focus in `launch.yaml` (sub-segments, regions, company size). Respect it throughout (FR-TRD-06).
 
 ## What to produce
@@ -33,9 +33,20 @@ What leaders in this industry must do in the next 12–24 months. Each one has a
 
 Set `regulatory.disclaimer: "Not legal advice"`. List the regulations and rules relevant to *this product* in *this industry* and its regions: `name`, `jurisdiction`, `status` (`in_force`, `proposed`, `pending`, `repealed`, `other`), a plain `summary`, why it's `relevant`, and `evidence`. Prefer the regulator's own site or the official journal (Tier 1). If none apply, leave `items` empty and say so at the checkpoint. Never guess.
 
+### Using the data connectors (FR-API-03, FR-API-04)
+
+The pack's `connectors` list says which public data sources fit this industry, with suggested queries and series IDs. Query them like this:
+
+```
+PY scripts/connectors/query.py <slug> <connector> search "<query>" [--opt since=2025-01-01] --register
+PY scripts/connectors/query.py <slug> <connector> fetch "<series id>" --register
+```
+
+`--register` adds each result to the source register and prints the ID to cite. Every number shows its source, series ID and retrieval date. Run `PY scripts/connectors/check.py --offline` to see which connectors are switched on. If a connector isn't available (no key, offline, rate-limited), the tool says so. Carry on with web search, and mention the gap at the checkpoint. Never let a missing connector stop the stage.
+
 ### Market data (FR-TRD-04): 3 to 6 data points
 
-Numbers that size or describe the industry: employment, spending, number of firms, growth. Prefer public data: government statistics, regulators, filings. Every number shows its source (`source_id`), its `series_id` (the dataset or table ID; use `null` only if the source has none), and its `retrieved_at` date. If you used a data connector, set `connector`. Never round, combine or extrapolate numbers without labeling it `[ASSUMPTION]` in the `note`.
+Numbers that size or describe the industry: employment, spending, number of firms, growth. Prefer public data: government statistics, regulators, filings. Every number shows its source (`source_id`), its `series_id` (the dataset or table ID; use `null` only if the source has none), and its `retrieved_at` date. If you used a data connector, set `connector` to its id (from `connectors/registry.yaml`). Never round, combine or extrapolate numbers without labeling it `[ASSUMPTION]` in the `note`.
 
 ## IDs
 

@@ -1,0 +1,76 @@
+# Industry pack: scaffolding for research, not findings (FR-IND-03). Checked 2026-10-18.
+id: telecom-media
+display_name: Telecom and media
+generated: false
+sub_segments:
+  - Mobile network operators
+  - Broadband and cable providers
+  - Satellite and wireless infrastructure
+  - Broadcasting and streaming
+  - Publishing and news
+  - Advertising and marketing services
+buying_committee_roles:
+  - Chief Executive or business unit head (economic buyer)
+  - Chief Technology Officer or head of network
+  - Chief Information Officer
+  - Chief Marketing Officer
+  - Chief Customer Officer or head of care
+  - Head of content or programming (media)
+  - Chief Information Security Officer
+  - Head of regulatory affairs
+  - Head of procurement
+kpis:
+  - Average revenue per user (ARPU)
+  - Churn
+  - Subscriber growth
+  - Network availability and quality of experience
+  - Cost to serve and care contact rate
+  - Capital expenditure intensity
+  - Advertising yield and fill rate (media)
+  - Engagement and watch time (media)
+regulators:
+  - {name: Federal Communications Commission (FCC), jurisdiction: US, url: "https://www.fcc.gov/"}
+  - {name: Federal Trade Commission (FTC), jurisdiction: US, url: "https://www.ftc.gov/"}
+  - {name: Body of European Regulators for Electronic Communications (BEREC), jurisdiction: EU, url: "https://www.berec.europa.eu/"}
+  - {name: Ofcom, jurisdiction: UK, url: "https://www.ofcom.org.uk/"}
+regulations:
+  - {name: Customer Proprietary Network Information (CPNI) rules, jurisdiction: US, summary: "How carriers may use and must protect customer call and account data.", url: "https://www.ecfr.gov/current/title-47/chapter-I/subchapter-B/part-64/subpart-U"}
+  - {name: Telephone Consumer Protection Act (TCPA), jurisdiction: US, summary: "Limits on calls and texts, including automated and AI-generated voice calls.", url: "https://www.ecfr.gov/current/title-47/chapter-I/subchapter-B/part-64/subpart-L/section-64.1200"}
+  - {name: Children's Online Privacy Protection Act (COPPA), jurisdiction: US, summary: "Rules for collecting personal information from children under 13 online.", url: "https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312"}
+  - {name: European Electronic Communications Code, jurisdiction: EU, summary: "Framework for electronic communications networks and services, including consumer protection.", url: "https://eur-lex.europa.eu/eli/dir/2018/1972/oj"}
+  - {name: Digital Services Act, jurisdiction: EU, summary: "Content moderation, transparency and advertising rules for online platforms.", url: "https://eur-lex.europa.eu/eli/reg/2022/2065/oj"}
+  - {name: Online Safety Act 2023, jurisdiction: UK, summary: "Duties for online services to protect users, enforced by Ofcom.", url: "https://www.legislation.gov.uk/ukpga/2023/50"}
+analyst_sources:
+  - FCC reports and data (free)
+  - Ofcom market research (free)
+  - ITU statistics (free)
+  - Pew Research Center media and internet studies (free)
+  - Public summaries of analyst reports
+associations:
+  - CTIA (wireless)
+  - NCTA – The Internet & Television Association
+  - GSMA
+  - National Association of Broadcasters
+  - Interactive Advertising Bureau (IAB)
+connectors:
+  - {id: fcc, queries: ["broadband deployment", "consumer complaints"], series_ids: [], notes: "Coverage, complaints and licensing datasets."}
+  - {id: bls, queries: [], series_ids: [CES5051700001, CES5051200001, CES5051600001], notes: "Employment: telecommunications; motion picture and sound recording; broadcasting and content providers."}
+  - {id: worldbank, queries: [], series_ids: [IT.CEL.SETS.P2, IT.NET.USER.ZS], notes: "Mobile subscriptions per 100 people; internet use."}
+  - {id: federal-register, queries: ["FCC proposed rule"], series_ids: [], notes: "New and proposed FCC rules."}
+  - {id: eurlex, queries: ["electronic communications", "audiovisual media"], series_ids: [], notes: "EU legislation."}
+  - {id: sec-edgar, queries: ["full-text search of carriers' and media companies' 10-K risk factors"], series_ids: [], notes: "Public companies' own description of risks."}
+search_seeds:
+  - "<problem> telecom operators survey <year>"
+  - "churn reduction <problem> carrier"
+  - "streaming subscriber trends <year>"
+  - "<problem> network automation"
+  - "advertising market outlook <year>"
+typical_objections:
+  - Our network and IT stack is too complex to change quickly
+  - It must meet carrier-grade reliability
+  - Regulatory approval or reporting could be affected
+  - Our care centers are outsourced, so change is slow
+  - We need proof at a provider of our size
+vocabulary:
+  use: [subscribers, customers, viewers, audience, network, quality of experience, churn, ARPU]
+  avoid: [disrupt, cord-cutters as a pejorative, guaranteed churn reduction]

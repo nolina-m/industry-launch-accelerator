@@ -1,0 +1,43 @@
+{
+  "connector": "cms",
+  "call": {
+    "method": "search",
+    "args": [
+      "hospital"
+    ],
+    "kwargs": {
+      "limit": 1
+    }
+  },
+  "expect": {
+    "count": 1,
+    "first": {
+      "title": "Placeholder Hospital Measures",
+      "series_id": "CMS:abcd-1234"
+    }
+  },
+  "responses": [
+    {
+      "match": "provider-data/api/1/search",
+      "status": 200,
+      "body": {
+        "total": "1",
+        "results": {
+          "dkan_dataset/abcd-1234": {
+            "identifier": "abcd-1234",
+            "title": "Placeholder Hospital Measures",
+            "landingPage": "https://data.cms.gov/provider-data/dataset/abcd-1234",
+            "modified": "2026-01-26",
+            "description": "Placeholder description",
+            "theme": [
+              "Hospitals"
+            ],
+            "keyword": [
+              "placeholder"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

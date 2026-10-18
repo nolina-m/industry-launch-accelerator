@@ -1,0 +1,84 @@
+# Industry pack: scaffolding for research, not findings (FR-IND-03). Checked 2026-10-18.
+id: healthcare-life-sciences
+display_name: Healthcare and life sciences
+generated: false
+sub_segments:
+  - Hospitals and health systems
+  - Physician groups and ambulatory care
+  - Health plans and payers
+  - Pharmaceuticals and biotech
+  - Medical devices and diagnostics
+  - Post-acute and home health
+  - Digital health
+buying_committee_roles:
+  - Chief Executive or system president (economic buyer)
+  - Chief Financial Officer
+  - Chief Medical Officer or Chief Nursing Officer
+  - Chief Information Officer
+  - Chief Medical Information Officer
+  - Chief Information Security Officer
+  - Compliance and privacy officer
+  - VP Revenue Cycle
+  - Supply chain and value analysis committee
+  - Head of clinical operations or R&D (life sciences)
+kpis:
+  - Operating margin
+  - Days in accounts receivable and denial rate
+  - Length of stay and readmission rate
+  - Patient experience scores
+  - Staff turnover and overtime
+  - Quality measures and star ratings
+  - Medical loss ratio (payers)
+  - Trial enrollment speed and time to market (life sciences)
+regulators:
+  - {name: Centers for Medicare & Medicaid Services (CMS), jurisdiction: US, url: "https://www.cms.gov/"}
+  - {name: Food and Drug Administration (FDA), jurisdiction: US, url: "https://www.fda.gov/"}
+  - {name: HHS Office for Civil Rights (HIPAA enforcement), jurisdiction: US, url: "https://www.hhs.gov/ocr/"}
+  - {name: Assistant Secretary for Technology Policy / ONC, jurisdiction: US, url: "https://www.healthit.gov/"}
+  - {name: Federal Trade Commission (health privacy), jurisdiction: US, url: "https://www.ftc.gov/"}
+  - {name: European Medicines Agency (EMA), jurisdiction: EU, url: "https://www.ema.europa.eu/"}
+  - {name: Medicines and Healthcare products Regulatory Agency (MHRA), jurisdiction: UK, url: "https://www.gov.uk/government/organisations/medicines-and-healthcare-products-regulatory-agency"}
+regulations:
+  - {name: HIPAA Privacy and Security Rules, jurisdiction: US, summary: "Protect patients' health information and set safeguards for electronic records.", url: "https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-C/part-164"}
+  - {name: 21st Century Cures Act information blocking rules, jurisdiction: US, summary: "Prohibit practices that interfere with access, exchange or use of electronic health information.", url: "https://www.healthit.gov/topic/information-blocking"}
+  - {name: CMS Interoperability and Prior Authorization Final Rule (CMS-0057-F), jurisdiction: US, summary: "Prior authorization timeframes for impacted payers from 2026 and payer APIs from 2027.", url: "https://www.cms.gov/newsroom/fact-sheets/cms-interoperability-and-prior-authorization-final-rule-cms-0057-f"}
+  - {name: FDA oversight of software as a medical device, jurisdiction: US, summary: "When software, including AI, meets the definition of a medical device and how it is regulated.", url: "https://www.fda.gov/medical-devices/digital-health-center-excellence/software-medical-device-samd"}
+  - {name: EU Medical Device Regulation (MDR), jurisdiction: EU, summary: "Requirements for placing medical devices, including software, on the EU market.", url: "https://eur-lex.europa.eu/eli/reg/2017/745/oj"}
+  - {name: European Health Data Space Regulation, jurisdiction: EU, summary: "Rules for access to and exchange of electronic health data across the EU.", url: "https://eur-lex.europa.eu/eli/reg/2025/327/oj"}
+analyst_sources:
+  - KFF (health policy research and polling, free)
+  - Commonwealth Fund (free)
+  - CMS National Health Expenditure data (free)
+  - AHRQ data and reports (free)
+  - Public summaries of consultancy and analyst reports
+associations:
+  - American Hospital Association
+  - Healthcare Financial Management Association (HFMA)
+  - HIMSS
+  - AHIP (health plans)
+  - PhRMA and BIO (life sciences)
+  - AdvaMed (medical devices)
+connectors:
+  - {id: cms, queries: ["hospital quality", "Medicare spending"], series_ids: [], notes: "Provider-level Medicare datasets."}
+  - {id: nppes, queries: ["general acute care hospital", "home health"], series_ids: [], notes: "Provider landscape by type and state."}
+  - {id: openfda, queries: ["reason_for_recall:software"], series_ids: [], notes: "Device recalls and adverse events; good for safety and quality trends."}
+  - {id: clinicaltrials, queries: ["condition or intervention in the product's area"], series_ids: [], notes: "Research activity and sponsors."}
+  - {id: healthdata, queries: ["hospital capacity", "workforce"], series_ids: [], notes: "HHS datasets."}
+  - {id: bls, queries: [], series_ids: [CES6562000001, CES6562100001, CES6562200001], notes: "Employment: health care; ambulatory health care services; hospitals."}
+  - {id: federal-register, queries: ["CMS proposed rule", "FDA guidance"], series_ids: [], notes: "Annual payment rules and FDA guidance."}
+  - {id: worldbank, queries: [], series_ids: [SH.XPD.CHEX.GD.ZS, SP.POP.65UP.TO.ZS], notes: "Health spending as a share of GDP; share of population aged 65+."}
+search_seeds:
+  - "<problem> hospitals survey <year>"
+  - "<problem> health system CFO priorities"
+  - "CMS proposed rule <year> <topic>"
+  - "<problem> clinician burnout study"
+  - "AI in <care setting> adoption"
+typical_objections:
+  - It has to work inside our EHR
+  - Clinicians won't accept another tool
+  - We need a business associate agreement and a security review
+  - Show us results at a health system like ours
+  - Budget is locked until the next fiscal year
+vocabulary:
+  use: [patients, clinicians, care teams, outcomes, workflow, EHR, revenue cycle, value-based care, members (payers)]
+  avoid: [consumers instead of patients, disrupt, replace clinicians, guaranteed outcomes]

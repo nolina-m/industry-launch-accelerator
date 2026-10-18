@@ -1,0 +1,36 @@
+{
+  "connector": "wikipedia",
+  "call": {
+    "method": "search",
+    "args": [
+      "placeholder topic"
+    ],
+    "kwargs": {
+      "limit": 1
+    }
+  },
+  "expect": {
+    "count": 1,
+    "first": {
+      "title": "Placeholder topic",
+      "url": "https://en.wikipedia.org/wiki/Placeholder_topic"
+    }
+  },
+  "responses": [
+    {
+      "match": "search/page",
+      "status": 200,
+      "body": {
+        "pages": [
+          {
+            "id": 1,
+            "key": "Placeholder_topic",
+            "title": "Placeholder topic",
+            "excerpt": "x",
+            "description": "A placeholder article"
+          }
+        ]
+      }
+    }
+  ]
+}

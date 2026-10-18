@@ -1,0 +1,44 @@
+{
+  "connector": "us-dot",
+  "call": {
+    "method": "search",
+    "args": [
+      "placeholder"
+    ],
+    "kwargs": {
+      "limit": 1
+    }
+  },
+  "expect": {
+    "count": 1,
+    "first": {
+      "title": "Placeholder Dataset",
+      "series_id": "data.transportation.gov/abcd-1234",
+      "published_at": "2026-05-01"
+    }
+  },
+  "responses": [
+    {
+      "match": "api/catalog/v1",
+      "status": 200,
+      "body": {
+        "results": [
+          {
+            "resource": {
+              "name": "Placeholder Dataset",
+              "id": "abcd-1234",
+              "description": "Placeholder",
+              "data_updated_at": "2026-05-01T00:00:00.000Z"
+            },
+            "metadata": {
+              "domain": "data.transportation.gov",
+              "license": "Public Domain"
+            },
+            "permalink": "https://data.transportation.gov/d/abcd-1234",
+            "link": "https://data.transportation.gov/x"
+          }
+        ]
+      }
+    }
+  ]
+}

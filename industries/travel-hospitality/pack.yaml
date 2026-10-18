@@ -1,0 +1,76 @@
+# Industry pack: scaffolding for research, not findings (FR-IND-03). Checked 2026-10-18.
+id: travel-hospitality
+display_name: Travel and hospitality
+generated: false
+sub_segments:
+  - Airlines
+  - Hotels and lodging
+  - Online travel agencies and booking platforms
+  - Cruise lines
+  - Car rental and ground transportation
+  - Restaurants and food service
+  - Corporate travel management
+buying_committee_roles:
+  - Chief Executive or president (economic buyer)
+  - Chief Commercial Officer
+  - Chief Revenue Officer or head of revenue management
+  - Chief Digital Officer
+  - Chief Customer Officer or head of guest experience
+  - Chief Operating Officer
+  - Chief Information Officer
+  - Head of loyalty
+  - Head of procurement
+kpis:
+  - Revenue per available room (RevPAR) and average daily rate
+  - Occupancy and load factor
+  - Revenue per available seat mile (airlines)
+  - Direct booking share and distribution cost
+  - Net promoter score and guest satisfaction
+  - Loyalty member share of revenue
+  - On-time performance (airlines)
+  - Labor cost per occupied room or per flight
+regulators:
+  - {name: U.S. Department of Transportation (aviation consumer protection), jurisdiction: US, url: "https://www.transportation.gov/airconsumer"}
+  - {name: Federal Aviation Administration (FAA), jurisdiction: US, url: "https://www.faa.gov/"}
+  - {name: Federal Trade Commission (pricing and fees), jurisdiction: US, url: "https://www.ftc.gov/"}
+  - {name: European Union Aviation Safety Agency (EASA), jurisdiction: EU, url: "https://www.easa.europa.eu/"}
+  - {name: Civil Aviation Authority (CAA), jurisdiction: UK, url: "https://www.caa.co.uk/"}
+regulations:
+  - {name: DOT rules on airline refunds and fees, jurisdiction: US, summary: "Requirements for automatic refunds and disclosure of ancillary fees.", url: "https://www.transportation.gov/briefing-room/biden-harris-administration-announces-final-rule-requiring-automatic-refunds-airline"}
+  - {name: FTC rule on unfair or deceptive fees, jurisdiction: US, summary: "Requires total-price disclosure for short-term lodging and live-event tickets.", url: "https://www.federalregister.gov/documents/2025/01/10/2024-30293/trade-regulation-rule-on-unfair-or-deceptive-fees"}
+  - {name: Air passenger rights (Regulation (EC) No 261/2004), jurisdiction: EU, summary: "Compensation and assistance for denied boarding, cancellations and long delays.", url: "https://eur-lex.europa.eu/eli/reg/2004/261/oj"}
+  - {name: Package Travel Directive, jurisdiction: EU, summary: "Consumer protection for package holidays and linked travel arrangements.", url: "https://eur-lex.europa.eu/eli/dir/2015/2302/oj"}
+  - {name: Americans with Disabilities Act and Air Carrier Access Act, jurisdiction: US, summary: "Accessibility of lodging, websites and air travel for people with disabilities.", url: "https://www.ada.gov/"}
+analyst_sources:
+  - Bureau of Transportation Statistics (free)
+  - UN Tourism (formerly UNWTO) barometer summaries (free)
+  - IATA public economic briefings (free)
+  - Public summaries of travel industry analyst reports
+associations:
+  - Airlines for America
+  - IATA
+  - American Hotel & Lodging Association
+  - U.S. Travel Association
+  - Global Business Travel Association
+connectors:
+  - {id: us-dot, queries: ["airline on-time performance", "air passengers", "air cargo"], series_ids: [], notes: "DOT and BTS datasets."}
+  - {id: bls, queries: [], series_ids: [CES7000000001, CES7072100001, CES7072200001, CES4348100001], notes: "Employment: leisure and hospitality; accommodation; food services and drinking places; air transportation."}
+  - {id: fred, queries: ["hotel prices", "airline fares"], series_ids: [PCU721110721110], notes: "Needs FRED_API_KEY. Producer price index: hotels and motels, except casino hotels."}
+  - {id: worldbank, queries: [], series_ids: [ST.INT.ARVL], notes: "International tourism arrivals by country."}
+  - {id: federal-register, queries: ["airline consumer protection"], series_ids: [], notes: "New and proposed DOT and FTC rules."}
+  - {id: eurlex, queries: ["passenger rights", "package travel"], series_ids: [], notes: "EU legislation."}
+search_seeds:
+  - "<problem> hotels survey <year>"
+  - "<problem> airlines customer experience"
+  - "travel demand outlook <year>"
+  - "direct booking <problem>"
+  - "hospitality labor shortage <year>"
+typical_objections:
+  - Properties are franchised, so we can't mandate adoption
+  - It must integrate with our PMS or reservation system
+  - Seasonality makes payback uncertain
+  - Front-line staff turnover makes training hard
+  - Loyalty data can't leave our systems
+vocabulary:
+  use: [guests, travelers, passengers, members (loyalty), stays, trips, journey, service recovery]
+  avoid: [consumers, disrupt, seamless as a claim on its own]

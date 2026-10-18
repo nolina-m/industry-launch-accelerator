@@ -1,0 +1,73 @@
+{
+  "connector": "sec-edgar",
+  "call": {
+    "method": "fetch",
+    "args": [
+      "1234567"
+    ],
+    "kwargs": {
+      "concept": "Revenues",
+      "limit": 2
+    }
+  },
+  "expect": {
+    "count": 2,
+    "first": {
+      "title": "Placeholder Corp: Revenues",
+      "value": 2000000,
+      "series_id": "us-gaap:Revenues",
+      "unit": "USD",
+      "published_at": "2026-02-01"
+    }
+  },
+  "responses": [
+    {
+      "match": "companyconcept/CIK0001234567/us-gaap/Revenues",
+      "status": 200,
+      "body": {
+        "cik": 1234567,
+        "taxonomy": "us-gaap",
+        "tag": "Revenues",
+        "label": "Revenues",
+        "description": "x",
+        "entityName": "Placeholder Corp",
+        "units": {
+          "USD": [
+            {
+              "start": "2024-01-01",
+              "end": "2024-12-31",
+              "val": 2000000,
+              "accn": "0001234567-26-000001",
+              "fy": 2025,
+              "fp": "FY",
+              "form": "10-K",
+              "filed": "2026-02-01",
+              "frame": "CY2024"
+            },
+            {
+              "start": "2023-01-01",
+              "end": "2023-12-31",
+              "val": 1500000,
+              "accn": "0001234567-25-000001",
+              "fy": 2024,
+              "fp": "FY",
+              "form": "10-K",
+              "filed": "2025-02-01",
+              "frame": "CY2023"
+            },
+            {
+              "start": "2024-01-01",
+              "end": "2024-03-31",
+              "val": 400000,
+              "accn": "0001234567-24-000002",
+              "fy": 2024,
+              "fp": "Q1",
+              "form": "10-Q",
+              "filed": "2024-05-01"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

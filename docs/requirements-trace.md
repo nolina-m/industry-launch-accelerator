@@ -64,7 +64,7 @@ Status: ✅ done · 🟡 partial · ⬜ not started.
 | FR-RND-04 | ✅ | `scripts/render/diagrams.py` (matplotlib PNG; data also as tables) | `tests/test_render.py::test_assets_one_to_six_render_in_both_formats` |
 | FR-RND-05 | ✅ | Fixed render date in core properties; PNG without metadata | `tests/test_render.py::test_rendering_is_deterministic`, `test_png_diagrams_are_deterministic` |
 | FR-RND-06 | ✅ | `scripts/brand/theme.py` (Arial), fonts set on built-in styles | `tests/test_render.py::test_brand_fonts_and_colors_are_applied` |
-| FR-OUT-02 | 🟡 | Only built-in styles, simple tables with explicit borders, inline PNG, plain header/footer | Files opened via macOS Quick Look/textutil in smoke run; manual Word/Google check at M4 |
+| FR-OUT-02 | ✅ | Only built-in styles, simple tables with explicit borders, inline PNG, plain header/footer | Files opened via macOS Quick Look/textutil in smoke run; manual Word/Google check at M4 |
 | FR-OUT-03 | 🟡 | Rules in `00-orchestrator.md`, `06-messaging.md`; checks in M6 | Manual read |
 | FR-GRD-03..08 | 🟡 | Stated in stage instructions; footer (FR-GRD-06) on every asset | `tests/test_render.py::test_every_asset_has_status_footer_and_verify_section` |
 | FR-INP-11 | ✅ | + "Unbranded draft" in every asset's status line and Word header | `tests/test_render.py::test_every_asset_has_status_footer_and_verify_section` |
@@ -74,4 +74,16 @@ Status: ✅ done · 🟡 partial · ⬜ not started.
 | FR-MSG-03 (XLSX) / FR-RND-02 | ✅ | `scripts/render/xlsx_writer.py` (one row per industry × persona, autofilter, frozen header, brand fill and font, footer + About sheet) | `tests/test_render.py::test_excel_grid_has_filters_frozen_header_and_one_row_per_persona`, `test_excel_grid_uses_brand_font` |
 | FR-OUT-03 (competitors in customer copy) | 🟡 | Rule in `08-demo-storyline.md`, `09-web-copy.md`, `00-orchestrator.md`; automated check in M6 | Manual read |
 | Multi-industry | ✅ | Per-industry units for every per-industry asset; grid grouped by industry | `tests/test_render.py::test_all_eight_assets_render_for_two_industries` |
-| M4 acceptance | 🟡 | All 8 assets render for 2 industries (automated). Owner's manual open check in Word, Excel, Google Docs, Google Sheets: pending | `tests/test_render.py::test_all_eight_assets_render_for_two_industries` |
+| M4 acceptance | ✅ | All 8 assets render for 2 industries (automated). Owner opened the files in Word, Excel, Google Docs and Google Sheets on 2026-10-18: all fine | `tests/test_render.py::test_all_eight_assets_render_for_two_industries` |
+| FR-INP-07 | ✅ | `instructions/12-custom-industry.md` (pack saved in `launches/<slug>/industries/<id>/pack.yaml`, `generated: true`, offer to copy), `launch.py add-industry` (detects packs) | `tests/test_schemas.py::test_schema_lookup_by_path` (launch-local pack validated) |
+| FR-IND-01 | ✅ | `schemas/industry-pack.schema.json`, `industries/*/pack.yaml` + `notes.md` | `tests/test_packs.py::test_pack_is_valid_and_complete` |
+| FR-IND-02 | ✅ | `industries/` financial-services, healthcare-life-sciences, retail-consumer-goods, technology, telecom-media, travel-hospitality | `tests/test_packs.py::test_the_six_default_packs_exist` |
+| FR-IND-03 | ✅ | Pack header comments, `notes.md`, `02-industry-research.md` | `tests/test_packs.py::test_packs_name_no_vendors`; manual read |
+| §11.2 connectors | ✅ | `connectors/base.py` (common interface `search`/`fetch`, Record), 28 connector modules, `connectors/registry.yaml`, `connectors/registry.py`. Source list changed with owner approval (see `docs/data-sources.md`) | `tests/connectors/test_connectors.py` |
+| FR-API-01 | ✅ | `scripts/connectors/check.py` (key present, live probe, `--offline`); run by setup | `tests/connectors/test_connectors.py::test_check_reports_ready_needs_setup_and_unreachable`; live run 2026-10-18 |
+| FR-API-02 | ✅ | `connectors:` in every pack with queries and verified series IDs (BLS, World Bank, FRED) | `tests/test_packs.py::test_pack_connectors_exist_and_name_series_ids` |
+| FR-API-03 | ✅ | `connectors/base.py` (rate-limit spacing, User-Agent, cache in `research/cache/` with retrieval time and previous copy, fail soft), `scripts/connectors/query.py` | `tests/connectors/test_connectors.py` (fail-soft, cache, rate limit tests) |
+| FR-API-04 | ✅ | `Record` (connector, series_id, retrieved_at), `query.py` output and `--register` excerpt | `tests/connectors/test_connectors.py::test_connector_reads_its_recorded_response`, `test_query_tool_registers_sources_with_series_and_connector` |
+| FR-API-05 | ✅ | `docs/adding-a-data-source.md` | Manual read |
+| §11.2 docs | ✅ | `docs/data-sources.md` (verification date, access, limits, changes with reasons), `.env.example` (step-by-step, sign-up links) | Manual read |
+| M5 acceptance | ✅ | Packs validate; every connector has a recorded-response test; missing keys degrade gracefully | `tests/test_packs.py`, `tests/connectors/test_connectors.py::test_every_registered_connector_has_a_recorded_response`, `test_missing_key_means_off_and_fails_soft` |

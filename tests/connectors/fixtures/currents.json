@@ -1,0 +1,41 @@
+{
+  "connector": "currents",
+  "call": {
+    "method": "search",
+    "args": [
+      "placeholder"
+    ],
+    "kwargs": {
+      "limit": 1
+    }
+  },
+  "expect": {
+    "count": 1,
+    "first": {
+      "title": "Placeholder news story",
+      "published_at": "2026-10-10"
+    }
+  },
+  "responses": [
+    {
+      "match": "v1/search",
+      "status": 200,
+      "body": {
+        "status": "ok",
+        "news": [
+          {
+            "id": "n1",
+            "title": "Placeholder news story",
+            "description": "x",
+            "url": "https://news.example.org/n1",
+            "author": "Reporter",
+            "category": [
+              "business"
+            ],
+            "published": "2026-10-10 08:00:00 +0000"
+          }
+        ]
+      }
+    }
+  ]
+}

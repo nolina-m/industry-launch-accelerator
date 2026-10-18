@@ -1,0 +1,80 @@
+{
+  "connector": "oecd",
+  "call": {
+    "method": "fetch",
+    "args": [
+      "OECD.X,DF_PLACEHOLDER,"
+    ],
+    "kwargs": {
+      "key": "Q.USA"
+    }
+  },
+  "expect": {
+    "count": 2,
+    "first": {
+      "value": 10.5,
+      "period": "2026-Q1",
+      "series_id": "OECD.X,DF_PLACEHOLDER,/Q.USA"
+    }
+  },
+  "responses": [
+    {
+      "match": "DF_PLACEHOLDER",
+      "status": 200,
+      "body": {
+        "data": {
+          "dataSets": [
+            {
+              "observations": {
+                "0:0:0": [
+                  10.5,
+                  0
+                ],
+                "0:0:1": [
+                  11.0,
+                  0
+                ]
+              }
+            }
+          ],
+          "structure": {
+            "name": "Placeholder dataset",
+            "dimensions": {
+              "observation": [
+                {
+                  "id": "FREQ",
+                  "values": [
+                    {
+                      "id": "Q",
+                      "name": "Quarterly"
+                    }
+                  ]
+                },
+                {
+                  "id": "REF_AREA",
+                  "values": [
+                    {
+                      "id": "USA",
+                      "name": "United States"
+                    }
+                  ]
+                },
+                {
+                  "id": "TIME_PERIOD",
+                  "values": [
+                    {
+                      "id": "2026-Q1"
+                    },
+                    {
+                      "id": "2026-Q2"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  ]
+}

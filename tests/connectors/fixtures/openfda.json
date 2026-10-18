@@ -1,0 +1,45 @@
+{
+  "connector": "openfda",
+  "call": {
+    "method": "search",
+    "args": [
+      "reason_for_recall:software"
+    ],
+    "kwargs": {
+      "limit": 1
+    }
+  },
+  "expect": {
+    "count": 2,
+    "first": {
+      "value": 10,
+      "unit": "records"
+    }
+  },
+  "responses": [
+    {
+      "match": "device/recall.json",
+      "status": 200,
+      "body": {
+        "meta": {
+          "last_updated": "2026-10-15",
+          "results": {
+            "skip": 0,
+            "limit": 1,
+            "total": 10
+          }
+        },
+        "results": [
+          {
+            "res_event_number": "99999",
+            "product_description": "Placeholder device",
+            "reason_for_recall": "Placeholder software issue",
+            "event_date_posted": "2026-01-01",
+            "recalling_firm": "Placeholder Inc",
+            "recall_status": "Open"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "connector": "datausa",
+  "call": {
+    "method": "fetch",
+    "args": [
+      "placeholder_cube"
+    ],
+    "kwargs": {
+      "measures": "Population"
+    }
+  },
+  "expect": {
+    "count": 1,
+    "first": {
+      "value": 1000.0,
+      "period": "2024",
+      "series_id": "placeholder_cube#Population"
+    }
+  },
+  "responses": [
+    {
+      "match": "tesseract",
+      "status": 200,
+      "body": {
+        "annotations": {
+          "source_name": "Census Bureau",
+          "dataset_name": "Placeholder"
+        },
+        "page": {
+          "total": 1
+        },
+        "columns": [],
+        "data": [
+          {
+            "Nation ID": "01000US",
+            "Nation": "United States",
+            "Year": 2024,
+            "Population": 1000.0
+          }
+        ]
+      }
+    }
+  ]
+}
