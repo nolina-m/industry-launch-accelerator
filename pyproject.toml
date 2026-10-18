@@ -16,3 +16,7 @@ target-version = "py310"
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "B", "UP"]
+
+[tool.ruff.lint.per-file-ignores]
+# A table of field definitions reads better one row per line.
+"scripts/intake/fields.py" = ["E501"]

@@ -28,3 +28,24 @@ Status: ✅ done · 🟡 partial · ⬜ not started.
 | FR-WEB-R-03 | 🟡 | `schemas/sources.schema.json` | `tests/test_schemas.py::test_minimal_documents_pass` |
 | Appendix B | ✅ | One schema per artifact in `schemas/` | `tests/test_schemas.py` |
 | Appendix C | ✅ | `schemas/brand.schema.json` | `tests/test_schemas.py::test_brand_colors_must_be_hex` |
+| FR-INP-01 | ✅ | `templates/inputs/product-brief.md` (Appendix A fields + "Anything else"), `scripts/intake/fields.py` | `tests/test_intake.py::test_every_brief_field_has_a_heading_in_the_template` |
+| FR-INP-02 | ✅ | `scripts/extract/extract.py` (reads all of `inputs/`, incl. `inputs/brief/`) | `tests/test_extract.py` |
+| FR-INP-03 | ✅ | `scripts/intake/run_intake.py::merge_field` (template wins); conflicts logged via `instructions/01-intake.md` | `tests/test_intake.py::test_template_wins_over_agent_value_but_agent_value_fills_gaps` |
+| FR-INP-04 | ✅ | `templates/inputs/launch-pov.md` | `tests/test_intake.py::test_pov_text_and_industries_are_read` |
+| FR-INP-05 | 🟡 | `AGENTS.md` rule 8, `instructions/01-intake.md` (never edit the POV); downstream use in M3 | Manual read |
+| FR-INP-06 | 🟡 | POV "Target industries" section, `launch.py add-industry` (sub-segments, regions, size) | `tests/test_intake.py::test_pov_text_and_industries_are_read` |
+| FR-INP-08 | ✅ | `scripts/brand/extract_brand.py` (questionnaire, brand docs, URL via agent, PNG logos, .docx/.dotx template) | `tests/test_brand.py` |
+| FR-INP-09 | ✅ | `scripts/brand/extract_brand.py` → `brand.yaml` (Appendix C) | `tests/test_brand.py::test_questionnaire_answers_are_used` |
+| FR-INP-10 | 🟡 | `inspect_template.py` style map stored in `brand.yaml`; neutral theme `scripts/brand/theme.py`; applied by renderers in M3 | `tests/test_brand.py::test_word_template_styles_fonts_and_colors` |
+| FR-INP-11 | 🟡 | `extract_brand.py` (`unbranded: true`, neutral theme), `gap_report.py` (non-blocking G-brand); label applied by renderers in M3 | `tests/test_brand.py::test_no_brand_input_means_unbranded_neutral_theme`, `tests/test_intake.py::test_no_brand_input_is_a_non_blocking_gap` |
+| FR-INP-12 | ✅ | `run_intake.py::optional_inputs` (classified by folder, permission `unknown` until stated), agent classification step in `01-intake.md` | `tests/test_intake.py::test_optional_inputs_are_classified_by_folder` |
+| FR-INT-01 | ✅ | `scripts/extract/extract.py` (MD, TXT, DOCX incl. tables, PDF with scanned-image warning, PPTX incl. notes) | `tests/test_extract.py` |
+| FR-INT-02 | ✅ | `run_intake.py` (value + `source_file` + status per field), `schemas/launch-context.schema.json` | `tests/test_intake.py::test_filled_brief_records_values_and_source` |
+| FR-INT-03 | ✅ | `gap_report.py` (required missing/thin → blocking; recommended → `[ASSUMPTION]`), `launch_state.py::_check_no_open_blocking_gaps` | `tests/test_intake.py::test_required_fields_block_and_recommended_fields_become_assumptions`, `test_intake_cannot_be_approved_with_open_blocking_gaps` |
+| FR-INT-04 | ✅ | `gap_report.py::questions_this_round` (≤7, by impact), specific default questions in `fields.py`, agent rewording kept | `tests/test_intake.py::test_at_most_seven_questions_blocking_first`, `test_agent_wording_waivers_and_own_gaps_survive_a_rerun` |
+| FR-INT-05 | ✅ | `conflicts:` in launch-context (agent), turned into blocking questions by `gap_report.py` | `tests/test_intake.py::test_contradictions_become_blocking_questions` |
+| FR-INT-06 | ✅ | `gap_report.py` (G-launch-pov) | `tests/test_intake.py::test_missing_pov_and_industries_are_blocking` |
+| FR-INT-07 | ✅ | `scripts/brand/extract_brand.py`, `scripts/brand/inspect_template.py` (.docx and .dotx) | `tests/test_brand.py::test_inspector_lists_styles`, `test_word_template_styles_fonts_and_colors` |
+| FR-INT-08 | ✅ | `gap_report.py` → `gap-report.md` (blocking, assumptions, contradictions, questions, files read) | `tests/test_intake.py::test_gap_report_lists_blocking_and_non_blocking` |
+| FR-GRD-01 | 🟡 | Stated in `instructions/01-intake.md`; other stage files in M3–M4 | Manual read |
+| M2 acceptance | ✅ | — | `tests/test_intake.py::test_acceptance_inputs_to_valid_context_brand_and_gap_report` |

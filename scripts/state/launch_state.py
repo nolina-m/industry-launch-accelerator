@@ -254,6 +254,8 @@ class LaunchState:
         self._approve(unit, reviewed=True)
 
     def _approve(self, unit: Unit, reviewed: bool) -> None:
+        if unit.stage == "intake":
+            self._check_no_open_blocking_gaps()
         hashes = self._current_hashes()
         rec = self.record(unit.name)
         rec["status"] = APPROVED
@@ -282,6 +284,17 @@ class LaunchState:
         if problems:
             details = "\n".join(f"  - {p}" for p in problems)
             raise StateError(f"{unit.name} has files that don't match their schema:\n{details}")
+
+    def _check_no_open_blocking_gaps(self) -> None:
+        """FR-INT-03: blocking gaps must be answered or explicitly waived, even in auto mode."""
+        context = load_yaml(self.dir / "launch-context.yaml")
+        still_open = [g for g in context.get("gaps", []) if g["severity"] == "blocking" and g["status"] == "open"]
+        if still_open:
+            listed = "\n".join(f"  - {g['id']}: {g.get('question') or g['field']}" for g in still_open)
+            raise StateError(
+                "Intake can't be approved while blocking gaps are open. Answer them, or tell the agent "
+                f"to waive them:\n{listed}"
+            )
 
     def _strategy_items(self) -> tuple[Path, dict]:
         path = self.dir / "strategy-check.yaml"
