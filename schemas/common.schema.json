@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://industry-launch-accelerator.local/schemas/common.schema.json",
+  "title": "Shared definitions",
+  "description": "Building blocks reused by the other schemas.",
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+      "description": "Short stable identifier, e.g. T-fs-1, P-hls-cfo, pillar-2."
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$",
+      "description": "Lowercase words joined by hyphens, e.g. financial-services."
+    },
+    "source_id": {
+      "type": "string",
+      "pattern": "^S[0-9]+$",
+      "description": "ID of a source in research/sources.json, e.g. S12."
+    },
+    "date": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+      "description": "Calendar date, YYYY-MM-DD."
+    },
+    "datetime": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}",
+      "description": "ISO 8601 timestamp, e.g. 2026-10-18T14:05:00Z."
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "text_list": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/text" }
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["source_id"],
+      "additionalProperties": false,
+      "properties": {
+        "source_id": { "$ref": "#/$defs/source_id" },
+        "excerpt": { "type": "string" }
+      }
+    },
+    "evidence_list": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/evidence" }
+    },
+    "confidence": {
+      "type": "object",
+      "required": ["level", "reason"],
+      "additionalProperties": false,
+      "properties": {
+        "level": { "enum": ["high", "medium", "low"] },
+        "reason": { "$ref": "#/$defs/text" }
+      }
+    },
+    "pmm_response": {
+      "type": "object",
+      "description": "The PMM's answer to one strategy-check point (FR-STR-05).",
+      "required": ["decision"],
+      "additionalProperties": false,
+      "properties": {
+        "decision": { "enum": ["accept", "reject", "adjust", "not_reviewed"] },
+        "adjusted_direction": { "$ref": "#/$defs/text" },
+        "reason": { "type": "string" },
+        "responded_at": { "$ref": "#/$defs/datetime" }
+      },
+      "if": { "properties": { "decision": { "const": "adjust" } } },
+      "then": { "required": ["adjusted_direction"] }
+    },
+    "objection": {
+      "type": "object",
+      "description": "One objection and how to handle it (FR-CMP-05).",
+      "required": ["id", "text", "underlying_concern", "response", "proof_slot"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "text": { "$ref": "#/$defs/text" },
+        "personas": { "$ref": "#/$defs/text_list" },
+        "industries": { "$ref": "#/$defs/text_list" },
+        "competitors": { "$ref": "#/$defs/text_list" },
+        "underlying_concern": { "$ref": "#/$defs/text" },
+        "response": {
+          "type": "object",
+          "required": ["acknowledge", "reframe", "evidence", "question"],
+          "additionalProperties": false,
+          "properties": {
+            "acknowledge": { "$ref": "#/$defs/text" },
+            "reframe": { "$ref": "#/$defs/text" },
+            "evidence": { "$ref": "#/$defs/text" },
+            "question": { "$ref": "#/$defs/text" }
+          }
+        },
+        "proof_slot": { "$ref": "#/$defs/text" },
+        "tags": { "$ref": "#/$defs/text_list" }
+      }
+    }
+  }
+}

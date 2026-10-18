@@ -1,0 +1,248 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://industry-launch-accelerator.local/schemas/industry-research.schema.json",
+  "title": "research/industry-<id>.yaml",
+  "description": "Stage 1 output for one industry: trends, imperatives, regulation, market data (FR-TRD-01..06).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "industry": {
+      "$ref": "common.schema.json#/$defs/slug"
+    },
+    "researched_at": {
+      "$ref": "common.schema.json#/$defs/date"
+    },
+    "focus": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sub_segments": {
+          "$ref": "common.schema.json#/$defs/text_list"
+        },
+        "regions": {
+          "$ref": "common.schema.json#/$defs/text_list"
+        },
+        "company_size": {
+          "type": "string"
+        }
+      }
+    },
+    "trends": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id"
+          },
+          "industry": {
+            "$ref": "common.schema.json#/$defs/slug"
+          },
+          "headline": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "summary": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "evidence": {
+            "$ref": "common.schema.json#/$defs/evidence_list"
+          },
+          "impact": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "so_what": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "relevance": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "rating": {
+                "enum": [
+                  "High",
+                  "Med",
+                  "Low"
+                ]
+              },
+              "rationale": {
+                "$ref": "common.schema.json#/$defs/text"
+              }
+            },
+            "required": [
+              "rating",
+              "rationale"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "industry",
+          "headline",
+          "summary",
+          "evidence",
+          "impact",
+          "so_what",
+          "relevance"
+        ]
+      },
+      "maxItems": 8
+    },
+    "imperatives": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id"
+          },
+          "industry": {
+            "$ref": "common.schema.json#/$defs/slug"
+          },
+          "statement": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "trend_ids": {
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/id"
+            },
+            "minItems": 1
+          },
+          "capability_refs": {
+            "$ref": "common.schema.json#/$defs/text_list"
+          }
+        },
+        "required": [
+          "id",
+          "industry",
+          "statement",
+          "trend_ids",
+          "capability_refs"
+        ]
+      },
+      "maxItems": 5
+    },
+    "regulatory": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "disclaimer": {
+          "const": "Not legal advice"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "$ref": "common.schema.json#/$defs/id"
+              },
+              "name": {
+                "$ref": "common.schema.json#/$defs/text"
+              },
+              "jurisdiction": {
+                "$ref": "common.schema.json#/$defs/text"
+              },
+              "status": {
+                "enum": [
+                  "in_force",
+                  "proposed",
+                  "pending",
+                  "repealed",
+                  "other"
+                ]
+              },
+              "summary": {
+                "$ref": "common.schema.json#/$defs/text"
+              },
+              "relevance": {
+                "$ref": "common.schema.json#/$defs/text"
+              },
+              "evidence": {
+                "$ref": "common.schema.json#/$defs/evidence_list"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "jurisdiction",
+              "status",
+              "summary",
+              "relevance",
+              "evidence"
+            ]
+          }
+        }
+      },
+      "required": [
+        "disclaimer",
+        "items"
+      ]
+    },
+    "market_data": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id"
+          },
+          "label": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "value": {
+            "type": [
+              "number",
+              "string"
+            ]
+          },
+          "unit": {
+            "type": "string"
+          },
+          "source_id": {
+            "$ref": "common.schema.json#/$defs/source_id"
+          },
+          "connector": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "series_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "retrieved_at": {
+            "$ref": "common.schema.json#/$defs/date"
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "value",
+          "source_id",
+          "series_id",
+          "retrieved_at"
+        ]
+      },
+      "maxItems": 6
+    }
+  },
+  "required": [
+    "industry",
+    "researched_at",
+    "trends",
+    "imperatives",
+    "regulatory",
+    "market_data"
+  ]
+}

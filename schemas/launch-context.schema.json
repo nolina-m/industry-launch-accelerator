@@ -1,0 +1,406 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://industry-launch-accelerator.local/schemas/launch-context.schema.json",
+  "title": "launch-context.yaml",
+  "description": "Everything intake learned from the inputs, with the source file for each field (FR-INT-02).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "product_brief": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "basics": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "product_name": {
+              "$ref": "#/$defs/field"
+            },
+            "company_name": {
+              "$ref": "#/$defs/field"
+            },
+            "launch_date": {
+              "$ref": "#/$defs/field"
+            },
+            "launch_size": {
+              "$ref": "#/$defs/field"
+            }
+          }
+        },
+        "problem": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "problem_statement": {
+              "$ref": "#/$defs/field"
+            },
+            "who_has_it": {
+              "$ref": "#/$defs/field"
+            },
+            "current_workarounds": {
+              "$ref": "#/$defs/field"
+            }
+          }
+        },
+        "solution": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "what_it_is": {
+              "$ref": "#/$defs/field"
+            },
+            "capabilities": {
+              "$ref": "#/$defs/field"
+            },
+            "how_it_works": {
+              "$ref": "#/$defs/field"
+            }
+          }
+        },
+        "target": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "company_size": {
+              "$ref": "#/$defs/field"
+            },
+            "regions": {
+              "$ref": "#/$defs/field"
+            },
+            "primary_buyer_roles": {
+              "$ref": "#/$defs/field"
+            }
+          }
+        },
+        "value": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "customer_outcomes": {
+              "$ref": "#/$defs/field"
+            },
+            "numbers_or_benchmarks": {
+              "$ref": "#/$defs/field"
+            }
+          }
+        },
+        "differentiation": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "why_us": {
+              "$ref": "#/$defs/field"
+            },
+            "known_competitors": {
+              "$ref": "#/$defs/field"
+            }
+          }
+        },
+        "proof": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "customers": {
+              "$ref": "#/$defs/field"
+            },
+            "quotes": {
+              "$ref": "#/$defs/field"
+            },
+            "metrics": {
+              "$ref": "#/$defs/field"
+            },
+            "case_studies": {
+              "$ref": "#/$defs/field"
+            }
+          }
+        },
+        "pricing": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "pricing_model": {
+              "$ref": "#/$defs/field"
+            },
+            "packaging": {
+              "$ref": "#/$defs/field"
+            }
+          }
+        },
+        "integrations": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "ecosystem": {
+              "$ref": "#/$defs/field"
+            },
+            "integrations": {
+              "$ref": "#/$defs/field"
+            },
+            "dependencies": {
+              "$ref": "#/$defs/field"
+            }
+          }
+        },
+        "ai_specifics": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "channels": {
+              "$ref": "#/$defs/field"
+            },
+            "autonomy_and_actions": {
+              "$ref": "#/$defs/field"
+            },
+            "guardrails": {
+              "$ref": "#/$defs/field"
+            },
+            "human_handoff": {
+              "$ref": "#/$defs/field"
+            },
+            "certifications": {
+              "$ref": "#/$defs/field"
+            },
+            "outcome_metrics": {
+              "$ref": "#/$defs/field"
+            }
+          }
+        },
+        "constraints": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "claims_we_cant_make": {
+              "$ref": "#/$defs/field"
+            },
+            "legal_limits": {
+              "$ref": "#/$defs/field"
+            },
+            "embargoes": {
+              "$ref": "#/$defs/field"
+            }
+          }
+        },
+        "free_form": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "anything_else": {
+              "$ref": "#/$defs/field"
+            }
+          }
+        }
+      },
+      "required": [
+        "basics",
+        "problem",
+        "solution",
+        "target"
+      ]
+    },
+    "is_ai_product": {
+      "type": "boolean"
+    },
+    "launch_pov": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "source_file": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "text",
+        "source_file"
+      ]
+    },
+    "industries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/slug"
+          },
+          "name": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "sub_segments": {
+            "$ref": "common.schema.json#/$defs/text_list"
+          },
+          "regions": {
+            "$ref": "common.schema.json#/$defs/text_list"
+          },
+          "company_size": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      }
+    },
+    "brand_inputs": {
+      "$ref": "common.schema.json#/$defs/text_list"
+    },
+    "optional_inputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "path": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "type": {
+            "enum": [
+              "existing_messaging",
+              "win_loss",
+              "call_transcript",
+              "case_study",
+              "customer_metrics",
+              "pricing_packaging",
+              "analyst_report",
+              "competitors",
+              "other"
+            ]
+          },
+          "permission": {
+            "enum": [
+              "approved",
+              "internal_only",
+              "unknown"
+            ]
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "path",
+          "type"
+        ]
+      }
+    },
+    "conflicts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "field": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "value": {
+                  "$ref": "common.schema.json#/$defs/text"
+                },
+                "source_file": {
+                  "$ref": "common.schema.json#/$defs/text"
+                }
+              },
+              "required": [
+                "value",
+                "source_file"
+              ]
+            }
+          },
+          "resolution": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "field",
+          "values"
+        ]
+      }
+    },
+    "gaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id"
+          },
+          "field": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "severity": {
+            "enum": [
+              "blocking",
+              "non_blocking"
+            ]
+          },
+          "question": {
+            "type": "string"
+          },
+          "assumption": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "open",
+              "answered",
+              "waived",
+              "assumed"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "field",
+          "severity",
+          "status"
+        ]
+      }
+    }
+  },
+  "required": [
+    "product_brief",
+    "launch_pov",
+    "industries",
+    "gaps"
+  ],
+  "$defs": {
+    "field": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "description": "What the inputs say. Text, list, or null when missing."
+        },
+        "source_file": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "status": {
+          "enum": [
+            "provided",
+            "thin",
+            "missing",
+            "assumed",
+            "answered"
+          ]
+        }
+      },
+      "required": [
+        "value",
+        "status"
+      ]
+    }
+  }
+}

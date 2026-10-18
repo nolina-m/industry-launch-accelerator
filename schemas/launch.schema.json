@@ -1,0 +1,173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://industry-launch-accelerator.local/schemas/launch.schema.json",
+  "title": "launch.yaml",
+  "description": "State of one launch: industries, competitors, options and stage status (FR-STA-01).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "slug": {
+      "$ref": "common.schema.json#/$defs/slug"
+    },
+    "name": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "created_at": {
+      "$ref": "common.schema.json#/$defs/datetime"
+    },
+    "toolkit_version": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "industries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/slug"
+          },
+          "name": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "pack": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Industry pack id in industries/, or null for a custom industry."
+          },
+          "generated": {
+            "type": "boolean",
+            "description": "true when the pack was built for this launch (FR-INP-07)."
+          },
+          "sub_segments": {
+            "$ref": "common.schema.json#/$defs/text_list"
+          },
+          "regions": {
+            "$ref": "common.schema.json#/$defs/text_list"
+          },
+          "company_size": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      }
+    },
+    "competitors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/slug"
+          },
+          "name": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "suggested": {
+            "type": "boolean",
+            "description": "true when suggested by research rather than named by the PMM (FR-CMP-01)."
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "suggested"
+        ]
+      }
+    },
+    "options": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name_competitors_in_customer_copy": {
+          "type": "boolean",
+          "default": false
+        },
+        "auto_mode": {
+          "type": "boolean",
+          "default": false,
+          "description": "Checkpoints off (FR-STA-03)."
+        }
+      },
+      "required": [
+        "name_competitors_in_customer_copy",
+        "auto_mode"
+      ]
+    },
+    "stages": {
+      "type": "object",
+      "description": "One entry per stage unit, e.g. intake, research:technology, messaging.",
+      "propertyNames": {
+        "pattern": "^[a-z]+(:[a-z0-9][a-z0-9-]*)?$"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "status": {
+            "enum": [
+              "not_started",
+              "in_progress",
+              "awaiting_approval",
+              "approved",
+              "stale"
+            ]
+          },
+          "started_at": {
+            "$ref": "common.schema.json#/$defs/datetime"
+          },
+          "submitted_at": {
+            "$ref": "common.schema.json#/$defs/datetime"
+          },
+          "approved_at": {
+            "$ref": "common.schema.json#/$defs/datetime"
+          },
+          "reviewed": {
+            "type": "boolean",
+            "description": "false when approved automatically in auto mode."
+          },
+          "approval": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "input_hashes": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "output_hash": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "input_hashes",
+              "output_hash"
+            ]
+          },
+          "stale_reasons": {
+            "$ref": "common.schema.json#/$defs/text_list"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      }
+    }
+  },
+  "required": [
+    "slug",
+    "name",
+    "created_at",
+    "industries",
+    "competitors",
+    "options",
+    "stages"
+  ]
+}

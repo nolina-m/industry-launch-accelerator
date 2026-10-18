@@ -1,0 +1,162 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://industry-launch-accelerator.local/schemas/demo.schema.json",
+  "title": "demos/<industry>.yaml",
+  "description": "Demo storyline spec (FR-DMO-01, FR-DMO-02).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "industry": {
+      "$ref": "common.schema.json#/$defs/slug"
+    },
+    "scenario": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "cast": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "persona_id": {
+            "$ref": "common.schema.json#/$defs/id"
+          },
+          "role_in_demo": {
+            "$ref": "common.schema.json#/$defs/text"
+          }
+        },
+        "required": [
+          "persona_id",
+          "role_in_demo"
+        ]
+      }
+    },
+    "moments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id"
+          },
+          "title": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "tell": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "show": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "tell_back": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "pillar_id": {
+            "$ref": "common.schema.json#/$defs/id"
+          },
+          "pain_ref": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "talk_track": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "verify": {
+            "$ref": "common.schema.json#/$defs/text_list"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "tell",
+          "show",
+          "tell_back",
+          "pillar_id",
+          "pain_ref",
+          "talk_track"
+        ]
+      },
+      "maxItems": 7
+    },
+    "aha": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "moment_id": {
+          "$ref": "common.schema.json#/$defs/id"
+        },
+        "description": {
+          "$ref": "common.schema.json#/$defs/text"
+        }
+      },
+      "required": [
+        "moment_id",
+        "description"
+      ]
+    },
+    "data_needed": {
+      "$ref": "common.schema.json#/$defs/text_list"
+    },
+    "environment": {
+      "$ref": "common.schema.json#/$defs/text_list"
+    },
+    "versions": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "five_minute": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "moment_ids": {
+              "type": "array",
+              "items": {
+                "$ref": "common.schema.json#/$defs/id"
+              },
+              "minItems": 1
+            },
+            "notes": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "moment_ids"
+          ]
+        },
+        "twenty_minute": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "moment_ids": {
+              "type": "array",
+              "items": {
+                "$ref": "common.schema.json#/$defs/id"
+              },
+              "minItems": 1
+            },
+            "notes": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "moment_ids"
+          ]
+        }
+      },
+      "required": [
+        "five_minute",
+        "twenty_minute"
+      ]
+    }
+  },
+  "required": [
+    "industry",
+    "scenario",
+    "cast",
+    "moments",
+    "aha",
+    "data_needed",
+    "environment",
+    "versions"
+  ]
+}

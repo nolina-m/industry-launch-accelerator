@@ -1,0 +1,214 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://industry-launch-accelerator.local/schemas/competitor.schema.json",
+  "title": "competitors/<id>.yaml",
+  "description": "Stage 2 battlecard data for one competitor (FR-CMP-03, FR-CMP-04).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "$ref": "common.schema.json#/$defs/slug"
+    },
+    "name": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "category": {
+      "enum": [
+        "direct",
+        "adjacent",
+        "platform",
+        "status-quo",
+        "build-in-house"
+      ]
+    },
+    "suggested": {
+      "type": "boolean"
+    },
+    "overview": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "positioning_quote": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "$ref": "common.schema.json#/$defs/text"
+        },
+        "source_id": {
+          "$ref": "common.schema.json#/$defs/source_id"
+        }
+      },
+      "required": [
+        "text",
+        "source_id"
+      ]
+    },
+    "strengths": {
+      "$ref": "common.schema.json#/$defs/text_list"
+    },
+    "weaknesses": {
+      "$ref": "common.schema.json#/$defs/text_list"
+    },
+    "win_themes": {
+      "$ref": "common.schema.json#/$defs/text_list"
+    },
+    "loss_themes": {
+      "$ref": "common.schema.json#/$defs/text_list"
+    },
+    "landmines": {
+      "$ref": "common.schema.json#/$defs/text_list"
+    },
+    "traps": {
+      "$ref": "common.schema.json#/$defs/text_list"
+    },
+    "objections": {
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/objection"
+      },
+      "maxItems": 5
+    },
+    "pricing": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "model": {
+          "enum": [
+            "seat",
+            "consumption",
+            "outcome-based",
+            "platform fee + usage",
+            "tiered bundle",
+            "hybrid",
+            "unknown"
+          ]
+        },
+        "components": {
+          "$ref": "common.schema.json#/$defs/text_list"
+        },
+        "value_metric": {
+          "type": "string"
+        },
+        "tiers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "$ref": "common.schema.json#/$defs/text"
+              },
+              "summary": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name"
+            ]
+          }
+        },
+        "add_ons": {
+          "$ref": "common.schema.json#/$defs/text_list"
+        },
+        "free_tier": {
+          "type": "string",
+          "description": "Free trial / freemium details, or 'none found'."
+        },
+        "contract_signals": {
+          "type": "string"
+        },
+        "list_prices": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "item": {
+                "$ref": "common.schema.json#/$defs/text"
+              },
+              "price": {
+                "$ref": "common.schema.json#/$defs/text"
+              },
+              "source_id": {
+                "$ref": "common.schema.json#/$defs/source_id"
+              },
+              "label": {
+                "const": "list; enterprise deals typically differ"
+              }
+            },
+            "required": [
+              "item",
+              "price",
+              "source_id",
+              "label"
+            ]
+          }
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "common.schema.json#/$defs/source_id"
+          }
+        }
+      },
+      "required": [
+        "model",
+        "components",
+        "value_metric",
+        "tiers",
+        "free_tier",
+        "contract_signals"
+      ]
+    },
+    "recent_moves": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "date": {
+            "$ref": "common.schema.json#/$defs/date"
+          },
+          "summary": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "source_id": {
+            "$ref": "common.schema.json#/$defs/source_id"
+          }
+        },
+        "required": [
+          "date",
+          "summary",
+          "source_id"
+        ]
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/source_id"
+      }
+    },
+    "researched_at": {
+      "$ref": "common.schema.json#/$defs/date"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "category",
+    "suggested",
+    "overview",
+    "strengths",
+    "weaknesses",
+    "win_themes",
+    "loss_themes",
+    "landmines",
+    "traps",
+    "objections",
+    "pricing",
+    "recent_moves",
+    "sources",
+    "researched_at"
+  ]
+}

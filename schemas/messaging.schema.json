@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://industry-launch-accelerator.local/schemas/messaging.schema.json",
+  "title": "messaging.yaml",
+  "description": "Messaging framework (FR-MSG-01..05).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "positioning": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "for": {
+          "$ref": "common.schema.json#/$defs/text"
+        },
+        "who": {
+          "$ref": "common.schema.json#/$defs/text"
+        },
+        "product": {
+          "$ref": "common.schema.json#/$defs/text"
+        },
+        "category": {
+          "$ref": "common.schema.json#/$defs/text"
+        },
+        "that": {
+          "$ref": "common.schema.json#/$defs/text"
+        },
+        "unlike": {
+          "$ref": "common.schema.json#/$defs/text"
+        },
+        "we": {
+          "$ref": "common.schema.json#/$defs/text"
+        }
+      },
+      "required": [
+        "for",
+        "who",
+        "product",
+        "category",
+        "that",
+        "unlike",
+        "we"
+      ]
+    },
+    "elevator_pitch": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "boilerplate": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "pillars": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id"
+          },
+          "headline": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "outcome": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "capabilities": {
+            "$ref": "common.schema.json#/$defs/text_list"
+          },
+          "proof": {
+            "$ref": "common.schema.json#/$defs/text_list"
+          },
+          "differentiator": {
+            "$ref": "common.schema.json#/$defs/text"
+          }
+        },
+        "required": [
+          "id",
+          "headline",
+          "outcome",
+          "capabilities",
+          "proof",
+          "differentiator"
+        ]
+      },
+      "maxItems": 4
+    },
+    "grid": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "industry": {
+            "$ref": "common.schema.json#/$defs/slug"
+          },
+          "persona_id": {
+            "$ref": "common.schema.json#/$defs/id"
+          },
+          "headline": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "pain_ref": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "pillar_id": {
+            "$ref": "common.schema.json#/$defs/id"
+          },
+          "value_hypothesis": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "text": {
+                "$ref": "common.schema.json#/$defs/text"
+              },
+              "label": {
+                "enum": [
+                  "[ASSUMPTION]",
+                  "[FROM CUSTOMER DATA]"
+                ]
+              }
+            },
+            "required": [
+              "text",
+              "label"
+            ]
+          },
+          "proof": {
+            "$ref": "common.schema.json#/$defs/text"
+          }
+        },
+        "required": [
+          "industry",
+          "persona_id",
+          "headline",
+          "pain_ref",
+          "pillar_id",
+          "value_hypothesis",
+          "proof"
+        ]
+      }
+    }
+  },
+  "required": [
+    "positioning",
+    "elevator_pitch",
+    "boilerplate",
+    "pillars",
+    "grid"
+  ]
+}

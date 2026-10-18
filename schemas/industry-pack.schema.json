@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://industry-launch-accelerator.local/schemas/industry-pack.schema.json",
+  "title": "industries/<id>/pack.yaml",
+  "description": "Industry pack: scaffolding, not findings (FR-IND-01, FR-IND-03).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "$ref": "common.schema.json#/$defs/slug"
+    },
+    "display_name": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "generated": {
+      "type": "boolean"
+    },
+    "sub_segments": {
+      "$ref": "common.schema.json#/$defs/text_list"
+    },
+    "buying_committee_roles": {
+      "$ref": "common.schema.json#/$defs/text_list"
+    },
+    "kpis": {
+      "$ref": "common.schema.json#/$defs/text_list"
+    },
+    "regulators": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "jurisdiction": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "jurisdiction"
+        ]
+      }
+    },
+    "regulations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "jurisdiction": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "summary": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "jurisdiction",
+          "summary"
+        ]
+      }
+    },
+    "analyst_sources": {
+      "$ref": "common.schema.json#/$defs/text_list"
+    },
+    "associations": {
+      "$ref": "common.schema.json#/$defs/text_list"
+    },
+    "connectors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/slug"
+          },
+          "queries": {
+            "$ref": "common.schema.json#/$defs/text_list"
+          },
+          "series_ids": {
+            "$ref": "common.schema.json#/$defs/text_list"
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    "search_seeds": {
+      "$ref": "common.schema.json#/$defs/text_list"
+    },
+    "typical_objections": {
+      "$ref": "common.schema.json#/$defs/text_list"
+    },
+    "vocabulary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "use": {
+          "$ref": "common.schema.json#/$defs/text_list"
+        },
+        "avoid": {
+          "$ref": "common.schema.json#/$defs/text_list"
+        }
+      },
+      "required": [
+        "use",
+        "avoid"
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "display_name",
+    "sub_segments",
+    "buying_committee_roles",
+    "kpis",
+    "regulators",
+    "regulations",
+    "analyst_sources",
+    "associations",
+    "connectors",
+    "search_seeds",
+    "typical_objections",
+    "vocabulary"
+  ]
+}

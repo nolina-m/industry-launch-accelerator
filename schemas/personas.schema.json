@@ -1,0 +1,222 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://industry-launch-accelerator.local/schemas/personas.schema.json",
+  "title": "personas/<industry>.yaml",
+  "description": "Personas and buying committee for one industry (FR-PER-01..06).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "industry": {
+      "$ref": "common.schema.json#/$defs/slug"
+    },
+    "personas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id"
+          },
+          "industry": {
+            "$ref": "common.schema.json#/$defs/slug"
+          },
+          "role": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "titles": {
+            "$ref": "common.schema.json#/$defs/text_list"
+          },
+          "reports_to": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "buying_role": {
+            "enum": [
+              "economic-buyer",
+              "champion",
+              "technical-evaluator",
+              "end-user",
+              "blocker",
+              "influencer"
+            ]
+          },
+          "responsibilities": {
+            "$ref": "common.schema.json#/$defs/text_list"
+          },
+          "kpis": {
+            "$ref": "common.schema.json#/$defs/text_list"
+          },
+          "pains": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "text": {
+                  "$ref": "common.schema.json#/$defs/text"
+                },
+                "trend_ids": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "common.schema.json#/$defs/id"
+                  }
+                },
+                "imperative_ids": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "common.schema.json#/$defs/id"
+                  }
+                }
+              },
+              "required": [
+                "text",
+                "trend_ids"
+              ]
+            },
+            "maxItems": 3
+          },
+          "goals": {
+            "$ref": "common.schema.json#/$defs/text_list"
+          },
+          "triggers": {
+            "$ref": "common.schema.json#/$defs/text_list"
+          },
+          "objections": {
+            "$ref": "common.schema.json#/$defs/text_list"
+          },
+          "info_sources": {
+            "$ref": "common.schema.json#/$defs/text_list"
+          },
+          "language": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "use": {
+                "$ref": "common.schema.json#/$defs/text_list"
+              },
+              "avoid": {
+                "$ref": "common.schema.json#/$defs/text_list"
+              }
+            },
+            "required": [
+              "use",
+              "avoid"
+            ]
+          },
+          "beliefs_to_buy": {
+            "$ref": "common.schema.json#/$defs/text_list"
+          },
+          "discovery_questions": {
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/text"
+            },
+            "maxItems": 5
+          },
+          "quotes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "text": {
+                  "$ref": "common.schema.json#/$defs/text"
+                },
+                "label": {
+                  "const": "[FROM CUSTOMER DATA]"
+                },
+                "source_file": {
+                  "$ref": "common.schema.json#/$defs/text"
+                }
+              },
+              "required": [
+                "text",
+                "label",
+                "source_file"
+              ]
+            }
+          },
+          "provenance": {
+            "enum": [
+              "research-derived",
+              "from-customer-data",
+              "mixed"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "industry",
+          "role",
+          "titles",
+          "reports_to",
+          "buying_role",
+          "responsibilities",
+          "kpis",
+          "pains",
+          "goals",
+          "triggers",
+          "objections",
+          "info_sources",
+          "language",
+          "beliefs_to_buy",
+          "discovery_questions",
+          "provenance"
+        ]
+      },
+      "maxItems": 6
+    },
+    "committee_map": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "industry": {
+          "$ref": "common.schema.json#/$defs/slug"
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "from": {
+                "$ref": "common.schema.json#/$defs/id"
+              },
+              "to": {
+                "$ref": "common.schema.json#/$defs/id"
+              },
+              "influence": {
+                "enum": [
+                  "high",
+                  "medium",
+                  "low"
+                ]
+              }
+            },
+            "required": [
+              "from",
+              "to",
+              "influence"
+            ]
+          }
+        },
+        "decision_sequence": {
+          "type": "array",
+          "items": {
+            "$ref": "common.schema.json#/$defs/id"
+          }
+        }
+      },
+      "required": [
+        "industry",
+        "edges",
+        "decision_sequence"
+      ]
+    }
+  },
+  "required": [
+    "industry",
+    "personas",
+    "committee_map"
+  ]
+}

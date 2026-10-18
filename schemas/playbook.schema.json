@@ -1,0 +1,233 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://industry-launch-accelerator.local/schemas/playbook.schema.json",
+  "title": "playbooks/<industry>.yaml",
+  "description": "Industry playbook (FR-PBK-01).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "industry": {
+      "$ref": "common.schema.json#/$defs/slug"
+    },
+    "targeting": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "segments": {
+          "$ref": "common.schema.json#/$defs/text_list"
+        },
+        "committee_summary": {
+          "$ref": "common.schema.json#/$defs/text"
+        }
+      },
+      "required": [
+        "segments",
+        "committee_summary"
+      ]
+    },
+    "why_now": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "imperative_id": {
+            "$ref": "common.schema.json#/$defs/id"
+          },
+          "text": {
+            "$ref": "common.schema.json#/$defs/text"
+          }
+        },
+        "required": [
+          "imperative_id",
+          "text"
+        ]
+      }
+    },
+    "value_story": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "persona_id": {
+            "$ref": "common.schema.json#/$defs/id"
+          },
+          "message": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "pillar_id": {
+            "$ref": "common.schema.json#/$defs/id"
+          }
+        },
+        "required": [
+          "persona_id",
+          "message",
+          "pillar_id"
+        ]
+      }
+    },
+    "discovery": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "persona_id": {
+            "$ref": "common.schema.json#/$defs/id"
+          },
+          "questions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "question": {
+                  "$ref": "common.schema.json#/$defs/text"
+                },
+                "good_sounds_like": {
+                  "$ref": "common.schema.json#/$defs/text"
+                }
+              },
+              "required": [
+                "question",
+                "good_sounds_like"
+              ]
+            }
+          }
+        },
+        "required": [
+          "persona_id",
+          "questions"
+        ]
+      }
+    },
+    "qualification": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "signals": {
+          "$ref": "common.schema.json#/$defs/text_list"
+        },
+        "disqualifiers": {
+          "$ref": "common.schema.json#/$defs/text_list"
+        }
+      },
+      "required": [
+        "signals",
+        "disqualifiers"
+      ]
+    },
+    "objections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "objection_id": {
+            "$ref": "common.schema.json#/$defs/id"
+          },
+          "summary": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "response": {
+            "$ref": "common.schema.json#/$defs/text"
+          }
+        },
+        "required": [
+          "objection_id",
+          "summary",
+          "response"
+        ]
+      }
+    },
+    "competitive_quick_ref": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "competitor_id": {
+            "$ref": "common.schema.json#/$defs/slug"
+          },
+          "win_with": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "watch_out": {
+            "$ref": "common.schema.json#/$defs/text"
+          }
+        },
+        "required": [
+          "competitor_id",
+          "win_with",
+          "watch_out"
+        ]
+      }
+    },
+    "next_steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "offer": {
+            "enum": [
+              "workshop",
+              "demo",
+              "pilot",
+              "other"
+            ]
+          },
+          "description": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "when": {
+            "$ref": "common.schema.json#/$defs/text"
+          }
+        },
+        "required": [
+          "offer",
+          "description",
+          "when"
+        ]
+      }
+    },
+    "proof_library": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "item": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "status": {
+            "enum": [
+              "available",
+              "[PROOF NEEDED]"
+            ]
+          },
+          "source": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "item",
+          "status"
+        ]
+      }
+    }
+  },
+  "required": [
+    "industry",
+    "targeting",
+    "why_now",
+    "value_story",
+    "discovery",
+    "qualification",
+    "objections",
+    "competitive_quick_ref",
+    "next_steps",
+    "proof_library"
+  ]
+}

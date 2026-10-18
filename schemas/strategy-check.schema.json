@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://industry-launch-accelerator.local/schemas/strategy-check.schema.json",
+  "title": "strategy-check.yaml",
+  "description": "The agent's evidence-based view on the launch POV and the PMM's responses (FR-STR-01..07).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "auto_mode": {
+      "type": "boolean"
+    },
+    "points": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id"
+          },
+          "pov_quote": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "stance": {
+            "enum": [
+              "agree",
+              "disagree",
+              "partly agree",
+              "add"
+            ]
+          },
+          "reasoning": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "evidence": {
+            "$ref": "common.schema.json#/$defs/evidence_list"
+          },
+          "confidence": {
+            "$ref": "common.schema.json#/$defs/confidence"
+          },
+          "pmm_response": {
+            "$ref": "common.schema.json#/$defs/pmm_response"
+          }
+        },
+        "required": [
+          "id",
+          "pov_quote",
+          "stance",
+          "reasoning",
+          "evidence",
+          "confidence"
+        ]
+      },
+      "minItems": 1
+    },
+    "additions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id"
+          },
+          "text": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "evidence": {
+            "$ref": "common.schema.json#/$defs/evidence_list"
+          },
+          "confidence": {
+            "$ref": "common.schema.json#/$defs/confidence"
+          },
+          "pmm_response": {
+            "$ref": "common.schema.json#/$defs/pmm_response"
+          }
+        },
+        "required": [
+          "id",
+          "text",
+          "evidence",
+          "confidence"
+        ]
+      },
+      "maxItems": 5
+    },
+    "resolved_direction": {
+      "type": "string",
+      "description": "The launch POV as adjusted by the PMM's responses. Filled at the checkpoint."
+    }
+  },
+  "required": [
+    "points",
+    "additions"
+  ]
+}

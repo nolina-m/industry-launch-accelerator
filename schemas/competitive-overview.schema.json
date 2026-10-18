@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://industry-launch-accelerator.local/schemas/competitive-overview.schema.json",
+  "title": "competitive-overview.yaml",
+  "description": "One-page competitive overview (FR-CMP-02, FR-CMP-05).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "categories": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "category": {
+            "enum": [
+              "direct",
+              "adjacent",
+              "platform",
+              "status-quo",
+              "build-in-house"
+            ]
+          },
+          "competitor_ids": {
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/slug"
+            }
+          }
+        },
+        "required": [
+          "category",
+          "competitor_ids"
+        ]
+      }
+    },
+    "positioning_map": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "x_axis": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "label": {
+              "$ref": "common.schema.json#/$defs/text"
+            },
+            "low": {
+              "$ref": "common.schema.json#/$defs/text"
+            },
+            "high": {
+              "$ref": "common.schema.json#/$defs/text"
+            },
+            "rationale": {
+              "$ref": "common.schema.json#/$defs/text"
+            }
+          },
+          "required": [
+            "label",
+            "low",
+            "high",
+            "rationale"
+          ]
+        },
+        "y_axis": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "label": {
+              "$ref": "common.schema.json#/$defs/text"
+            },
+            "low": {
+              "$ref": "common.schema.json#/$defs/text"
+            },
+            "high": {
+              "$ref": "common.schema.json#/$defs/text"
+            },
+            "rationale": {
+              "$ref": "common.schema.json#/$defs/text"
+            }
+          },
+          "required": [
+            "label",
+            "low",
+            "high",
+            "rationale"
+          ]
+        },
+        "points": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "label": {
+                "$ref": "common.schema.json#/$defs/text"
+              },
+              "competitor_id": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "null for our product."
+              },
+              "x": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 10
+              },
+              "y": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 10
+              },
+              "rationale": {
+                "$ref": "common.schema.json#/$defs/text"
+              }
+            },
+            "required": [
+              "label",
+              "competitor_id",
+              "x",
+              "y",
+              "rationale"
+            ]
+          }
+        }
+      },
+      "required": [
+        "x_axis",
+        "y_axis",
+        "points"
+      ]
+    },
+    "industry_strength": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "industry": {
+            "$ref": "common.schema.json#/$defs/slug"
+          },
+          "strongest_competitor_ids": {
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/slug"
+            }
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/text"
+          }
+        },
+        "required": [
+          "industry",
+          "strongest_competitor_ids",
+          "notes"
+        ]
+      }
+    },
+    "generic_objections": {
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/objection"
+      }
+    }
+  },
+  "required": [
+    "categories",
+    "positioning_map",
+    "industry_strength",
+    "generic_objections"
+  ]
+}

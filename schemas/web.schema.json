@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://industry-launch-accelerator.local/schemas/web.schema.json",
+  "title": "web/<industry>.yaml",
+  "description": "Webpage copy brief: structure and draft copy only (FR-WEB-01, FR-WEB-02).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "industry": {
+      "$ref": "common.schema.json#/$defs/slug"
+    },
+    "page_goal": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "primary_cta": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "target_personas": {
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/id"
+      }
+    },
+    "hero": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "headline": {
+          "$ref": "common.schema.json#/$defs/text"
+        },
+        "subhead": {
+          "$ref": "common.schema.json#/$defs/text"
+        }
+      },
+      "required": [
+        "headline",
+        "subhead"
+      ]
+    },
+    "sections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id"
+          },
+          "name": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "purpose": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "copy": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "messaging_refs": {
+            "$ref": "common.schema.json#/$defs/text_list"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "purpose",
+          "copy",
+          "messaging_refs"
+        ]
+      }
+    },
+    "proof_section": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "cta": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "headline_variants": {
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/text"
+      },
+      "maxItems": 3
+    },
+    "keywords": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "term": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "label": {
+            "const": "[VERIFY]"
+          }
+        },
+        "required": [
+          "term",
+          "label"
+        ]
+      }
+    },
+    "imagery_direction": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "demo_embed_direction": {
+      "$ref": "common.schema.json#/$defs/text"
+    }
+  },
+  "required": [
+    "industry",
+    "page_goal",
+    "primary_cta",
+    "target_personas",
+    "hero",
+    "sections",
+    "proof_section",
+    "cta",
+    "headline_variants",
+    "keywords",
+    "imagery_direction",
+    "demo_embed_direction"
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://industry-launch-accelerator.local/schemas/brand.schema.json",
+  "title": "brand.yaml",
+  "description": "Brand rules extracted at intake (FR-INP-09, Appendix C).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "colors": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "primary": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "secondary": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "accent": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^#[0-9A-Fa-f]{6}$"
+          }
+        },
+        "text": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "background": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        }
+      },
+      "required": [
+        "primary",
+        "text",
+        "background"
+      ]
+    },
+    "fonts": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "heading": {
+          "$ref": "common.schema.json#/$defs/text"
+        },
+        "body": {
+          "$ref": "common.schema.json#/$defs/text"
+        },
+        "fallback_heading": {
+          "$ref": "common.schema.json#/$defs/text"
+        },
+        "fallback_body": {
+          "$ref": "common.schema.json#/$defs/text"
+        }
+      },
+      "required": [
+        "heading",
+        "body",
+        "fallback_heading",
+        "fallback_body"
+      ]
+    },
+    "logo": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "light_bg": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "dark_bg": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "placement": {
+          "enum": [
+            "header-left",
+            "header-right",
+            "header-center",
+            "none"
+          ]
+        }
+      },
+      "required": [
+        "placement"
+      ]
+    },
+    "voice": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "traits": {
+          "$ref": "common.schema.json#/$defs/text_list"
+        },
+        "do": {
+          "$ref": "common.schema.json#/$defs/text_list"
+        },
+        "dont": {
+          "$ref": "common.schema.json#/$defs/text_list"
+        }
+      }
+    },
+    "terms": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "banned": {
+          "$ref": "common.schema.json#/$defs/text_list"
+        },
+        "preferred": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "product_names": {
+          "$ref": "common.schema.json#/$defs/text_list"
+        }
+      }
+    },
+    "word_template": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "$ref": "common.schema.json#/$defs/text"
+            },
+            "style_map": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "path",
+            "style_map"
+          ]
+        }
+      ]
+    },
+    "unbranded": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "colors",
+    "fonts",
+    "logo",
+    "voice",
+    "terms",
+    "unbranded"
+  ]
+}

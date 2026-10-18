@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://industry-launch-accelerator.local/schemas/sources.schema.json",
+  "title": "research/sources.json",
+  "description": "Source register (FR-WEB-R-03).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/source_id"
+          },
+          "url": {
+            "type": "string",
+            "pattern": "^https?://"
+          },
+          "title": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "publisher": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "published_at": {
+            "oneOf": [
+              {
+                "$ref": "common.schema.json#/$defs/date"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "retrieved_at": {
+            "$ref": "common.schema.json#/$defs/date"
+          },
+          "tier": {
+            "enum": [
+              1,
+              2,
+              3
+            ],
+            "description": "1 primary, 2 reputable press/analyst summary, 3 vendor blog/review/forum."
+          },
+          "excerpt": {
+            "type": "string"
+          },
+          "connector": {
+            "type": "string",
+            "description": "Connector id when the source came from a data connector."
+          }
+        },
+        "required": [
+          "id",
+          "url",
+          "title",
+          "publisher",
+          "published_at",
+          "retrieved_at",
+          "tier",
+          "excerpt"
+        ]
+      }
+    }
+  },
+  "required": [
+    "sources"
+  ]
+}
