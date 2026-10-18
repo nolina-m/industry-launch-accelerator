@@ -1,0 +1,30 @@
+# Your launches stay on your machine (only the empty placeholder is shared)
+launches/*
+!launches/.gitkeep
+
+# Access keys
+.env
+
+# Research caches
+research/cache/
+**/research/cache/
+
+# Python environment and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Private build documents (never commit)
+PRD*.md
+*PRD*.md
+BUILD-NOTES.md

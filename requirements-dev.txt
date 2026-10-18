@@ -1,0 +1,4 @@
+# Extra tools for running the tests and lint checks (contributors only).
+-r requirements.txt
+pytest>=8.0
+ruff>=0.6

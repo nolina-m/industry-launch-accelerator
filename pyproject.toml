@@ -1,0 +1,18 @@
+[project]
+name = "industry-launch-accelerator"
+version = "0.1.0"
+description = "Turn a product brief into a sourced, industry-specific launch kit, with the PMM in charge."
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Nolina Mishra" }]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
