@@ -84,6 +84,9 @@ def test_citations_catch_named_company_and_regulatory_claims():
     assert "regulatory statement" in cc.claim_kinds("The regulation requires annual audits.", names)
     assert cc.claim_kinds("Teams want faster answers.", names) == []
     assert cc.claim_kinds("See T-ind-a-1 and PL-2.", names) == []  # IDs are not numbers
+    assert cc.claim_kinds("Act on changes the same day", names) == []  # a verb, not a law
+    assert "regulatory statement" in cc.claim_kinds("The Placeholder Act took effect.", names)
+    assert "regulatory statement" in cc.claim_kinds("Regulation (EU) 2024/1689 applies.", names)
 
 
 # ------------------------------------------------------------------ FR-QA-03

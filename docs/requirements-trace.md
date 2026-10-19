@@ -187,7 +187,7 @@ Test paths are under `tests/`. "Smoke run" means a private end-to-end run outsid
 | FR-DOC-08 | Issue templates (bug, feedback 1–5, pack, data source) | ✅ | `.github/ISSUE_TEMPLATE/*.yml` | `test_repo_hygiene.py::test_feedback_form_has_the_1_to_5_rating` |
 | FR-TST-01 | CI with lint and tests, no network | 🟡 | `.github/workflows/ci.yml`, `tests/conftest.py` | `test_scaffold.py::test_network_is_blocked_in_tests`; green on GitHub pending repo creation (M9) |
 | FR-TST-02 | Unit tests incl. seeded defects; no example launch | ✅ | `tests/` (inline placeholder data; recorded connector responses) | Full suite; `test_repo_hygiene.py` |
-| FR-TST-03 | Private end-to-end smoke run before release | 🟡 | Smoke runs at M3 (real sources) and M4 (formats), deleted | Final pre-release run at M9 |
+| FR-TST-03 | Private end-to-end smoke run before release | ✅ | Smoke runs at M3 (real sources), M4 (formats) and pre-release 2026-10-19 (every command end to end: intake, 15 stages, render, QA, edit sync, live refresh); all deleted | Build log |
 
 ## Other rules from the PRD
 

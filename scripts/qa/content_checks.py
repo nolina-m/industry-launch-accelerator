@@ -47,8 +47,11 @@ SKIP_PARENTS = {"discovery_questions", "landmines", "titles", "kpis", "language"
                 "moment_ids", "target_personas", "messaging_refs", "segments", "data_needed", "environment",
                 "info_sources", "personas", "industries", "competitors", "tags", "components", "sources",
                 "decision_sequence", "headline_variants"}
-REG_RE = re.compile(r"\b(Act|Regulation|Directive|Rule|rules?|regulators?|regulation|law|statute|mandate[sd]?|"
-                    r"requires?|required|compliance deadline|GDPR|HIPAA|CMS|FDA|SEC|FTC|FCC|CFPB|OCC|FDIC|EBA|FCA)\b")
+# Named laws ("Affordable Care Act", "Regulation (EU) 2024/1689") need a name before or after the keyword,
+# so verbs like "Act on changes" at the start of a headline don't count.
+REG_RE = re.compile(r"\b[A-Z][\w.&-]*\s+(Act|Rule|Directive)\b|\b(Regulation|Directive)\s+\(|"
+                    r"\b(rules?|regulators?|regulation|law|statute|mandate[sd]?|requires?|required|"
+                    r"compliance deadline|GDPR|HIPAA|CMS|FDA|SEC|FTC|FCC|CFPB|OCC|FDIC|EBA|FCA)\b")
 ORG_RE = re.compile(r"\b(Inc|Corp|Corporation|LLC|Ltd|plc|GmbH|AG|S\.A\.)\b")
 NUMBER_RE = re.compile(r"(?<![A-Za-z]-)(?<![A-Za-z]-\w)\b\d[\d,.]*\s*(%|percent|x\b|million|billion|bn|m\b|k\b)?|\$\d")
 ID_REF_RE = re.compile(r"\b(?:T|I|R|MD|O|SC|SA|P|PL|DM|WS)-[\w-]+")
@@ -83,7 +86,7 @@ def claim_kinds(sentence: str, competitor_names: list[str]) -> list[str]:
 
 
 # Fields whose claim is backed by the sibling `evidence` list (other fields must cite inline).
-EVIDENCE_BACKED = {"summary", "reasoning", "text", "statement"}
+EVIDENCE_BACKED = {"summary", "reasoning", "text", "statement", "headline"}
 
 
 def _structurally_cited(parent, key) -> bool:
