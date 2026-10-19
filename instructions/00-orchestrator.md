@@ -114,18 +114,35 @@ Use these ID patterns so the scripts and later stages can link items:
 
 ## When something upstream changes (FR-STA-04)
 
-`launch.py status` recalculates staleness from file contents every time. If a unit shows `stale`:
+`launch.py status` recalculates staleness from file contents every time. Each approval keeps a copy of what was approved. So for a stale unit, status shows exactly which upstream items changed (for example "changed P-technology-cfo"), and which items in this asset refer to them (for example `messaging.yaml: grid[3] (uses P-technology-cfo)`).
 
-1. Tell the PMM exactly which assets are affected (status lists them) and why.
+When a unit shows `stale`:
+
+1. Tell the PMM exactly which assets are affected and why (status lists them).
 2. Ask before regenerating anything.
-3. Regenerate only what is affected, and only the parts that depend on what changed. For example, one persona change means that persona's grid rows and the matching playbook sections, not the whole playbook.
+3. Regenerate only the items status lists, and leave everything else exactly as approved. For example, one persona change means that persona's grid rows and the matching playbook sections, not the whole playbook. If status says nothing refers to the changed items directly, review the asset as a whole and tell the PMM whether anything needs to change.
 4. If the PMM says the change doesn't matter, approve the stale unit as it is: `PY scripts/launch.py approve <slug> <unit>`.
 
-If the PMM edited an approved YAML file, that unit goes back to `awaiting_approval`. Confirm the edit with them, then approve it.
+If the PMM edited an approved YAML file, that unit goes back to `awaiting_approval`, and status shows what they changed. Confirm the edit with them, then approve it.
+
+## When the PMM edits a rendered file (FR-STA-05)
+
+The YAML is the source of truth. If the PMM edits a Markdown file in `outputs/`, the toolkit notices: `status` and `start` point it out, and `render` leaves that file alone rather than overwriting the edit. Before the next stage:
+
+1. `PY scripts/launch.py edits <slug>` shows exactly what they changed, and which YAML file it belongs to.
+2. Offer to copy the edit into the YAML. If the PMM agrees, make the same change in the YAML and run `PY scripts/validate.py --launch <slug>`.
+3. `PY scripts/launch.py render <slug> --force` re-renders from the YAML. The Markdown now matches the YAML again.
+4. If the PMM doesn't want to keep the edit: `PY scripts/launch.py edits <slug> --discard <file>`.
+
+Edits made in Word or Excel files are not copied back. Tell the PMM to make lasting changes in chat or in the Markdown or YAML files.
+
+## Refresh
+
+When the PMM asks to refresh the launch, follow `instructions/11-refresh.md`.
 
 ## Rendered files
 
-`PY scripts/launch.py render <slug>` writes Markdown and Word files to `outputs/` from the YAML. The YAML is the source of truth. If the PMM edits a rendered Markdown file, tell them you'll copy the edit back into the YAML before the next stage. Edits to Word files are not copied back.
+`PY scripts/launch.py render <slug>` writes Markdown and Word files to `outputs/` from the YAML (plus the Excel messaging grid). The YAML is the source of truth; see "When the PMM edits a rendered file" above.
 
 ## Starting a new launch
 

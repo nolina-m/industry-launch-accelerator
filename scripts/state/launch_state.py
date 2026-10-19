@@ -24,6 +24,7 @@ import re
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from scripts.state import impact as impact_mod
 from scripts.state.hashing import existing_outputs, hash_files
 from scripts.state.pipeline import (
     ASSETS,
@@ -266,6 +267,7 @@ class LaunchState:
             "output_hash": hashes[unit.name],
         }
         rec.pop("stale_reasons", None)
+        impact_mod.save_snapshot(self.dir, unit.name, unit.outputs, hashes[unit.name])
         self.refresh()
 
     def set_auto_mode(self, on: bool) -> None:
@@ -334,6 +336,38 @@ class LaunchState:
                 note = "not reviewed by PMM (auto mode)"
             rows.append((name, STAGE_LABELS[unit.stage], rec["status"], note))
         return rows
+
+    def impact(self, name: str) -> list[dict]:
+        """For a stale or edited unit: what changed upstream (or in its own files) and which of its
+        items refer to it. Each entry: {"source": unit, "changes": [Change], "refs": [(file, item, id)]}.
+        Empty when there is no approved copy to compare with (then redo the whole asset)."""
+        unit = self._unit(name)
+        rec = self.record(name)
+        approval = rec.get("approval", {})
+        mine = impact_mod.current_files(self.dir, unit.outputs)
+        out = []
+        if rec["status"] == AWAITING and rec.get("stale_reasons") == [EDITED]:
+            old = impact_mod.snapshot_files(self.dir, name, approval.get("output_hash"))
+            if old is not None:
+                out.append({"source": name, "changes": impact_mod.diff(old, mine), "refs": []})
+            return out
+        if rec["status"] != STALE:
+            return out
+        units = self.units
+        for dep in unit.deps:
+            if dep == INPUTS_KEY or dep not in units:
+                continue
+            recorded = approval.get("input_hashes", {}).get(dep)
+            current = hash_files(self.dir, units[dep].outputs)
+            if recorded == current:
+                continue
+            old = impact_mod.snapshot_files(self.dir, dep, recorded)
+            if old is None:
+                continue
+            changes = impact_mod.diff(old, impact_mod.current_files(self.dir, units[dep].outputs))
+            ids = [i for c in changes for i in c.ids]
+            out.append({"source": dep, "changes": changes, "refs": impact_mod.find_references(mine, ids)})
+        return out
 
     def affected_by(self, name: str) -> list[str]:
         return downstream_of(self.units, name)

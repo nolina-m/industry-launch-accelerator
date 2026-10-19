@@ -26,6 +26,7 @@ from scripts.render import diagrams
 from scripts.render.docx_writer import DocxWriter
 from scripts.render.xlsx_writer import write_grid
 from scripts.sources import load as load_sources
+from scripts.state import edits
 from scripts.state.launch_state import APPROVED, AWAITING, NOT_STARTED, LaunchState
 from scripts.util import TEMPLATES_DIR, load_yaml, today
 
@@ -99,8 +100,10 @@ def _cites(evidence) -> str:
 
 
 class Renderer:
-    def __init__(self, launch_dir: Path):
+    def __init__(self, launch_dir: Path, force: bool = False):
         self.dir = launch_dir
+        self.force = force  # overwrite Markdown files the PMM edited by hand
+        self.kept: list[str] = []  # edited files left alone
         self.state = LaunchState.load(launch_dir)
         self.state.refresh()
         self.launch = self.state.data
@@ -196,14 +199,18 @@ class Renderer:
         body = self.env.get_template(template).render(data=data, launch=self.launch, **extra)
         markdown = self._wrap(unit, title, subtitle, body, data)
         md_path = self.out / f"{name}.md"
+        docx_path = self.out / f"{name}.docx"
+        if not self.force and edits.is_edited(self.out, md_path.name):
+            self.kept.append(md_path.name)  # FR-STA-05: never overwrite a hand edit
+            return Rendered(unit, title, md_path, docx_path)
         md_path.parent.mkdir(parents=True, exist_ok=True)
         md_path.write_text(markdown, encoding="utf-8")
+        edits.remember(self.out, md_path.name, markdown)
         footer = FOOTER.format(date=self.date)
         writer = DocxWriter(self.brand, self.dir, header_label=self.status_line(unit), footer=footer,
                             render_date=self.date)
         body_md = markdown.rsplit("\n---\n", 1)[0]  # the footer goes in the Word footer instead
         writer.add_markdown(body_md)
-        docx_path = self.out / f"{name}.docx"
         writer.save(docx_path, title)
         return Rendered(unit, title, md_path, docx_path)
 

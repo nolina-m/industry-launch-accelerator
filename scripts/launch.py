@@ -15,8 +15,9 @@ Commands
     remove-competitor <slug> <id>
     set-option <slug> <option> <true|false>
     auto <slug> <on|off>                   Switch checkpoints off/on for this launch (auto mode)
-    refresh <slug>                         Pull fresh data and report what changed (coming soon)
-    render <slug> [--unit <stage>]         Build Markdown and Word files in outputs/
+    refresh <slug> [--no-links]            Pull fresh data and write refresh/<date>/what-changed.md
+    render <slug> [--unit <stage>] [--force] Build Markdown and Word files in outputs/
+    edits <slug> [--discard FILE]          Show hand edits to rendered Markdown, to copy into the YAML
     qa <slug> [--check-links] [--no-render] Run quality checks, render everything, build LAUNCH-KIT.md
 
 Stage names look like: intake, research:<industry>, competitive, strategy,
@@ -106,11 +107,29 @@ def cmd_status(args) -> int:
             why = f": {'; '.join(c.reasons)}" if c.reasons else ""
             print(f"  - {c.unit}: {STATUS_TEXT.get(c.old, c.old)} -> {STATUS_TEXT.get(c.new, c.new)}{why}")
 
-    stale = [r[0] for r in rows if r[2] == STALE]
+    stale = [r[0] for r in rows if r[2] in (STALE, AWAITING)]
     if stale:
-        print("\nAssets that need a refresh (only these will be redone, after you agree):")
+        print("\nWhat changed, and which parts depend on it (only these need redoing, after you agree):")
         for name in stale:
+            details = state.impact(name)
+            if not details and state.status(name) != STALE:
+                continue
             print(f"  - {state.asset_label(name)} [{name}]")
+            for d in details:
+                for c in d["changes"]:
+                    who = "its own files" if d["source"] == name else d["source"]
+                    print(f"      {who}: {c.describe()}")
+                for file, item, item_id in d["refs"]:
+                    print(f"        -> {file}: {item} (uses {item_id})")
+                if d["source"] != name and not d["refs"] and any(c.ids for c in d["changes"]):
+                    print("        -> nothing in this asset refers to the changed items directly; review it as a whole")
+            if not details:
+                print("      (no approved copy to compare with: review the whole asset)")
+    edited = _edited_outputs(launch_dir(args.slug))
+    if edited:
+        print("\nRendered files edited by hand (copy the edits into the YAML before the next stage):")
+        for name in edited:
+            print(f"  - outputs/{name}   (see: launch.py edits {args.slug})")
 
     print("\nNext: " + _next_step(state, rows))
     return 0
@@ -134,11 +153,43 @@ def _next_step(state: LaunchState, rows) -> str:
     return "everything is approved."
 
 
+def _edited_outputs(path: Path) -> list[str]:
+    from scripts.state.edits import edited_outputs
+
+    return edited_outputs(path)
+
+
 def cmd_start(args) -> int:
     state = LaunchState.load(launch_dir(args.slug))
     state.start(args.stage)
     state.save()
     print(f"[OK] {args.stage} is now in progress.")
+    edited = _edited_outputs(state.dir)
+    if edited:
+        print(f"[!] The PMM edited {len(edited)} rendered file(s): {', '.join(edited)}.")
+        print(f"    Copy those edits into the YAML first: launch.py edits {args.slug}")
+    return 0
+
+
+def cmd_edits(args) -> int:
+    from scripts.state import edits
+
+    path = launch_dir(args.slug)
+    LaunchState.load(path)
+    if args.discard:
+        edits.discard(path, args.discard)
+        print(f"[OK] Put back the last rendered version of outputs/{args.discard}.")
+        return 0
+    edited = edits.edited_outputs(path)
+    if not edited:
+        print("No rendered files have been edited by hand.")
+        return 0
+    for name in edited:
+        print(f"=== outputs/{name}  (source of truth: {edits.source_yaml(name) or 'unknown'})")
+        print(edits.show_diff(path, name))
+        print()
+    print("Next: copy each change into the YAML file named above, run validate.py, then")
+    print(f"      launch.py render {args.slug} --force   (or --discard <file> to drop an edit)")
     return 0
 
 
@@ -246,8 +297,10 @@ def cmd_auto(args) -> int:
 def cmd_render(args) -> int:
     from scripts.render.render import Renderer
 
-    renderer = Renderer(launch_dir(args.slug))
+    renderer = Renderer(launch_dir(args.slug), force=args.force)
     results = renderer.render_all(args.unit)
+    for name in renderer.kept:
+        print(f"[!] Kept your edits in outputs/{name} (not overwritten). See: launch.py edits {args.slug}")
     if not results:
         print("Nothing to render yet." if not args.unit else f"Nothing to render for {args.unit} yet.")
         return 0
@@ -271,9 +324,19 @@ def cmd_qa(args) -> int:
     return 1 if any(r.errors for r in results) else 0
 
 
-def cmd_not_yet(args) -> int:
-    print(f"'{args.command}' is not available yet in this version of the toolkit.")
-    return 1
+def cmd_refresh(args) -> int:
+    from scripts.connectors.env import load_env
+    from scripts.qa.run import http_link_checker
+    from scripts.refresh.refresh import main_summary, refresh
+
+    path = launch_dir(args.slug)
+    LaunchState.load(path)
+    print("Checking competitors, regulation, market data and sources (this can take a few minutes) ...")
+    result = refresh(path, env=load_env(), link_checker=None if args.no_links else http_link_checker)
+    print(f"[OK] {main_summary(result)}")
+    if result.unavailable:
+        print(f"    {len(result.unavailable)} check(s) couldn't run; they're listed in the report for web search.")
+    return 0
 
 
 # ---------------------------------------------------------------------- parser
@@ -338,7 +401,13 @@ def build_parser() -> argparse.ArgumentParser:
     s = sub.add_parser("render")
     s.add_argument("slug")
     s.add_argument("--unit")
+    s.add_argument("--force", action="store_true", help="overwrite Markdown files edited by hand")
     s.set_defaults(func=cmd_render)
+
+    s = sub.add_parser("edits")
+    s.add_argument("slug")
+    s.add_argument("--discard", metavar="FILE", help="put back the last rendered version of FILE")
+    s.set_defaults(func=cmd_edits)
 
     s = sub.add_parser("qa")
     s.add_argument("slug")
@@ -346,10 +415,10 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--no-render", action="store_true")
     s.set_defaults(func=cmd_qa)
 
-    for name in ("refresh",):
-        s = sub.add_parser(name)
-        s.add_argument("slug")
-        s.set_defaults(func=cmd_not_yet)
+    s = sub.add_parser("refresh")
+    s.add_argument("slug")
+    s.add_argument("--no-links", action="store_true", help="skip re-opening every source link")
+    s.set_defaults(func=cmd_refresh)
     return p
 
 
