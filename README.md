@@ -2,6 +2,8 @@
 
 **Turn a product brief into a sourced, industry-specific launch kit, with the PMM in charge.**
 
+Every launch starts with the same groundwork: industry research, personas, competitive intel and messaging, repeated for every industry you sell into. This toolkit gets that groundwork in place, sourced and ready to edit, so PMMs can spend their time on the strategic calls. [Why I built it](docs/design-decisions.md)
+
 You bring the product brief and your point of view; an AI coding agent does the research and the first drafts, stopping for your approval after every stage. Every claim is cited or labeled.
 
 ![Stages and checkpoints: your inputs → intake → industry research and competitive → strategy check → personas → messaging → sales assets → QA → launch kit, with a PMM checkpoint after every stage and an on-demand refresh loop](docs/images/pipeline.svg)
