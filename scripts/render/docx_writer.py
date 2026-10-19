@@ -238,7 +238,9 @@ class DocxWriter:
         """Share the page width between columns by how much text each holds."""
         section = self.doc.sections[-1]
         usable = section.page_width - section.left_margin - section.right_margin
-        weights = [min(max(max(len(r[c]) for r in rows), 7), 60) for c in range(len(rows[0]))]
+        # Bold header text is wider than body text, and short IDs like "WS-1" shouldn't wrap.
+        weights = [min(max(max(len(r[c]) for r in rows[1:]) if len(rows) > 1 else 0, len(rows[0][c]) + 3, 8), 60)
+                   for c in range(len(rows[0]))]
         total = sum(weights)
         widths = [int(usable * w / total) for w in weights]
         table.autofit = False
