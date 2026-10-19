@@ -17,7 +17,7 @@ Commands
     auto <slug> <on|off>                   Switch checkpoints off/on for this launch (auto mode)
     refresh <slug>                         Pull fresh data and report what changed (coming soon)
     render <slug> [--unit <stage>]         Build Markdown and Word files in outputs/
-    qa <slug>                              Run quality checks (coming soon)
+    qa <slug> [--check-links] [--no-render] Run quality checks, render everything, build LAUNCH-KIT.md
 
 Stage names look like: intake, research:<industry>, competitive, strategy,
 personas:<industry>, messaging, playbook:<industry>, demo:<industry>, web:<industry>, qa
@@ -257,6 +257,20 @@ def cmd_render(args) -> int:
     return 0
 
 
+def cmd_qa(args) -> int:
+    from scripts.qa.run import run, summary_line
+
+    path = launch_dir(args.slug)
+    LaunchState.load(path)  # friendly error if the launch doesn't exist
+    results = run(path, check_links=args.check_links, render=not args.no_render)
+    for r in results:
+        mark = {"pass": "[OK]", "warn": "[! ]", "fail": "[X ]"}[r.status]
+        print(f"{mark} {r.check} {r.title}: {r.summary}")
+    print(f"\nQA: {summary_line(results)}")
+    print("Wrote qa-report.md and LAUNCH-KIT.md")
+    return 1 if any(r.errors for r in results) else 0
+
+
 def cmd_not_yet(args) -> int:
     print(f"'{args.command}' is not available yet in this version of the toolkit.")
     return 1
@@ -326,7 +340,13 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--unit")
     s.set_defaults(func=cmd_render)
 
-    for name in ("refresh", "qa"):
+    s = sub.add_parser("qa")
+    s.add_argument("slug")
+    s.add_argument("--check-links", action="store_true")
+    s.add_argument("--no-render", action="store_true")
+    s.set_defaults(func=cmd_qa)
+
+    for name in ("refresh",):
         s = sub.add_parser(name)
         s.add_argument("slug")
         s.set_defaults(func=cmd_not_yet)

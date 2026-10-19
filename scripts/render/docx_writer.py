@@ -102,6 +102,10 @@ class DocxWriter:
             style = self.doc.styles[name]
             style.font.name = fonts["body"]
             style.font.color.rgb = _rgb(colors["text"])
+            self._set_east_asian_font(style, fonts["body"])
+        for name in ("Normal", "Title", "Heading 1", "Heading 2", "Heading 3", "Heading 4", "List Bullet",
+                     "List Bullet 2", "List Number", "Quote", "Table Grid"):
+            self._drop_theme_colors(self.doc.styles[name], colors["primary"])
         normal.paragraph_format.space_after = Pt(5)
         normal.paragraph_format.line_spacing = 1.1
         for name in ("Heading 1", "Heading 2", "Heading 3", "Heading 4"):
@@ -114,13 +118,27 @@ class DocxWriter:
 
     @staticmethod
     def _set_east_asian_font(style, font_name: str) -> None:
+        """Set the font for every script, and remove theme fonts, which Word would use instead."""
         rpr = style.element.get_or_add_rPr()
         rfonts = rpr.find(qn("w:rFonts"))
         if rfonts is None:
             rfonts = OxmlElement("w:rFonts")
             rpr.append(rfonts)
+        for attr in ("w:asciiTheme", "w:hAnsiTheme", "w:eastAsiaTheme", "w:cstheme"):
+            rfonts.attrib.pop(qn(attr), None)
         for attr in ("w:ascii", "w:hAnsi", "w:cs", "w:eastAsia"):
             rfonts.set(qn(attr), font_name)
+
+    @staticmethod
+    def _drop_theme_colors(style, border_color: str) -> None:
+        """Word applies theme colors before plain ones, so remove them from styles we brand.
+        Border lines (like the rule under the title) take the brand's primary color."""
+        for el in style.element.iter():
+            for attr in ("w:themeColor", "w:themeShade", "w:themeTint"):
+                el.attrib.pop(qn(attr), None)
+            if el.tag in (qn("w:top"), qn("w:bottom"), qn("w:left"), qn("w:right")) and el.get(qn("w:color")) \
+                    not in (None, "auto"):
+                el.set(qn("w:color"), border_color.lstrip("#").upper())
 
     def _setup_header_footer(self) -> None:
         section = self.doc.sections[0]

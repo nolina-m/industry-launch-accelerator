@@ -37,7 +37,9 @@ OUTPUTS: dict[str, list[str]] = {
     "playbook": ["playbooks/{i}.yaml"],
     "demo": ["demos/{i}.yaml"],
     "web": ["web/{i}.yaml"],
-    "qa": ["qa-report.md", "LAUNCH-KIT.md"],
+    # LAUNCH-KIT.md is an index rebuilt on every QA run (it shows the current statuses),
+    # so only the QA report itself counts as the stage's output.
+    "qa": ["qa-report.md"],
 }
 
 # Human-readable asset each unit produces (for "which assets are affected").

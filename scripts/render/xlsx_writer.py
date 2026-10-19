@@ -39,6 +39,12 @@ def write_grid(path: Path, messaging: dict, *, industries: dict, personas: dict,
     pillars = {p["id"]: p["headline"] for p in messaging.get("pillars", [])}
 
     wb = Workbook()
+    # Replace openpyxl's default Calibri everywhere, so only brand fonts appear in the file (FR-QA-04).
+    from openpyxl.utils.indexed_list import IndexedList
+
+    base_font = Font(name=body_font, size=11, color=_hex(colors["text"]))
+    wb._fonts = IndexedList([base_font])
+    wb._named_styles["Normal"].font = base_font
     ws = wb.active
     ws.title = "Messaging grid"
     thin = Side(style="thin", color=_hex(colors.get("secondary") or colors["text"]))

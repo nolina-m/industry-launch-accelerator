@@ -1,0 +1,11 @@
+# Length limits for rendered assets (FR-QA-05), in words, Markdown body only.
+# A launch can override any of these in launches/<slug>/qa-limits.yaml.
+01-industry-brief: 3500
+02-competitive-overview: 1500
+02-battlecard: 2000
+03-strategy-check: 2500
+04-personas: 4500
+05-messaging-framework: 3500
+06-playbook: 3500
+07-demo-storyline: 3000
+08-web-copy: 2000

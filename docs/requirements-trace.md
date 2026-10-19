@@ -65,14 +65,14 @@ Status: ✅ done · 🟡 partial · ⬜ not started.
 | FR-RND-05 | ✅ | Fixed render date in core properties; PNG without metadata | `tests/test_render.py::test_rendering_is_deterministic`, `test_png_diagrams_are_deterministic` |
 | FR-RND-06 | ✅ | `scripts/brand/theme.py` (Arial), fonts set on built-in styles | `tests/test_render.py::test_brand_fonts_and_colors_are_applied` |
 | FR-OUT-02 | ✅ | Only built-in styles, simple tables with explicit borders, inline PNG, plain header/footer | Files opened via macOS Quick Look/textutil in smoke run; manual Word/Google check at M4 |
-| FR-OUT-03 | 🟡 | Rules in `00-orchestrator.md`, `06-messaging.md`; checks in M6 | Manual read |
+| FR-OUT-03 (rules) | ✅ | Rules in `00-orchestrator.md`, `06-messaging.md`, `08`, `09` | Manual read |
 | FR-GRD-03..08 | 🟡 | Stated in stage instructions; footer (FR-GRD-06) on every asset | `tests/test_render.py::test_every_asset_has_status_footer_and_verify_section` |
 | FR-INP-11 | ✅ | + "Unbranded draft" in every asset's status line and Word header | `tests/test_render.py::test_every_asset_has_status_footer_and_verify_section` |
 | M3 acceptance | ✅ | Private smoke run 2026-10-18 outside the repo (deleted): assets 1–6 for one industry rendered; checkpoints blocked correctly; strategy check stored PMM responses | Smoke run log in BUILD-NOTES |
 | FR-DMO-01 / FR-DMO-02 | ✅ | `instructions/08-demo-storyline.md`, `schemas/demo.schema.json`, `templates/docs/demo.md.j2` (moments table, aha, 5- and 20-minute versions, data, environment, [VERIFY] per moment) | `tests/test_render.py::test_demo_storyline_content` |
 | FR-WEB-01 / FR-WEB-02 | ✅ | `instructions/09-web-copy.md`, `schemas/web.schema.json`, `templates/docs/web.md.j2` (structure, copy, variants, [VERIFY] keywords, messaging links; no HTML) | `tests/test_render.py::test_web_copy_content` |
 | FR-MSG-03 (XLSX) / FR-RND-02 | ✅ | `scripts/render/xlsx_writer.py` (one row per industry × persona, autofilter, frozen header, brand fill and font, footer + About sheet) | `tests/test_render.py::test_excel_grid_has_filters_frozen_header_and_one_row_per_persona`, `test_excel_grid_uses_brand_font` |
-| FR-OUT-03 (competitors in customer copy) | 🟡 | Rule in `08-demo-storyline.md`, `09-web-copy.md`, `00-orchestrator.md`; automated check in M6 | Manual read |
+| FR-OUT-03 (competitors in customer copy) | ✅ | Rule in `08-demo-storyline.md`, `09-web-copy.md`, `00-orchestrator.md`; automated check in M6 | Manual read |
 | Multi-industry | ✅ | Per-industry units for every per-industry asset; grid grouped by industry | `tests/test_render.py::test_all_eight_assets_render_for_two_industries` |
 | M4 acceptance | ✅ | All 8 assets render for 2 industries (automated). Owner opened the files in Word, Excel, Google Docs and Google Sheets on 2026-10-18: all fine | `tests/test_render.py::test_all_eight_assets_render_for_two_industries` |
 | FR-INP-07 | ✅ | `instructions/12-custom-industry.md` (pack saved in `launches/<slug>/industries/<id>/pack.yaml`, `generated: true`, offer to copy), `launch.py add-industry` (detects packs) | `tests/test_schemas.py::test_schema_lookup_by_path` (launch-local pack validated) |
@@ -87,3 +87,16 @@ Status: ✅ done · 🟡 partial · ⬜ not started.
 | FR-API-05 | ✅ | `docs/adding-a-data-source.md` | Manual read |
 | §11.2 docs | ✅ | `docs/data-sources.md` (verification date, access, limits, changes with reasons), `.env.example` (step-by-step, sign-up links) | Manual read |
 | M5 acceptance | ✅ | Packs validate; every connector has a recorded-response test; missing keys degrade gracefully | `tests/test_packs.py`, `tests/connectors/test_connectors.py::test_every_registered_connector_has_a_recorded_response`, `test_missing_key_means_off_and_fails_soft` |
+| FR-QA-01 | ✅ | `scripts/qa/content_checks.py::check_structure` | `tests/test_qa.py::test_structure_catches_schema_error` |
+| FR-QA-02 | ✅ | `scripts/qa/content_checks.py::check_citations` (numbers/dates, named companies, regulatory statements; inline labels or structured source; 95% target; lists uncovered) | `tests/test_qa.py::test_citations_catch_an_uncited_claim`, `test_labels_and_structured_sources_count_as_cited`, `test_citations_catch_named_company_and_regulatory_claims` |
+| FR-QA-03 | ✅ | `check_sources` (unregistered citations, URL + retrieval date, trend sources >24 months, ≥2 independent, tier rules, list prices Tier 1, optional `--check-links`) | `tests/test_qa.py::test_sources_*`, `test_link_check_reports_dead_links` |
+| FR-QA-04 | ✅ | `scripts/qa/output_checks.py::check_brand` (reads DOCX/XLSX: resolves used styles incl. theme fonts/colors; palette, fonts; banned/preferred terms; product-name caps) | `tests/test_qa.py::test_brand_catches_off_palette_color`, `test_brand_catches_undeclared_font`, `test_brand_catches_banned_term_preferred_term_and_product_caps`, `test_brand_passes_on_rendered_files` |
+| FR-QA-05 | ✅ | `check_layout` (empty sections, filler-only sections, placeholders, broken tables, length limits in `scripts/qa/limits.yaml` + per-launch `qa-limits.yaml`) | `tests/test_qa.py::test_layout_catches_empty_section`, `test_layout_catches_placeholder_broken_table_and_length` |
+| FR-QA-06 | ✅ | `check_sameness` (persona pains >70% alike across industries; near-identical headlines; feature-first messages) | `tests/test_qa.py::test_sameness_catches_near_identical_personas`, `test_sameness_catches_feature_first_message`, `test_feature_first_heuristic` |
+| FR-QA-07 | ✅ | `check_completeness` (per-industry assets, grid rows per persona, battlecards per competitor, strategy responses; recommended counts as warnings) | `tests/test_qa.py::test_completeness_*` |
+| FR-QA-08 | ✅ | `scripts/qa/run.py` (render all, `qa-report.md`), `scripts/qa/kit.py` (`LAUNCH-KIT.md`: assets with links/status/open items, top 10 to verify, gap report, QA summary, source register, latest what-changed) | `tests/test_qa.py::test_run_writes_report_and_kit`, `test_qa_stage_can_be_approved_and_kit_rebuilt_without_going_stale` |
+| FR-OUT-03 / FR-CMP-04 (checks) | ✅ | `check_rules` (competitors in customer copy without opt-in; price-recommendation language) | `tests/test_qa.py::test_rules_*` |
+| FR-OUT-03 | ✅ | + automated check above | as above |
+| FR-MSG-04 | ✅ | Feature-first flag in `check_sameness` | `tests/test_qa.py::test_sameness_catches_feature_first_message` |
+| FR-INP-10 / FR-RND-06 (fix) | ✅ | `docx_writer.py` removes Word theme fonts/colors from branded styles; title rule in brand primary; XLSX base font = brand font | `tests/test_qa.py::test_brand_passes_on_rendered_files` |
+| M6 acceptance | ✅ | Each check catches its seeded defect (uncited claim, banned term, off-palette color, empty section, near-identical personas, feature-first message, and more) | `tests/test_qa.py` |

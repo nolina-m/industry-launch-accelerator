@@ -25,6 +25,8 @@
 
 {% for pain in p.pains %}
 {{ loop.index }}. {{ pain.text }} _(linked to {{ (pain.trend_ids + (pain.imperative_ids or [])) | join(", ") }})_
+{% else %}
+None listed.
 {% endfor %}
 
 ### What they own
@@ -57,6 +59,8 @@
 
 {% for q in p.discovery_questions %}
 {{ loop.index }}. {{ q }}
+{% else %}
+None listed.
 {% endfor %}
 
 {% endfor %}
