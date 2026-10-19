@@ -317,3 +317,16 @@ def test_cli_qa_exit_code(launch, monkeypatch, capsys):
     out = capsys.readouterr().out
     assert "QA:" in out and "Wrote qa-report.md and LAUNCH-KIT.md" in out
     assert code == (1 if "[X ]" in out else 0)
+
+
+def test_buyer_objections_and_resolved_direction_are_not_claims(launch):
+    edit(launch, "competitors/comp-a.yaml", lambda d: d["objections"][0].update(
+        text="Competitor A already integrates with our EHR and raised $50 million."))
+    edit(launch, "strategy-check.yaml", lambda d: d.update(resolved_direction="Lead with 2 industries in 2027."))
+    msgs = messages(cc.check_citations(launch))
+    assert not any("objections[0].text" in (x or "") for x in [f.location for f in cc.check_citations(launch).findings])
+    assert not any("resolved_direction" in m for m in msgs)
+    # The objection's response is still checked.
+    edit(launch, "competitors/comp-a.yaml", lambda d: d["objections"][0]["response"].update(
+        evidence="Competitor A raised $50 million."))
+    assert any(f.location.endswith("objections[0].response.evidence") for f in cc.check_citations(launch).findings)

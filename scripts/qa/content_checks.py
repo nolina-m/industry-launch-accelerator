@@ -40,7 +40,7 @@ SKIP_KEYS = {
     "responded_at", "persona_id", "pillar_id", "pain_ref", "competitor_id", "imperative_id", "moment_id", "offer",
     "influence", "from", "to", "pov_quote", "adjusted_direction", "reason", "term", "series_id", "connector",
     "unit", "jurisdiction", "name", "disclaimer", "role", "reports_to", "when", "value_metric", "free_tier",
-    "proof_slot", "primary_cta", "cta", "title",
+    "proof_slot", "primary_cta", "cta", "title", "resolved_direction",
 }
 SKIP_PARENTS = {"discovery_questions", "landmines", "titles", "kpis", "language", "use", "avoid", "keywords",
                 "capability_refs", "trend_ids", "imperative_ids", "competitor_ids", "strongest_competitor_ids",
@@ -115,6 +115,8 @@ def check_citations(launch_dir: Path, target: float = 0.95) -> CheckResult:
             parts = re.split(r"[.\[\]]", path)
             if str(key) in SKIP_KEYS or any(p in SKIP_PARENTS for p in parts):
                 continue
+            if "objections" in parts and key in ("text", "summary"):
+                continue  # what a buyer says, not a claim we make; the response is checked
             structured = _structurally_cited(parent, key)
             for s in sentences(text):
                 if s.endswith("?"):
