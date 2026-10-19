@@ -77,9 +77,10 @@ def test_readme_first_screen_and_sections():
     assert "https://nolina.work" in readme and "linkedin.com/in/" in readme
 
 
-def test_design_decisions_has_owner_placeholder_and_topics():
+def test_design_decisions_has_owner_intro_and_topics():
     text = (REPO_ROOT / "docs" / "design-decisions.md").read_text()
-    assert "placeholder" in text.split("\n## ")[0].lower()
+    intro = text.split("\n## ")[0]
+    assert "placeholder" not in intro.lower() and len(intro.split()) > 100  # the owner's own opening
     for topic in ("Cite or label", "Checkpoints", "Data first", "Pricing models, not prices", "Plain instructions",
                   "No slides"):
         assert topic in text, topic

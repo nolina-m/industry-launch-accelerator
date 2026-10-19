@@ -181,8 +181,8 @@ Test paths are under `tests/`. "Smoke run" means a private end-to-end run outsid
 | FR-DOC-02 | "How it works in 60 seconds" | ✅ | `README.md` | `test_repo_hygiene.py::test_readme_first_screen_and_sections` |
 | FR-DOC-03 | Copy-paste quickstart (Mac, Windows, agents, keys) | ✅ | `README.md` Quickstart, `.env.example` | Owner review |
 | FR-DOC-04 | Example runs placeholder | ✅ | `README.md` | `test_repo_hygiene.py::test_readme_first_screen_and_sections` |
-| FR-DOC-05 | About the author with links | 🟡 | `README.md` | Draft wording; the owner will edit it |
-| FR-DOC-06 | Design decisions with owner placeholder | ✅ | `docs/design-decisions.md` | `test_repo_hygiene.py::test_design_decisions_has_owner_placeholder_and_topics` |
+| FR-DOC-05 | About the author with links | ✅ | `README.md` (owner's wording, 2026-10-19) | `test_repo_hygiene.py::test_readme_first_screen_and_sections` |
+| FR-DOC-06 | Design decisions, opening in the owner's voice | ✅ | `docs/design-decisions.md` (owner's opening, 2026-10-19) | `test_repo_hygiene.py::test_design_decisions_has_owner_intro_and_topics` |
 | FR-DOC-07 | Customization; contributing | ✅ | `docs/customization.md`, `CONTRIBUTING.md` | Manual read; `test_repo_hygiene.py::test_markdown_links_to_repo_files_resolve` |
 | FR-DOC-08 | Issue templates (bug, feedback 1–5, pack, data source) | ✅ | `.github/ISSUE_TEMPLATE/*.yml` | `test_repo_hygiene.py::test_feedback_form_has_the_1_to_5_rating` |
 | FR-TST-01 | CI with lint and tests, no network | ✅ | `.github/workflows/ci.yml`, `tests/conftest.py` | `test_scaffold.py::test_network_is_blocked_in_tests`; GitHub Actions green on Python 3.10 and 3.13 (2026-10-19) |

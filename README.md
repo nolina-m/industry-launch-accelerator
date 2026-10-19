@@ -138,7 +138,7 @@ Example runs coming soon.
 
 ## About the author
 
-Industry Launch Accelerator is built and maintained by Nolina Mishra, a product marketer. It started from a simple idea: the first draft of a launch kit should take hours, not weeks, and the PMM's judgment should stay at the center of it.
+I'm Nolina Mishra, a product marketer in San Francisco. As a founding PMM, I took AI and XR products to B2B and B2C buyers, building each go-to-market from scratch. I built this toolkit to get the groundwork of a launch in place, so PMMs can spend more of their time on the strategic calls.
 
 [nolina.work](https://nolina.work) · [LinkedIn](https://www.linkedin.com/in/nolinamishra)
 

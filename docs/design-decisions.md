@@ -1,6 +1,8 @@
 # Design decisions
 
-> **✍️ Author's note: placeholder.** This paragraph is reserved for Nolina Mishra to write in her own voice: why this toolkit exists, and what a PMM should expect from it. *(Replace this block.)*
+Every launch I've worked on started the same way: a product brief, a list of target industries, and a lot of open tabs. Before I could make a single strategic call, I needed to know what was changing in each industry, who sat on the buying committee, and what competitors were saying. That groundwork multiplies. Every industry needs its own trends, personas and messaging, so three industries with five personas each means fifteen sets of messaging. Each step waits on the one before it: messaging on personas, personas on research. Once the kit is out, competitors launch, regulations change, and it quietly goes out of date. Asking a chatbot for "messaging for healthcare" doesn't fix this. You get unsourced copy with the industry name swapped in, and then you have to check every line.
+
+The groundwork matters, but it isn't where a PMM adds the most value. That comes from judgment: which industries matter, what each buyer needs to believe, which claims are safe to make. I built this toolkit to get the groundwork in place so the real thinking can start sooner. Expect a first draft, not a finished kit. Every claim is cited or flagged, gaps are called out instead of filled in, and the agent will tell you when the evidence disagrees with your POV. What you keep, change or throw out is still your call.
 
 The choices below shape how the toolkit behaves. Each one trades some speed or polish for something PMMs need more: drafts they can trust and check quickly, with their own judgment in charge.
 
