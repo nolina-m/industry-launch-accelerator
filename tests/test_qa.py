@@ -323,8 +323,13 @@ def test_buyer_objections_and_resolved_direction_are_not_claims(launch):
     edit(launch, "competitors/comp-a.yaml", lambda d: d["objections"][0].update(
         text="Competitor A already integrates with our EHR and raised $50 million."))
     edit(launch, "strategy-check.yaml", lambda d: d.update(resolved_direction="Lead with 2 industries in 2027."))
+    edit(launch, "competitive-overview.yaml", lambda d: d.update(generic_objections=[{
+        "id": "O-gen-1", "text": "Regulators won't accept an AI agent here.",
+        "underlying_concern": "c", "response": {"acknowledge": "a", "reframe": "r", "evidence": "e", "question": "q"},
+        "proof_slot": "[PROOF NEEDED]"}]))
     msgs = messages(cc.check_citations(launch))
-    assert not any("objections[0].text" in (x or "") for x in [f.location for f in cc.check_citations(launch).findings])
+    locations = [f.location for f in cc.check_citations(launch).findings]
+    assert not any(loc.endswith("objections[0].text") for loc in locations)  # battlecard and generic objections
     assert not any("resolved_direction" in m for m in msgs)
     # The objection's response is still checked.
     edit(launch, "competitors/comp-a.yaml", lambda d: d["objections"][0]["response"].update(

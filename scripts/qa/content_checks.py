@@ -115,7 +115,7 @@ def check_citations(launch_dir: Path, target: float = 0.95) -> CheckResult:
             parts = re.split(r"[.\[\]]", path)
             if str(key) in SKIP_KEYS or any(p in SKIP_PARENTS for p in parts):
                 continue
-            if "objections" in parts and key in ("text", "summary"):
+            if any(p.endswith("objections") for p in parts) and key in ("text", "summary"):
                 continue  # what a buyer says, not a claim we make; the response is checked
             structured = _structurally_cited(parent, key)
             for s in sentences(text):
