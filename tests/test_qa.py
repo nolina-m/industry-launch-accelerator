@@ -89,6 +89,28 @@ def test_citations_catch_named_company_and_regulatory_claims():
     assert "regulatory statement" in cc.claim_kinds("Regulation (EU) 2024/1689 applies.", names)
 
 
+@pytest.mark.parametrize("sentence", [
+    "Watches whether scheduling rules are followed and the reschedule finishes without staff.",
+    "Clear exception categories that map to handoff rules.",
+    "Strong internal engineering with a build mandate.",
+    "Documented rules that could be configured, not tribal knowledge only.",
+    "Approval is required before the agent acts.",
+])
+def test_everyday_words_are_not_regulatory_claims(sentence):
+    assert "regulatory statement" not in cc.claim_kinds(sentence, [])
+
+
+@pytest.mark.parametrize("sentence", [
+    "The proposed rule would shorten decision timeframes.",
+    "Regulators expect a documented risk assessment.",
+    "State privacy laws differ on consent.",
+    "The FTC Safeguards Rule applies to consumer lenders.",
+    "New regulations take effect in 2027.",
+])
+def test_legal_language_is_still_a_regulatory_claim(sentence):
+    assert "regulatory statement" in cc.claim_kinds(sentence, [])
+
+
 # ------------------------------------------------------------------ FR-QA-03
 def test_sources_catch_unregistered_citation(launch):
     assert not any("S99" in m for m in messages(cc.check_sources(launch)))

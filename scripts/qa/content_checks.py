@@ -49,9 +49,12 @@ SKIP_PARENTS = {"discovery_questions", "landmines", "titles", "kpis", "language"
                 "decision_sequence", "headline_variants"}
 # Named laws ("Affordable Care Act", "Regulation (EU) 2024/1689") need a name before or after the keyword,
 # so verbs like "Act on changes" at the start of a headline don't count.
+# Everyday words like "scheduling rules", "required" or "a build mandate" are not legal claims,
+# so only legal language counts: named laws, regulators, rulemaking and agency acronyms.
 REG_RE = re.compile(r"\b[A-Z][\w.&-]*\s+(Act|Rule|Directive)\b|\b(Regulation|Directive)\s+\(|"
-                    r"\b(rules?|regulators?|regulation|law|statute|mandate[sd]?|requires?|required|"
-                    r"compliance deadline|GDPR|HIPAA|CMS|FDA|SEC|FTC|FCC|CFPB|OCC|FDIC|EBA|FCA)\b")
+                    r"(?i:\b(proposed|final|interim) rules?\b|\brulemaking\b|"
+                    r"\b(regulators?|regulations?|regulatory requirements?|laws?|statutes?|compliance deadline)\b)|"
+                    r"\b(GDPR|HIPAA|CMS|FDA|SEC|FTC|FCC|CFPB|OCC|FDIC|EBA|FCA)\b")
 ORG_RE = re.compile(r"\b(Inc|Corp|Corporation|LLC|Ltd|plc|GmbH|AG|S\.A\.)\b")
 NUMBER_RE = re.compile(r"(?<![A-Za-z]-)(?<![A-Za-z]-\w)\b\d[\d,.]*\s*(%|percent|x\b|million|billion|bn|m\b|k\b)?|\$\d")
 ID_REF_RE = re.compile(r"\b(?:T|I|R|MD|O|SC|SA|P|PL|DM|WS)-[\w-]+")
