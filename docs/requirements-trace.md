@@ -198,4 +198,4 @@ Test paths are under `tests/`. "Smoke run" means a private end-to-end run outsid
 | Read-first #6: no employer or job-application mentions | ✅ | `test_repo_hygiene.py::test_no_employer_or_job_application_mentions` |
 | §13.1 `AGENTS.md` canonical; `CLAUDE.md` pointer | ✅ | `test_scaffold.py::test_claude_md_imports_agents_md` |
 | §11.2 source list verified at build time | ✅ | `docs/data-sources.md` (changes approved by the owner 2026-10-18) |
-| M0–M8 acceptance criteria | ✅ | Per milestone in the build log; M9 (release) in progress |
+| M0–M9 acceptance criteria | ✅ | Per milestone in the build log; M9: repo public with description and topics, v0.1.0 released 2026-10-19 |
