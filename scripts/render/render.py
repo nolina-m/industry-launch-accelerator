@@ -110,6 +110,24 @@ def _bullets(items, empty="None listed.") -> str:
     return "\n".join(f"- {i}" for i in items) if items else empty
 
 
+def _semi(items) -> str:
+    """Join list items with semicolons, without doubling up punctuation ("collection.; Shared")."""
+    return "; ".join(str(i).strip().rstrip(".;").strip() for i in (items or []) if str(i).strip())
+
+
+def _is_a(category) -> str:
+    """'platform' -> 'is a platform'; 'agentic AI platform' -> 'is an agentic AI platform';
+    text that already starts with 'is', 'a' or 'an' is kept as written."""
+    text = str(category or "").strip()
+    first = text.split(" ", 1)[0].lower()
+    if first in ("is", "are"):
+        return text
+    if first in ("a", "an", "the"):
+        return f"is {text}"
+    article = "an" if text[:1].lower() in "aeiou" else "a"
+    return f"is {article} {text}"
+
+
 def _cites(evidence) -> str:
     return " ".join(f"[{e['source_id']}]" for e in (evidence or [])) or "[VERIFY] no source yet"
 
@@ -142,6 +160,8 @@ class Renderer:
             "cell": _cell,
             "bullets": _bullets,
             "cites": _cites,
+            "semi": _semi,
+            "is_a": _is_a,
             "competitor": lambda cid: self.competitors.get(cid, cid),
             "industry": lambda iid: self.industries.get(iid, {}).get("name", iid),
             "persona": lambda pid: self.personas.get(pid, {}).get("role", pid),

@@ -29,7 +29,7 @@
 ### {{ i.id }}: {{ i.statement }}
 
 - **Follows from:** {{ i.trend_ids | join(", ") }}
-- **Where we help:** {{ i.capability_refs | join("; ") if i.capability_refs else "[VERIFY] no capability linked yet" }}
+- **Where we help:** {{ i.capability_refs | semi if i.capability_refs else "[VERIFY] no capability linked yet" }}
 
 {% endfor %}
 ## Regulatory and compliance landscape

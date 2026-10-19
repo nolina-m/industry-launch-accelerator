@@ -28,26 +28,50 @@ def _save(fig, path: Path) -> Path:
 
 
 def positioning_map(overview: dict, names: dict[str, str], brand: dict, path: Path) -> Path:
+    """Two-axis map. Axis titles wrap and the low/high ends are marked on each axis; each label
+    takes the first nearby position that doesn't collide with another label."""
+    import textwrap
+
     pm = overview["positioning_map"]
     colors = brand["colors"]
     accent = (colors.get("accent") or [colors["primary"]])[0]
-    fig, ax = plt.subplots(figsize=(6.4, 5.2))
+    fig, ax = plt.subplots(figsize=(7.2, 6.2))
     ax.set_xlim(0, 10)
     ax.set_ylim(0, 10)
     ax.axhline(5, color=colors["text"], linewidth=0.5, alpha=0.4)
     ax.axvline(5, color=colors["text"], linewidth=0.5, alpha=0.4)
-    for point in pm["points"]:
+    fig.canvas.draw()
+    renderer = fig.canvas.get_renderer()
+    placed = []
+    offsets = [((8, 5), "left", "bottom"), ((8, -6), "left", "top"), ((-8, 5), "right", "bottom"),
+               ((-8, -6), "right", "top"), ((0, 10), "center", "bottom"), ((0, -11), "center", "top")]
+    for point in sorted(pm["points"], key=lambda p: p.get("competitor_id") is not None):
         ours = point.get("competitor_id") is None
-        color = colors["primary"] if ours else accent
-        ax.scatter(point["x"], point["y"], s=140 if ours else 90, color=color, zorder=3,
-                   marker="*" if ours else "o")
+        ax.scatter(point["x"], point["y"], s=150 if ours else 90, color=colors["primary"] if ours else accent,
+                   zorder=3, marker="*" if ours else "o")
         label = point["label"] if ours else names.get(point["competitor_id"], point["label"])
-        ax.annotate(label, (point["x"], point["y"]), textcoords="offset points", xytext=(7, 6),
-                    fontsize=8.5, color=colors["text"], weight="bold" if ours else "normal")
-    ax.set_xlabel(f"{pm['x_axis']['label']}  ({pm['x_axis']['low']} → {pm['x_axis']['high']})",
-                  fontsize=9, color=colors["text"])
-    ax.set_ylabel(f"{pm['y_axis']['label']}  ({pm['y_axis']['low']} → {pm['y_axis']['high']})",
-                  fontsize=9, color=colors["text"])
+        label = "\n".join(textwrap.wrap(label, 22))
+        for (dx, dy), ha, va in offsets:
+            t = ax.annotate(label, (point["x"], point["y"]), textcoords="offset points", xytext=(dx, dy), ha=ha,
+                            va=va, fontsize=9, color=colors["text"], weight="bold" if ours else "normal",
+                            annotation_clip=False)
+            box = t.get_window_extent(renderer).expanded(1.05, 1.15)
+            if not any(box.overlaps(b) for b in placed):
+                placed.append(box)
+                break
+            t.remove()
+        else:  # every position collides: keep the first one anyway
+            t = ax.annotate(label, (point["x"], point["y"]), textcoords="offset points", xytext=(8, 5),
+                            fontsize=9, color=colors["text"], weight="bold" if ours else "normal")
+            placed.append(t.get_window_extent(renderer))
+    xa, ya = pm["x_axis"], pm["y_axis"]
+    ax.set_xlabel("\n".join(textwrap.wrap(xa["label"], 60)), fontsize=10, color=colors["text"], labelpad=16)
+    ax.set_ylabel("\n".join(textwrap.wrap(ya["label"], 40)), fontsize=10, color=colors["text"], labelpad=24)
+    small = {"fontsize": 8, "color": colors["text"], "style": "italic"}
+    ax.text(0, -0.35, "\n".join(textwrap.wrap(xa["low"], 28)), ha="left", va="top", **small)
+    ax.text(10, -0.35, "\n".join(textwrap.wrap(xa["high"], 28)), ha="right", va="top", **small)
+    ax.text(-0.15, 0, ya["low"][:48], ha="right", va="bottom", rotation=90, **small)
+    ax.text(-0.15, 10, ya["high"][:48], ha="right", va="top", rotation=90, **small)
     ax.set_xticks([])
     ax.set_yticks([])
     for spine in ax.spines.values():

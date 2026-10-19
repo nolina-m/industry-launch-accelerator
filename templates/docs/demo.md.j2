@@ -32,7 +32,7 @@
 - **Tell back:** {{ m.tell_back }}
 - **Talk track:** {{ m.talk_track }}
 {% if m.verify %}
-- **To verify:** {{ m.verify | join("; ") }}
+- **To verify:** {{ m.verify | semi }}
 {% endif %}
 
 {% endfor %}

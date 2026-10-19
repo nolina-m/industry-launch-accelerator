@@ -1,6 +1,6 @@
 ## Positioning statement
 
-**For** {{ data.positioning["for"] }} **who** {{ data.positioning.who }}, **{{ data.positioning.product }}** is a {{ data.positioning.category }} **that** {{ data.positioning.that }}. **Unlike** {{ data.positioning.unlike }}, **we** {{ data.positioning.we }}.
+**For** {{ data.positioning["for"] }} **who** {{ data.positioning.who }}, **{{ data.positioning.product }}** {{ data.positioning.category | is_a }} **that** {{ data.positioning.that }}. **Unlike** {{ data.positioning.unlike }}, **we** {{ data.positioning.we }}.
 
 ## Elevator pitch
 
@@ -16,8 +16,8 @@
 ### {{ pl.id }}: {{ pl.headline }}
 
 - **Customer outcome:** {{ pl.outcome }}
-- **Capabilities:** {{ pl.capabilities | join("; ") }}
-- **Proof:** {{ pl.proof | join("; ") if pl.proof else "[PROOF NEEDED]" }}
+- **Capabilities:** {{ pl.capabilities | semi }}
+- **Proof:** {{ pl.proof | semi if pl.proof else "[PROOF NEEDED]" }}
 - **Differentiator:** {{ pl.differentiator }}
 
 {% endfor %}

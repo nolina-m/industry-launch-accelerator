@@ -330,3 +330,36 @@ def test_committee_diagram_handles_large_committees_and_repeated_steps(tmp_path)
 
     h, w = image.imread(path).shape[:2]
     assert w > 1000 and h > 500  # big enough to stay readable on a page
+
+
+@pytest.mark.parametrize("category,expected", [
+    ("platform", "is a platform"),
+    ("agentic AI platform", "is an agentic AI platform"),
+    ("is an agentic AI platform", "is an agentic AI platform"),  # regression: used to read "is a is an"
+    ("an assistant", "is an assistant"),
+])
+def test_positioning_reads_naturally(category, expected):
+    from scripts.render.render import _is_a
+
+    assert _is_a(category) == expected
+
+
+def test_lists_join_without_doubled_punctuation():
+    from scripts.render.render import _semi
+
+    assert _semi(["Document collection.", "Shared context.", " ", "Audit logs"]) == \
+        "Document collection; Shared context; Audit logs"
+
+
+def test_positioning_map_with_crowded_points(tmp_path):
+    from scripts.brand.theme import NEUTRAL_COLORS, NEUTRAL_FONTS
+    from scripts.render.diagrams import positioning_map
+
+    axis = {"label": "A long axis title that used to run off the page in the old layout", "low": "low end",
+            "high": "high end", "rationale": "r"}
+    points = [{"label": f"Competitor {c}", "competitor_id": f"c{c}", "x": 4.0 + 0.1 * i, "y": 7, "rationale": "r"}
+              for i, c in enumerate("ABC")]
+    points.append({"label": "Us", "competitor_id": None, "x": 4, "y": 7.2, "rationale": "r"})
+    overview = {"positioning_map": {"x_axis": axis, "y_axis": axis, "points": points}}
+    brand = {"colors": NEUTRAL_COLORS, "fonts": NEUTRAL_FONTS}
+    assert positioning_map(overview, {}, brand, tmp_path / "m.png").stat().st_size > 10_000
