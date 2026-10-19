@@ -57,33 +57,54 @@ def positioning_map(overview: dict, names: dict[str, str], brand: dict, path: Pa
 
 
 def committee_map(committee: dict, roles: dict[str, str], brand: dict, path: Path) -> Path:
-    """Personas as boxes left to right in decision order, arrows for influence."""
+    """One box per person, in decision order (rows of up to four), with arrows for influence.
+
+    A person can appear more than once in the decision order (for example the economic
+    buyer is consulted early and signs at the end); their box lists every step. People
+    who only influence others are shown without a step number.
+    """
+    import textwrap
+
     colors = brand["colors"]
-    order = list(committee.get("decision_sequence") or [])
+    sequence = list(committee.get("decision_sequence") or [])
+    steps: dict[str, list[int]] = {}
+    for i, pid in enumerate(sequence, start=1):
+        steps.setdefault(pid, []).append(i)
+    people = list(steps)
     for edge in committee.get("edges", []):
         for pid in (edge["from"], edge["to"]):
-            if pid not in order:
-                order.append(pid)
-    n = max(len(order), 1)
-    fig, ax = plt.subplots(figsize=(max(6.4, 1.9 * n), 2.6))
-    ax.set_xlim(-0.6, n - 0.4)
-    ax.set_ylim(-1.15, 0.8)
+            if pid not in people:
+                people.append(pid)
+    import math
+
+    n = max(len(people), 1)
+    rx, ry = 3.3, 1.75  # people sit on an oval, in decision order, clockwise from the top left
+    fig, ax = plt.subplots(figsize=(10, 5.6))
+    ax.set_xlim(-rx - 1.25, rx + 1.25)
+    ax.set_ylim(-ry - 0.95, ry + 0.7)
     ax.axis("off")
-    pos = {pid: (i, 0.45 if i % 2 == 0 else -0.45) for i, pid in enumerate(order)}
-    for edge in committee.get("edges", []):
-        if edge["from"] in pos and edge["to"] in pos and edge["from"] != edge["to"]:
-            arrow = FancyArrowPatch(pos[edge["from"]], pos[edge["to"]], arrowstyle="-|>", mutation_scale=12,
-                                    connectionstyle="arc3,rad=0.18", color=colors["secondary"]
-                                    if "secondary" in colors else colors["text"],
-                                    linewidth=LINE_WIDTH.get(edge.get("influence"), 1.2), shrinkA=26, shrinkB=26,
-                                    zorder=1)
-            ax.add_patch(arrow)
-    for i, pid in enumerate(order):
+    start_angle = math.pi * 0.75
+    pos = {pid: (rx * math.cos(start_angle - 2 * math.pi * i / n), ry * math.sin(start_angle - 2 * math.pi * i / n))
+           for i, pid in enumerate(people)}
+    line = colors["secondary"] if "secondary" in colors else colors["text"]
+    boxes = {}
+    for pid in people:
         x, y = pos[pid]
-        label = f"{i + 1}. {roles.get(pid, pid)}"
-        ax.text(x, y, label, ha="center", va="center", fontsize=8.5, color=colors["background"], zorder=3,
-                wrap=True, bbox={"boxstyle": "round,pad=0.5", "facecolor": colors["primary"],
-                                 "edgecolor": colors["primary"]})
-    ax.text(-0.55, -1.1, "Numbers show the typical decision order. Thicker arrows mean stronger influence.",
-            fontsize=7, color=colors["text"])
+        tag = ", ".join(map(str, steps[pid])) if pid in steps else "influencer"
+        role = "\n".join(textwrap.wrap(roles.get(pid, pid), 20))
+        boxes[pid] = ax.text(x, y, f"{tag}\n{role}", ha="center", va="center", fontsize=9.5,
+                             color=colors["background"], zorder=3, linespacing=1.25,
+                             bbox={"boxstyle": "round,pad=0.5", "facecolor": colors["primary"],
+                                   "edgecolor": colors["primary"]})
+    fig.canvas.draw()  # sizes the boxes so arrows can stop at their edges
+    for edge in committee.get("edges", []):
+        a, b = edge["from"], edge["to"]
+        if a in pos and b in pos and a != b:
+            ax.add_patch(FancyArrowPatch(pos[a], pos[b], arrowstyle="-|>", mutation_scale=14,
+                                         connectionstyle="arc3,rad=0.08", color=line,
+                                         linewidth=LINE_WIDTH.get(edge.get("influence"), 1.2),
+                                         patchA=boxes[a].get_bbox_patch(), patchB=boxes[b].get_bbox_patch(),
+                                         shrinkA=3, shrinkB=3, zorder=4))
+    ax.text(-rx - 1.2, -ry - 0.9, "Numbers show the typical decision order (a person can appear at more than one "
+            "step). Thicker arrows mean stronger influence.", fontsize=8, color=colors["text"])
     return _save(fig, path)

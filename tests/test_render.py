@@ -311,3 +311,22 @@ def test_word_files_use_the_current_format_not_compatibility_mode(launch):
         settings = z.read("word/settings.xml").decode()
     assert 'w:name="compatibilityMode"' in settings
     assert 'w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"' in settings
+
+
+def test_committee_diagram_handles_large_committees_and_repeated_steps(tmp_path):
+    """Regression: 6+ people used to shrink the text and push arrows off the image."""
+    from scripts.brand.theme import NEUTRAL_COLORS, NEUTRAL_FONTS
+    from scripts.render.diagrams import committee_map
+
+    ids = [f"P-{n}" for n in range(1, 7)]
+    committee = {"industry": "x", "decision_sequence": ["P-1", "P-2", "P-3", "P-4", "P-5", "P-2"],
+                 "edges": [{"from": "P-1", "to": "P-2", "influence": "high"},
+                           {"from": "P-6", "to": "P-1", "influence": "medium"},
+                           {"from": "P-4", "to": "P-5", "influence": "low"}]}
+    roles = {pid: f"A fairly long job title number {pid}" for pid in ids}
+    brand = {"colors": NEUTRAL_COLORS, "fonts": NEUTRAL_FONTS}
+    path = committee_map(committee, roles, brand, tmp_path / "c.png")
+    from matplotlib import image
+
+    h, w = image.imread(path).shape[:2]
+    assert w > 1000 and h > 500  # big enough to stay readable on a page
