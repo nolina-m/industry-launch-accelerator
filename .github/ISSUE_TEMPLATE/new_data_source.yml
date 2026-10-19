@@ -1,0 +1,44 @@
+name: New data source
+description: Suggest a public data source for the connectors.
+title: "[Data source]: "
+labels: [data-source]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Sources must have an official API, and their free access must allow **business use** (product marketing is business use). See [docs/data-sources.md](https://github.com/nolina-m/industry-launch-accelerator/blob/main/docs/data-sources.md) for what's included and why some popular sources aren't.
+  - type: input
+    id: name
+    attributes:
+      label: Source name
+    validations:
+      required: true
+  - type: input
+    id: docs
+    attributes:
+      label: Link to the API documentation
+    validations:
+      required: true
+  - type: input
+    id: terms
+    attributes:
+      label: Link to the terms of use
+    validations:
+      required: true
+  - type: dropdown
+    id: access
+    attributes:
+      label: Access
+      options:
+        - No sign-up needed
+        - Free key (business use allowed)
+        - Not sure
+    validations:
+      required: true
+  - type: textarea
+    id: use
+    attributes:
+      label: What would PMMs use it for?
+      description: Which industries or assets would it improve?
+    validations:
+      required: true

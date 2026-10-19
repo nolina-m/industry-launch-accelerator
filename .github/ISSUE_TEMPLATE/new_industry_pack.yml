@@ -1,0 +1,36 @@
+name: New industry pack
+description: Propose a pack for an industry that doesn't have one yet.
+title: "[Industry pack]: "
+labels: [industry-pack]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A pack is scaffolding, not findings: where to look and what words to use. See [docs/customization.md](https://github.com/nolina-m/industry-launch-accelerator/blob/main/docs/customization.md#add-or-improve-an-industry-pack). Packs list regulators, associations and public sources, never vendors.
+  - type: input
+    id: industry
+    attributes:
+      label: Industry
+      placeholder: e.g. Public sector, Manufacturing, Energy
+    validations:
+      required: true
+  - type: textarea
+    id: segments
+    attributes:
+      label: Sub-segments and regions
+    validations:
+      required: true
+  - type: textarea
+    id: regulators
+    attributes:
+      label: Main regulators and regulations (with official links)
+  - type: textarea
+    id: sources
+    attributes:
+      label: Free public sources, associations and data series
+  - type: checkboxes
+    id: contribute
+    attributes:
+      label: Contribution
+      options:
+        - label: I'd like to submit the pack as a pull request

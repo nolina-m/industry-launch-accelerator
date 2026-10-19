@@ -1,0 +1,50 @@
+name: Feedback
+description: How useful was the kit as a starting point?
+title: "[Feedback]: "
+labels: [feedback]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for trying Industry Launch Accelerator. Your rating helps decide what to improve next. **Please don't paste confidential material.**
+  - type: dropdown
+    id: rating
+    attributes:
+      label: Usable as a starting point (1–5)
+      description: How much of the first draft could you use, after your edits?
+      options:
+        - "1: Not usable; I started over"
+        - "2: A few useful pieces"
+        - "3: Useful, with heavy editing"
+        - "4: A solid first draft"
+        - "5: Close to ready after my review"
+    validations:
+      required: true
+  - type: checkboxes
+    id: assets
+    attributes:
+      label: Which assets did you use?
+      options:
+        - label: Industry brief
+        - label: Battlecards and competitive overview
+        - label: Strategy check
+        - label: Personas and buying committee
+        - label: Messaging framework and grid
+        - label: Industry playbook
+        - label: Demo storyline
+        - label: Webpage copy brief
+  - type: textarea
+    id: best
+    attributes:
+      label: What worked best?
+  - type: textarea
+    id: improve
+    attributes:
+      label: What would make it more useful?
+    validations:
+      required: true
+  - type: input
+    id: setup
+    attributes:
+      label: Agent and operating system
+      placeholder: e.g. Claude Code on macOS
