@@ -19,7 +19,7 @@ Agent features checked against official documentation on 2026-10-18. They change
 | System | Status | Notes |
 |---|---|---|
 | macOS | ✅ Tested | `setup.sh` from a clean environment; Python 3.13. |
-| Linux | 🟡 Automated tests only | Runs in GitHub Actions (Ubuntu) on Python 3.10 and 3.13. |
+| Linux | ✅ Automated tests | Lint and all tests pass in GitHub Actions (Ubuntu) on Python 3.10 and 3.13. |
 | Windows | ⬜ Not yet tested | `setup.ps1` is written but hasn't been run on Windows. Reports welcome. |
 
 Python 3.10 or newer is the only runtime required (FR-CMPT-02).

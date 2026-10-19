@@ -170,7 +170,7 @@ Test paths are under `tests/`. "Smoke run" means a private end-to-end run outsid
 | FR-RND-05 | Deterministic renderers | ✅ | Fixed dates, PNG without metadata | `test_render.py::test_rendering_is_deterministic`, `test_png_diagrams_are_deterministic` |
 | FR-RND-06 | Widely available fonts with fallbacks | ✅ | `theme.py` (Arial); theme fonts removed from styles | `test_qa.py::test_brand_passes_on_rendered_files` |
 | FR-CMPT-01 | Works with read files + run shell | ✅ | Plain Markdown instructions, Python scripts | Claude Code end to end; `docs/compatibility.md` |
-| FR-CMPT-02 | macOS, Linux, Windows; Python 3.10+ only | 🟡 | `setup.sh`, `setup.ps1`, CI on Python 3.10 and 3.13 | macOS tested; Linux via CI (first run at M9); Windows written, not tested (owner decision) |
+| FR-CMPT-02 | macOS, Linux, Windows; Python 3.10+ only | 🟡 | `setup.sh`, `setup.ps1`, CI on Python 3.10 and 3.13 | macOS tested; Linux tests green in CI; Windows written, not tested (owner decision) |
 | FR-CMPT-03 | Run in Claude Code and one other agent | ⏸️ | `docs/compatibility.md` | Claude Code done; second agent waived by the owner (2026-10-18) |
 
 ## Docs and testing
@@ -185,7 +185,7 @@ Test paths are under `tests/`. "Smoke run" means a private end-to-end run outsid
 | FR-DOC-06 | Design decisions with owner placeholder | ✅ | `docs/design-decisions.md` | `test_repo_hygiene.py::test_design_decisions_has_owner_placeholder_and_topics` |
 | FR-DOC-07 | Customization; contributing | ✅ | `docs/customization.md`, `CONTRIBUTING.md` | Manual read; `test_repo_hygiene.py::test_markdown_links_to_repo_files_resolve` |
 | FR-DOC-08 | Issue templates (bug, feedback 1–5, pack, data source) | ✅ | `.github/ISSUE_TEMPLATE/*.yml` | `test_repo_hygiene.py::test_feedback_form_has_the_1_to_5_rating` |
-| FR-TST-01 | CI with lint and tests, no network | 🟡 | `.github/workflows/ci.yml`, `tests/conftest.py` | `test_scaffold.py::test_network_is_blocked_in_tests`; green on GitHub pending repo creation (M9) |
+| FR-TST-01 | CI with lint and tests, no network | ✅ | `.github/workflows/ci.yml`, `tests/conftest.py` | `test_scaffold.py::test_network_is_blocked_in_tests`; GitHub Actions green on Python 3.10 and 3.13 (2026-10-19) |
 | FR-TST-02 | Unit tests incl. seeded defects; no example launch | ✅ | `tests/` (inline placeholder data; recorded connector responses) | Full suite; `test_repo_hygiene.py` |
 | FR-TST-03 | Private end-to-end smoke run before release | ✅ | Smoke runs at M3 (real sources), M4 (formats) and pre-release 2026-10-19 (every command end to end: intake, 15 stages, render, QA, edit sync, live refresh); all deleted | Build log |
 
@@ -198,4 +198,4 @@ Test paths are under `tests/`. "Smoke run" means a private end-to-end run outsid
 | Read-first #6: no employer or job-application mentions | ✅ | `test_repo_hygiene.py::test_no_employer_or_job_application_mentions` |
 | §13.1 `AGENTS.md` canonical; `CLAUDE.md` pointer | ✅ | `test_scaffold.py::test_claude_md_imports_agents_md` |
 | §11.2 source list verified at build time | ✅ | `docs/data-sources.md` (changes approved by the owner 2026-10-18) |
-| M0–M8 acceptance criteria | ✅ | Per milestone in the build log; M9 (release) pending |
+| M0–M8 acceptance criteria | ✅ | Per milestone in the build log; M9 (release) in progress |
