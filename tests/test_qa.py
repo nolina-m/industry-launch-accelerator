@@ -170,10 +170,12 @@ def test_layout_catches_empty_section(launch):
 def test_layout_catches_placeholder_broken_table_and_length(launch, monkeypatch):
     Renderer(launch).render_all()
     md = launch / "outputs" / "06-playbook-ind-a.md"
-    md.write_text(md.read_text() + "\nTODO write this\n\n| a | b |\n|---|---|\n| 1 | 2 | 3 |\n")
+    md.write_text(md.read_text() + "\nTODO write this\n\n<built-in method copy of dict object at 0x10ac99f80>\n"
+                  "\n| a | b |\n|---|---|\n| 1 | 2 | 3 |\n")
     (launch / "qa-limits.yaml").write_text("06-playbook: 10\n")
     msgs = messages(oc.check_layout(launch))
-    assert any("Placeholder text" in m for m in msgs)
+    assert any("Placeholder text" in m and "TODO" in m for m in msgs)
+    assert any("Placeholder text" in m and "built-in method" in m for m in msgs)  # template printed an object
     assert any("Broken table" in m for m in msgs)
     assert any("the limit for this asset is 10" in m for m in msgs)
 

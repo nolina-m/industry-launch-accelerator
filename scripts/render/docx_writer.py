@@ -70,6 +70,7 @@ class DocxWriter:
             self._clear_body()
         else:
             self.doc = Document()
+            self._use_current_word_format()
             self._apply_theme()
         self.styles = dict(DEFAULT_STYLES)
         if self.from_template:
@@ -82,6 +83,13 @@ class DocxWriter:
         for child in list(body):
             if child.tag != qn("w:sectPr"):
                 body.remove(child)
+
+    def _use_current_word_format(self) -> None:
+        """python-docx's base file says "Word 2010" (compatibility mode 14), so Word shows
+        "[Compatibility Mode]". Mode 15 is the current format. A PMM's own template keeps its setting."""
+        for el in self.doc.settings.element.iter(qn("w:compatSetting")):
+            if el.get(qn("w:name")) == "compatibilityMode":
+                el.set(qn("w:val"), "15")
 
     def _apply_theme(self) -> None:
         """Neutral or brand theme on Word's built-in styles (FR-INP-10, FR-RND-06)."""

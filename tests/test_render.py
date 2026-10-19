@@ -277,5 +277,37 @@ def test_web_copy_content(launch):
     render(launch)
     md = (launch.dir / "outputs" / "08-web-copy-ind-a.md").read_text()
     assert "| WS-1 | Why now | urgency | PL-1, P-1 |" in md
+    assert "### WS-1: Why now\n\nDraft copy here." in md  # the section text itself, not a Python object
+    doc = Document(str(launch.dir / "outputs" / "08-web-copy-ind-a.docx"))
+    assert "Draft copy here." in [p.text for p in doc.paragraphs]
     assert "1. Variant one" in md and "2. Variant two" in md
     assert "- t [VERIFY]" in md and "Search volume has not been checked" in md
+
+
+# ------------------------------------------------------------------ regression: data fields named like built-ins
+def test_fields_named_like_dict_methods_render_as_data():
+    from scripts.render.render import DataFirstEnvironment
+
+    env = DataFirstEnvironment()
+    t = env.from_string("{{ d.copy }}|{{ d.items }}|{{ d.values }}|{{ d.count }}|{{ d.missing }}")
+    assert t.render(d={"copy": "C", "items": "I", "values": "V", "count": 3}) == "C|I|V|3|"
+
+
+def test_no_python_internals_in_any_rendered_file(launch):
+    doc = f.web("ind-a")
+    doc["sections"] = [{"id": "WS-1", "name": "Why now", "purpose": "p", "copy": "Section text.", "messaging_refs": []}]
+    dump_yaml(doc, launch.dir / "web" / "ind-a.yaml")
+    for r in render(launch):
+        text = r.markdown.read_text()
+        for artifact in ("<built-in method", "<bound method", "<function ", " object at 0x"):
+            assert artifact not in text, f"{r.markdown.name}: {artifact}"
+        body = " ".join(p.text for p in Document(str(r.docx)).paragraphs)
+        assert "<built-in method" not in body and " object at 0x" not in body, r.docx.name
+
+
+def test_word_files_use_the_current_format_not_compatibility_mode(launch):
+    render(launch)
+    with zipfile.ZipFile(launch.dir / "outputs" / "03-strategy-check.docx") as z:
+        settings = z.read("word/settings.xml").decode()
+    assert 'w:name="compatibilityMode"' in settings
+    assert 'w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"' in settings

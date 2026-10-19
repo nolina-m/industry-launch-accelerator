@@ -30,6 +30,21 @@ from scripts.state import edits
 from scripts.state.launch_state import APPROVED, AWAITING, NOT_STARTED, LaunchState
 from scripts.util import TEMPLATES_DIR, load_yaml, today
 
+
+class DataFirstEnvironment(Environment):
+    """Look up a YAML field before any Python attribute of the same name.
+
+    Plain Jinja resolves `section.copy` to the dict's built-in copy() method, not
+    the `copy` field, and prints "<built-in method copy ...>". Fields named like
+    dict methods (copy, items, values, count...) must always mean the data.
+    """
+
+    def getattr(self, obj, attribute):
+        if isinstance(obj, dict) and attribute in obj:
+            return obj[attribute]
+        return super().getattr(obj, attribute)
+
+
 FOOTER = "Draft generated with Industry Launch Accelerator on {date}. Verify items marked [VERIFY] before external use."
 LABEL_RE = {
     "verify": re.compile(r"\[VERIFY\]"),
@@ -120,7 +135,7 @@ class Renderer:
         for path in sorted((launch_dir / "personas").glob("*.yaml")):
             for p in load_yaml(path).get("personas", []):
                 self.personas[p["id"]] = p
-        self.env = Environment(loader=FileSystemLoader(str(TEMPLATES_DIR / "docs")),
+        self.env = DataFirstEnvironment(loader=FileSystemLoader(str(TEMPLATES_DIR / "docs")),
                                trim_blocks=True, lstrip_blocks=True, keep_trailing_newline=True,
                                autoescape=False)
         self.env.filters.update({

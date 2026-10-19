@@ -209,7 +209,9 @@ def check_brand(launch_dir: Path) -> CheckResult:
 
 # ---------------------------------------------------------------------- FR-QA-05 layout
 
-PLACEHOLDER_RE = re.compile(r"\b(TODO|TBD|FIXME|XXX|lorem ipsum)\b|\{\{|\}\}|<placeholder>|\[INSERT", re.I)
+# Placeholders, plus rendering artifacts that mean a template printed a Python object instead of text.
+PLACEHOLDER_RE = re.compile(r"\b(TODO|TBD|FIXME|XXX|lorem ipsum)\b|\{\{|\}\}|<placeholder>|\[INSERT|"
+                            r"<built-in method|<bound method|<function \w| object at 0x[0-9a-f]+", re.I)
 EMPTY_FILLERS = {"none listed.", "none.", "none found.", "none yet.", "no sources cited."}
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.*)$")
 
