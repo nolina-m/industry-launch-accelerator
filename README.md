@@ -128,7 +128,22 @@ Also add your email to `ILA_CONTACT_EMAIL=` if you want SEC filings: SEC asks ev
 
 ## Example runs
 
-Example runs coming soon.
+A full kit for **RelayCX**, a fictional AI customer service product, launched into financial services and healthcare against eight competitors. The research is real and cited; the five real competitors are renamed Competitor A–E. These are pages from the Word files; click one to read it.
+
+<table>
+<tr>
+<td width="33%" valign="top"><a href="examples/relaycx/outputs/03-strategy-check.md"><img src="examples/relaycx/screenshots/03-strategy-check.png" width="260" alt="Strategy check"></a><br><b>Strategy check</b></td>
+<td width="33%" valign="top"><a href="examples/relaycx/outputs/04-personas-healthcare-life-sciences.md"><img src="examples/relaycx/screenshots/04-personas-healthcare-life-sciences.png" width="260" alt="Personas and buying committee"></a><br><b>Personas and buying committee</b></td>
+<td width="33%" valign="top"><a href="examples/relaycx/outputs/02-battlecard-competitor-a.md"><img src="examples/relaycx/screenshots/02-battlecard-competitor-a.png" width="260" alt="Battlecard"></a><br><b>Battlecard</b></td>
+</tr>
+<tr>
+<td width="33%" valign="top"><a href="examples/relaycx/outputs/05-messaging-framework.md"><img src="examples/relaycx/screenshots/05-messaging-framework.png" width="260" alt="Messaging framework"></a><br><b>Messaging framework</b></td>
+<td width="33%" valign="top"><a href="examples/relaycx/outputs/06-playbook-financial-services.md"><img src="examples/relaycx/screenshots/06-playbook-financial-services.png" width="260" alt="Industry playbook"></a><br><b>Industry playbook</b></td>
+<td width="33%" valign="top"><a href="examples/relaycx/outputs/07-demo-storyline-healthcare-life-sciences.md"><img src="examples/relaycx/screenshots/07-demo-storyline-healthcare-life-sciences.png" width="260" alt="Demo storyline"></a><br><b>Demo storyline</b></td>
+</tr>
+</table>
+
+**[See the whole RelayCX kit](examples/relaycx/README.md)**: all 21 assets, the inputs that went in and the QA report.
 
 ## Learn more
 

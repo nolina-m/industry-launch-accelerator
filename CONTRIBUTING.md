@@ -35,7 +35,7 @@ Guides for common changes:
 
 ## Ground rules for the repo
 
-- **No example launches, sample companies or sample outputs.** Tests use small inline placeholder data ("Placeholder Co", "Competitor A"). Connector tests use recorded responses in the real API shape, with placeholder values.
+- **One example only.** The reviewed kit in `examples/relaycx/` (a fictional product, with real competitors renamed) is the only example. Please don't add others or Word, Excel or PDF files. Tests use small inline placeholder data ("Placeholder Co", "Competitor A"). Connector tests use recorded responses in the real API shape, with placeholder values.
 - **Public information only.** Nothing non-public about any company, and no real company's logos or brand materials.
 - **No vendors in industry packs.** Packs list regulators, associations and public sources; competitors belong in each launch's research.
 - **Data sources must allow business use** on their free tier, and must be reached through an official API. No scraping, logins or paywall workarounds.

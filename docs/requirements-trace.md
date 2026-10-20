@@ -180,7 +180,7 @@ Test paths are under `tests/`. "Smoke run" means a private end-to-end run outsid
 | FR-DOC-01 | README first screen with diagram | ✅ | `README.md`, `docs/images/pipeline.svg` | `test_repo_hygiene.py::test_readme_first_screen_and_sections` |
 | FR-DOC-02 | "How it works in 60 seconds" | ✅ | `README.md` | `test_repo_hygiene.py::test_readme_first_screen_and_sections` |
 | FR-DOC-03 | Copy-paste quickstart (Mac, Windows, agents, keys) | ✅ | `README.md` Quickstart, `.env.example` | Owner review |
-| FR-DOC-04 | Example runs placeholder | ✅ | `README.md` | `test_repo_hygiene.py::test_readme_first_screen_and_sections` |
+| FR-DOC-04 | Example runs (RelayCX gallery) | ✅ | `README.md`, `examples/relaycx/` | `test_repo_hygiene.py::test_readme_first_screen_and_sections` |
 | FR-DOC-05 | About the author with links | ✅ | `README.md` (owner's wording, 2026-10-19) | `test_repo_hygiene.py::test_readme_first_screen_and_sections` |
 | FR-DOC-06 | Design decisions, opening in the owner's voice | ✅ | `docs/design-decisions.md` (owner's opening, 2026-10-19) | `test_repo_hygiene.py::test_design_decisions_has_owner_intro_and_topics` |
 | FR-DOC-07 | Customization; contributing | ✅ | `docs/customization.md`, `CONTRIBUTING.md` | Manual read; `test_repo_hygiene.py::test_markdown_links_to_repo_files_resolve` |

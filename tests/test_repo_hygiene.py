@@ -27,19 +27,35 @@ def test_no_private_build_documents_are_tracked():
         assert name != ".env", f
 
 
+# The one reviewed example (owner decision): a fictional product with real competitors renamed.
+EXAMPLE = "examples/relaycx/"
+EXAMPLE_IMAGE = re.compile(r"examples/relaycx/(outputs/images|screenshots)/[\w-]+\.png")
+
+
 def test_no_launches_or_sample_outputs_are_tracked():
     for f in tracked_files():
         assert not f.startswith("launches/") or f == "launches/.gitkeep", f
+        if f.startswith("examples/"):
+            assert f.startswith(EXAMPLE), f
+            continue
         assert "/outputs/" not in f and not f.startswith("outputs/"), f
 
 
 def test_no_brand_assets_or_binary_samples_are_bundled():
-    """FR-GRD-05: no real company's logos or brand materials; no binary sample documents."""
+    """FR-GRD-05: no real company's logos or brand materials; no Word, Excel or PDF samples in the repo."""
     allowed = {"docs/images/pipeline.svg"}
     for f in tracked_files():
-        if f in allowed:
+        if f in allowed or EXAMPLE_IMAGE.fullmatch(f):
             continue
         assert not re.search(r"\.(png|jpe?g|gif|svg|pdf|docx|dotx|xlsx|pptx)$", f, re.I), f
+
+
+def test_example_names_no_real_competitors():
+    names = re.compile(r"\b(Sierra|Decagon|Salesforce|Agentforce|Glia|Luma Health|SoFi|Rocket Mortgage|"
+                       r"Sutter Health|Chime|Cash App)\b")
+    for f in tracked_files():
+        if f.startswith(EXAMPLE) and f.endswith((".md", ".json")):
+            assert not names.search((REPO_ROOT / f).read_text(encoding="utf-8")), f
 
 
 def test_no_employer_or_job_application_mentions():
@@ -73,7 +89,7 @@ def test_readme_first_screen_and_sections():
         assert f"| {n}. " in first_screen
     for heading in ("## How it works in 60 seconds", "## Quickstart", "## Example runs", "## About the author"):
         assert heading in readme
-    assert "Example runs coming soon." in readme
+    assert "examples/relaycx/README.md" in readme
     assert "https://nolina.work" in readme and "linkedin.com/in/" in readme
 
 
